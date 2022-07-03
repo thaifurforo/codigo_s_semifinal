@@ -1,7 +1,9 @@
 from configparser import ConfigParser
 from typing import Union
 
-def check_digit_module_11(number: Union[str, int], weights: list, reverse: bool = False):
+# Validações Gerais
+
+def check_digit_module_11(number: Union[str, int], weights: list, reverse: bool = False) -> int:
   """Function to generate a check digit to a number, using the "Module 11" method, widely used in Brazil.
   The method consists in multiplying each digit from the number to the values on the weights' list.
   Then, the results are summed, and the sum result is multiplied by 10 and then divided by 11. 
@@ -47,7 +49,11 @@ def check_digit_module_11(number: Union[str, int], weights: list, reverse: bool 
     cd = 0
   return cd
 
-def cpf_cnpj_tamanho_valido(cpf_cnpj: Union[str, int], tipo: str):
+
+
+# Validações De Clientes
+
+def cpf_cnpj_tamanho_valido(cpf_cnpj: Union[str, int], tipo: str) -> bool:
   """Verifica se o campo tem 11 caracteres, no caso de CPF, ou 14 caracteres, no caso de CNPJ"""
   try:
     cpf_cnpj = str(cpf_cnpj)
@@ -58,7 +64,7 @@ def cpf_cnpj_tamanho_valido(cpf_cnpj: Union[str, int], tipo: str):
   if tipo == 'PJ':
     return len(str(cpf_cnpj)) == 14
 
-def cpf_cnpj_digito_verificador_valido(cpf_cnpj: Union[str, int], tipo: str):
+def cpf_cnpj_digito_verificador_valido(cpf_cnpj: Union[str, int], tipo: str) -> bool:
   try:
     cpf_cnpj = str(cpf_cnpj)
   except:
@@ -81,3 +87,44 @@ def cpf_cnpj_digito_verificador_valido(cpf_cnpj: Union[str, int], tipo: str):
     dv2 = check_digit_module_11(cpf_cnpj_dv1, pesos, reverse=True)
     cpf_cnpj_dv = str(cpf_cnpj_dv1)+str(dv2)
     return cpf_cnpj_dv == cpf_cnpj
+
+def data_nascimento_se_pf(data_nascimento, tipo: str) -> bool:
+  if tipo == 'PF' and not data_nascimento:
+    return False
+  else:
+    return True
+
+def data_nascimento_se_pj(data_nascimento, tipo: str) -> bool:
+  if tipo == 'PJ' and data_nascimento:
+    return False
+  else:
+    return True
+
+
+
+# Validações de Contas
+
+def conta_inativa_se_data_encerramento(data_encerramento, conta_ativa: bool) -> bool:
+  '''Só poderá haver data de encerramento se a conta estiver marcacda como inativa'''
+  if conta_ativa and data_encerramento != None:
+    return False
+  else:
+    return True
+
+def data_encerramento_se_conta_inativa(data_encerramento, conta_ativa: bool) -> bool:
+  '''Só poderá haver data de encerramento se a conta estiver marcacda como inativa'''
+  if not conta_ativa and data_encerramento == None:
+    return False
+  else:
+    return True
+
+def data_encerramento_maior_data_abertura(data_encerramento, data_abertura) -> bool:
+  '''Só poderá haver data de encerramento se a conta estiver marcacda como inativa'''
+  return data_encerramento > data_abertura
+
+# def conta_inativa_saldo_zerado(saldo: float, conta_ativa: bool) -> bool:
+#   '''Só poderá haver data de encerramento se a conta estiver marcacda como inativa'''
+#   if (not conta_ativa) and (saldo != 0):
+#     return False
+#   else:
+#     return True
