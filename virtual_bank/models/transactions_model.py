@@ -1,0 +1,22 @@
+from django.db import models
+from django.utils import timezone
+from models import Account
+
+class Transactions(models.Model):
+
+  TRANSACTION_TYPES = [
+    ('TI', 'Transferência entre contas do mesmo banco'),
+    ('TE', 'Transferência de/para conta de outro banco'),
+    ('DE', 'Depósito'),
+    ('RE', 'Recebimento em conta'),
+    ('PG', 'Pagamento de guia ou boleto'),
+    ('SQ', 'Saque')
+  ]
+  transaction_type = models.CharField()
+  date = models.DateField(default=timezone.now())
+  debit_account = models.ForeignKey(Account, null=True, blank=True)
+  credit_account = models.ForeignKey(Account, null=True, blank=True)
+  amount = models.FloatField(default=0)
+  
+
+

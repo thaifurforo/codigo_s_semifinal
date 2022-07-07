@@ -1,0 +1,2 @@
+from cliente_view import ClienteViewSet
+from conta_view import ContaViewSet
