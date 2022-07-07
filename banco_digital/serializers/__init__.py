@@ -1,2 +1,0 @@
-from conta_serializer import ContaSerializer
-from cliente_serializer import ClienteSerializer

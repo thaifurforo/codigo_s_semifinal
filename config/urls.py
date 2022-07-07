@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
 
-from banco_digital.views import ClienteViewSet, ContaViewSet
+from virtual_bank.views import ClienteViewSet, ContaViewSet
 
 router = routers.DefaultRouter()
 router.register(r'cliente', ClienteViewSet)
