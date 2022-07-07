@@ -1,6 +1,6 @@
 from typing import Union
 
-def check_digit_module_11(number: Union[str, int], weights: list, reverse: bool = False) -> int:
+def create_check_digit_module_11(number: Union[str, int], weights: list, reverse: bool = False) -> int:
   """Function to generate a check digit to a number, using the "Module 11" method, widely used in Brazil.
   The method consists in multiplying each digit from the number to the values on the weights' list.
   Then, the results are summed, and the sum result is multiplied by 10 and then divided by 11. 
