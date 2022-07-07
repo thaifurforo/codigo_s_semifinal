@@ -36,7 +36,7 @@ class Address(models.Model):
   #   ('TO', 'Tocantins')
   #   ]
 
-  zip_code = models.CharField(primary_key=True, help_text='Formato: 00.000-000', validators=[RegexValidator('[0-9]{2}.[0-9]{3}-[0-9]{3}')], max_length=10)
+  zip_code = models.CharField(unique=True, help_text='Formato: 00.000-000', validators=[RegexValidator('[0-9]{2}.[0-9]{3}-[0-9]{3}')], max_length=10)
   # city = models.CharField(default='', max_length=50)
   # district = models.CharField(choices=DISTRICTS, max_length=2, default='AC')
   # neighborhood = models.CharField(default='', max_length=50)
@@ -49,4 +49,5 @@ class Address(models.Model):
             Address.objects.create(zip_code=instance.zip_code)
           except IntegrityError:
             pass
+            # Address.objects.filter(pk=instance.zip_code).update(city='some value', district='other value')
   
