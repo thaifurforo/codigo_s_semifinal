@@ -1,8 +1,9 @@
 from django.db import models
 from django.core.validators import RegexValidator
+from django.dispatch import receiver
+from virtual_bank.models.customer_model import Customer
 
 # Create your models here.
-
 class Address(models.Model):
 
   # DISTRICTS = [
@@ -40,3 +41,9 @@ class Address(models.Model):
   # district = models.CharField(choices=DISTRICTS, max_length=2, default='AC')
   # neighborhood = models.CharField(default='', max_length=50)
   # street = models.CharField(default='', max_length=100)
+
+  @receiver(models.signals.post_save, sender=Customer)
+  def add_address(sender, instance, created, **kwargs):
+      if created:
+          Address.objects.create(zip_code=instance.zip_code)
+  
