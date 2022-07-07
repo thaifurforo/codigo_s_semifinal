@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import IntegrityError, models
 from django.core.validators import RegexValidator
 from django.dispatch import receiver
 from virtual_bank.models.customer_model import Customer
@@ -45,5 +45,8 @@ class Address(models.Model):
   @receiver(models.signals.post_save, sender=Customer)
   def add_address(sender, instance, created, **kwargs):
       if created:
-          Address.objects.create(zip_code=instance.zip_code)
+          try:
+            Address.objects.create(zip_code=instance.zip_code)
+          except IntegrityError:
+            pass
   
