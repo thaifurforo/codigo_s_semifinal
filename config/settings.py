@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'virtual-bank.apps.VirtualBankConfig',
+    'virtual_bank.apps.VirtualBankConfig',
 ]
 
 MIDDLEWARE = [

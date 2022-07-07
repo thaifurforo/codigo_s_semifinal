@@ -16,12 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
-
-from virtual_bank.views import ClienteViewSet, ContaViewSet
+from virtual_bank.views import AccountViewSet, CustomerViewSet, TransactionViewSet
 
 router = routers.DefaultRouter()
-router.register(r'cliente', ClienteViewSet)
-router.register(r'conta', ContaViewSet)
+router.register(r'customer', CustomerViewSet)
+router.register(r'account', AccountViewSet)
+router.register(r'transaction', TransactionViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

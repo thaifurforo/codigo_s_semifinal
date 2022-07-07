@@ -2,8 +2,8 @@ import random
 from django.utils import timezone
 from django.core.validators import MaxValueValidator
 from django.db import models
-from validators import check_digit_module_11
-from models import Customer
+from virtual_bank.validators import check_digit_module_11
+from virtual_bank.models import Customer
 
 # Create your models here.
 

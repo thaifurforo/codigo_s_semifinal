@@ -1,7 +1,7 @@
 from django.core.validators import EmailValidator, RegexValidator
 from django.db import models
 from django.dispatch import receiver
-from models import Address
+from virtual_bank.models.address_model import Address
 
 # Create your models here.
 

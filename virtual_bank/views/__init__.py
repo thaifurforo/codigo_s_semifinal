@@ -1,2 +1,3 @@
-from cliente_view import ClienteViewSet
-from conta_view import ContaViewSet
+from virtual_bank.views.customer_view import CustomerViewSet
+from virtual_bank.views.account_view import AccountViewSet
+from virtual_bank.views.transaction_view import TransactionViewSet

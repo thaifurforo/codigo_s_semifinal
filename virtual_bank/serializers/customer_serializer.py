@@ -1,9 +1,8 @@
 from rest_framework import serializers
-from models import Customer, Address
-from validators import *
+from virtual_bank.models import Customer
+from virtual_bank.validators import *
 
 class CustomerSerializer(serializers.HyperlinkedModelSerializer):
-  address = Address
   class Meta():
     model = Customer
     fields = '__all__'

@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from models import Account
-from validators import *
+from virtual_bank.models import Account
+from virtual_bank.validators import *
 
 class AccountSerializer(serializers.HyperlinkedModelSerializer):
   class Meta():
