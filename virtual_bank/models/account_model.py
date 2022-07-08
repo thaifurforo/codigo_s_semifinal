@@ -11,6 +11,7 @@ from virtual_bank.validators import create_check_digit_module_11
 
 class Account(models.Model):
   seed = models.AutoField(primary_key=True, editable=False)
+  account_number = models.CharField(max_length=8, default='', editable=False)
   account_number_no_cd = models.IntegerField(unique=True, verbose_name='Número da conta sem dígito verificador', validators=[MaxValueValidator(999999)], default=0, editable=False)
   check_digit = models.IntegerField(verbose_name='Dígito verificador do número conta', default=0, editable=False)
   customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
@@ -22,12 +23,13 @@ class Account(models.Model):
     random.seed = self.seed
     self.account_number_no_cd = str(random.randint(1, 999999)).zfill(6)
     self.check_digit = str(create_check_digit_module_11(self.account_number_no_cd, [2, 3, 4, 5, 6, 7, 8, 9], reverse=True))
+    self.account_number = f'{self.account_number_no_cd}-{self.check_digit}'
     super().save(*args, **kwargs)
   
-  @property
-  def account_number(self):
-    numero_conta = f'{self.account_number_no_cd}-{self.check_digit}'
-    return numero_conta
+  # @property
+  # def account_number(self):
+  #   numero_conta = f'{self.account_number_no_cd}-{self.check_digit}'
+  #   return numero_conta
   
   def __str__(self):
     return self.account_number

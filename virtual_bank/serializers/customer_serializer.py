@@ -22,7 +22,7 @@ class CustomerSerializer(serializers.HyperlinkedModelSerializer):
       if not cpf_check_digit_validate(data['document_number']):
         raise serializers.ValidationError({'document_number':'CPF inválido'})
 
-      if not birth_date_if_pf_validate(data['birthdate']):
+      if not birthdate_if_pf_validate(data['birthdate']):
         raise serializers.ValidationError({'birthdate':'Obrigatório preencher Data de Nascimento para Pessoas Físicas'})
 
     
@@ -34,7 +34,7 @@ class CustomerSerializer(serializers.HyperlinkedModelSerializer):
       if not cnpj_check_digit_validate(data['document_number']):
         raise serializers.ValidationError({'document_number':'CNPJ inválido'})
 
-      if not not_birth_date_if_pj_validate(data['birthdate']):
+      if not not_birthdate_if_pj_validate(data['birthdate']):
         raise serializers.ValidationError({'birthdate':'Pessoa Jurídica não deve ter Data de Nascimento'})
 
     return data

@@ -3,26 +3,42 @@ from django.dispatch import receiver
 from virtual_bank.models.account_model import Account
 from virtual_bank.models.transaction_model import Transaction
 
+
 class Balance(models.Model):
 
-  account_number = models.CharField(primary_key = True, default='', max_length=8)
-  balance = models.FloatField(default=0)
+    account = models.OneToOneField(
+        Account, on_delete=models.CASCADE, primary_key=True)
+    balance = models.FloatField(default=0)
 
-  @receiver(models.signals.post_save, sender=Account)
-  def add_account(sender, instance, created, **kwargs):
-      if created:
-          try:
-            Balance.objects.create(account_number=instance.account_number)
-          except IntegrityError:
-            pass
-  
-  @receiver(models.signals.post_save, sender=Transaction)
-  def add_transaction(sender, instance, created, **kwargs):
-      if created:
+    @receiver(models.signals.post_save, sender=Account)
+    def add_account(sender, instance, created, **kwargs):
+        if created:
+            try:
+                Balance.objects.create(account=instance)
+            except IntegrityError:
+                pass
+
+    @receiver(models.signals.post_save, sender=Transaction)
+    def add_transaction(sender, instance, **kwargs):
         if instance.debit_account:
-          Balance.objects.filter(pk=instance.debit_account).update(balance=models.F('balance') - instance.amount)
+            account_debits = sum([i[0] for i in Transaction.objects.filter(
+                debit_account=instance.debit_account).values_list('amount')])
+            account_credits = sum([i[0] for i in Transaction.objects.filter(
+                credit_account=instance.debit_account).values_list('amount')])
+            Balance.objects.filter(pk=instance.debit_account).update(
+                balance=(account_credits-account_debits))
         if instance.credit_account:
-          Balance.objects.filter(pk=instance.credit_account).update(balance=models.F('balance') + instance.amount)
-        
+            account_debits = sum([i[0] for i in Transaction.objects.filter(
+                debit_account=instance.credit_account).values_list('amount')])
+            account_credits = sum([i[0] for i in Transaction.objects.filter(
+                credit_account=instance.credit_account).values_list('amount')])
+            Balance.objects.filter(pk=instance.credit_account).update(
+                balance=(account_credits-account_debits))
 
-  
+    # @receiver(models.signals.post_save, sender=Transaction)
+    # def add_transaction(sender, instance, created, **kwargs):
+    #     if created:
+    #       if instance.debit_account:
+    #         Balance.objects.filter(pk=instance.debit_account).update(balance=models.F('balance') - instance.amount)
+    #       if instance.credit_account:
+    #         Balance.objects.filter(pk=instance.credit_account).update(balance=models.F('balance') + instance.amount)
