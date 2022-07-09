@@ -1,3 +1,4 @@
 from virtual_bank.views.customer_view import CustomerViewSet
 from virtual_bank.views.account_view import AccountViewSet
 from virtual_bank.views.transaction_view import TransactionViewSet
+from virtual_bank.views.accounts_by_customer_view import AccountsByCustomerView
