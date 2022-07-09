@@ -4,40 +4,8 @@ from django.dispatch import receiver
 from virtual_bank.models.customer_model import Customer
 from pycep_correios import get_address_from_cep, WebService
 
-# Create your models here.
-
 
 class Address(models.Model):
-
-    # DISTRICTS = [
-    #   ('AC', 'Acre'),
-    #   ('AL', 'Alagoas'),
-    #   ('AP', 'Amapá'),
-    #   ('AM', 'Amazonas'),
-    #   ('BA', 'Bahia'),
-    #   ('CE', 'Ceará'),
-    #   ('DF', 'Distrito Federal'),
-    #   ('ES', 'Espírito Santo'),
-    #   ('GO', 'Goiás'),
-    #   ('MA', 'Maranhão'),
-    #   ('MT', 'Mato Grosso'),
-    #   ('MS', 'Mato Grosso do Sul'),
-    #   ('MG', 'Minas Gerais'),
-    #   ('PA', 'Pará'),
-    #   ('PB', 'Paraíba'),
-    #   ('PR', 'Paraná'),
-    #   ('PE', 'Pernambuco'),
-    #   ('PI', 'Piauí'),
-    #   ('RJ', 'Rio de Janeiro'),
-    #   ('RN', 'Rio Grande do Norte'),
-    #   ('RS', 'Rio Grande do Sul'),
-    #   ('RO', 'Rondônia'),
-    #   ('RR', 'Roraima'),
-    #   ('SC', 'Santa Catarina'),
-    #   ('SP', 'São Paulo'),
-    #   ('SE', 'Sergipe'),
-    #   ('TO', 'Tocantins')
-    #   ]
 
     zip_code = models.CharField(verbose_name='CEP', unique=True, help_text='Formato: 00.000-000', validators=[
                                 RegexValidator('[0-9]{5}-[0-9]{3}', message='Formato de CEP inválido')], max_length=9)
