@@ -6,12 +6,14 @@ from virtual_bank.serializers import AccountsByCustomerSerializer
 
 
 class AccountsByCustomerView(generics.ListAPIView):
+
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     # Listing all accounts from the selected customer
-
     def get_queryset(self):
-        queryset = Account.objects.filter(customer_id=self.kwargs['pk'])
+        queryset = Account.objects.filter(
+            customer_id=self.kwargs['pk']).order_by('-active_account', 'opening_date')
         return queryset
+
     serializer_class = AccountsByCustomerSerializer

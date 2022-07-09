@@ -4,8 +4,8 @@ from virtual_bank.models.address_model import Address
 from virtual_bank.serializers.address_serializer import AddressSerializer
 from virtual_bank.validators import *
 
-
 class CustomerSerializer(serializers.HyperlinkedModelSerializer):
+
     city = serializers.SerializerMethodField()
 
     def get_city(self, obj):

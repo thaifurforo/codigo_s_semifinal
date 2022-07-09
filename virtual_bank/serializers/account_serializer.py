@@ -9,9 +9,12 @@ class AccountSerializer(serializers.ModelSerializer):
     #balance = BalanceSerializer(read_only=True, many=False).data
     balance = serializers.ReadOnlyField(source='balance.balance')
 
+    customer_name = serializers.CharField(
+        source='customer.name', read_only=True)
+
     class Meta():
         model = Account
-        fields = ['url', 'account_number', 'customer',
+        fields = ['url', 'account_number', 'customer', 'customer_name',
                   'opening_date', 'active_account', 'closure_date', 'balance']
 
     def validate(self, data):

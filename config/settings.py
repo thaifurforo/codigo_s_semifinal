@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_filters',
     'virtual_bank.apps.VirtualBankConfig',
 ]
 
@@ -109,6 +110,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+# Pagination
+# https://www.django-rest-framework.org/api-guide/pagination/
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 50
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/

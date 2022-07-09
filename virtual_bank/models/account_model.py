@@ -10,6 +10,7 @@ from virtual_bank.validators import create_check_digit_module_11
 # Create your models here.
 
 class Account(models.Model):
+
     seed = models.AutoField(primary_key=True, editable=False)
     account_number = models.CharField(max_length=8, default='', editable=False)
     account_number_no_cd = models.IntegerField(unique=True, verbose_name='Número da conta sem dígito verificador', validators=[

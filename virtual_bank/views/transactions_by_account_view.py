@@ -14,6 +14,6 @@ class TransactionsByAccountView(generics.ListAPIView):
 
     def get_queryset(self):
         queryset = Transaction.objects.filter(
-            Q(credit_account_id=self.kwargs['pk']) | Q(debit_account_id=self.kwargs['pk']))
+            Q(credit_account_id=self.kwargs['pk']) | Q(debit_account_id=self.kwargs['pk'])).order_by('date', 'transaction_type', 'amount')
         return queryset
     serializer_class = TransactionsByAccountSerializer
