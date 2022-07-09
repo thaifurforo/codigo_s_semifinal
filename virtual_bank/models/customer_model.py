@@ -21,7 +21,7 @@ class Customer(models.Model):
         verbose_name='E-mail', max_length=50, default='', validators=[EmailValidator()])
     birthdate = models.DateField(
         verbose_name='Data de nascimento', null=True, blank=True)
-    zip_code = models.CharField(help_text='Formato: 00000-000',
+    zip_code = models.CharField(verbose_name='CEP', help_text='Formato: 00000-000',
                                 validators=[RegexValidator('[0-9]{5}-[0-9]{3}')], max_length=9)
     door_number = models.CharField(
         verbose_name='Número (endereço)', default='', max_length=10)
