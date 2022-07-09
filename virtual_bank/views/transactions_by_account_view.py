@@ -10,7 +10,7 @@ class TransactionsByAccountView(generics.ListAPIView):
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
-    # Listing all accounts from the selected customer
+    # Listing all transactions from the selected account
 
     def get_queryset(self):
         queryset = Transaction.objects.filter(
