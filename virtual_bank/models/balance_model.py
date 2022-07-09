@@ -26,14 +26,14 @@ class Balance(models.Model):
             account_credits = sum([i[0] for i in Transaction.objects.filter(
                 credit_account=instance.debit_account).values_list('amount')])
             Balance.objects.filter(pk=instance.debit_account).update(
-                balance=(account_credits-account_debits))
+                balance=(round(account_credits-account_debits, 2)))
         if instance.credit_account:
             account_debits = sum([i[0] for i in Transaction.objects.filter(
                 debit_account=instance.credit_account).values_list('amount')])
             account_credits = sum([i[0] for i in Transaction.objects.filter(
                 credit_account=instance.credit_account).values_list('amount')])
             Balance.objects.filter(pk=instance.credit_account).update(
-                balance=(account_credits-account_debits))
+                balance=(round(account_credits-account_debits, 2)))
 
     # @receiver(models.signals.post_save, sender=Transaction)
     # def add_transaction(sender, instance, created, **kwargs):
