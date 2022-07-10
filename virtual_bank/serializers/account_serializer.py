@@ -17,7 +17,7 @@ class AccountSerializer(serializers.ModelSerializer):
 
     class Meta():
         model = Account
-        fields = ['url', 'account_number', 'customer', 'customer_document', 'customer_name',
+        fields = ['url', 'id', 'account_number', 'customer', 'customer_document', 'customer_name',
                   'opening_date', 'active_account', 'closure_date', 'balance']
 
     def validate(self, data):

@@ -8,7 +8,7 @@ from virtual_bank.serializers import CustomerSerializer
 
 class CustomerViewSet(viewsets.ModelViewSet):
 
-    queryset = Customer.objects.all()
+    queryset = Customer.objects.all().order_by('id')
 
     serializer_class = CustomerSerializer
 

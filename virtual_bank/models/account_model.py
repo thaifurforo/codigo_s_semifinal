@@ -8,7 +8,6 @@ from virtual_bank.validators import create_check_digit_module_11
 
 class Account(models.Model):
 
-    seed = models.AutoField(primary_key=True, editable=False)
     account_number = models.CharField(
         max_length=8, default='', editable=False, unique=True)
     account_number_no_cd = models.IntegerField(unique=True, verbose_name='Número da conta sem dígito verificador', validators=[
@@ -25,7 +24,7 @@ class Account(models.Model):
         verbose_name='Data de encerramento', null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        random.seed = self.seed
+        random.seed = self.id
         self.account_number_no_cd = str(random.randint(1, 999999)).zfill(6)
         self.check_digit = str(create_check_digit_module_11(
             self.account_number_no_cd, [2, 3, 4, 5, 6, 7, 8, 9], reverse=True))
