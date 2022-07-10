@@ -9,7 +9,7 @@ from virtual_bank.serializers import AccountSerializer
 class AccountViewSet(viewsets.ModelViewSet):
 
     queryset = Account.objects.all().order_by(
-        'active_account', 'opening_date', 'closure_date', 'account_number')
+        '-active_account', 'opening_date', 'closure_date', 'account_number')
 
     serializer_class = AccountSerializer
 

@@ -16,8 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
-from virtual_bank.views import AccountViewSet, CustomerViewSet, TransactionViewSet, AccountsByCustomerView
-from virtual_bank.views.transactions_by_account_view import TransactionsByAccountView
+from virtual_bank.views import AccountViewSet, CustomerViewSet, TransactionViewSet, AccountsByCustomerView, TransactionsByAccountView
 
 router = routers.DefaultRouter()
 router.register(r'customer', CustomerViewSet)

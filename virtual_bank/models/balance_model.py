@@ -34,11 +34,3 @@ class Balance(models.Model):
                 credit_account=instance.credit_account).values_list('amount')])
             Balance.objects.filter(pk=instance.credit_account).update(
                 balance=(round(account_credits-account_debits, 2)))
-
-    # @receiver(models.signals.post_save, sender=Transaction)
-    # def add_transaction(sender, instance, created, **kwargs):
-    #     if created:
-    #       if instance.debit_account:
-    #         Balance.objects.filter(pk=instance.debit_account).update(balance=models.F('balance') - instance.amount)
-    #       if instance.credit_account:
-    #         Balance.objects.filter(pk=instance.credit_account).update(balance=models.F('balance') + instance.amount)
