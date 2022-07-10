@@ -18,18 +18,18 @@ class TestBalanceCreate(TestCase):
                                            complement=None
                                            )
 
-        Account.objects.create(customer=customer,
+        self.account1 = Account.objects.create(customer=customer,
                                           opening_date="2022-01-01",
                                           active_account=True,
                                           closure_date=None
                                           )
 
-        Account.objects.create(customer=customer,
+        self.account2 = Account.objects.create(customer=customer,
                                           opening_date="2022-02-01",
                                           active_account=True,
                                           closure_date=None
                                           )
-        Account.objects.create(customer=customer,
+        self.account3 = Account.objects.create(customer=customer,
                                           opening_date="2022-03-01",
                                           active_account=True,
                                           closure_date=None
@@ -39,7 +39,7 @@ class TestBalanceCreate(TestCase):
     def test_balance_created(self):
 
         # When
-        account = Account.objects.get(id=1)
+        account = Account.objects.get(id=self.account1.id)
         balance = Balance.objects.get(account=account)
 
         # Then
