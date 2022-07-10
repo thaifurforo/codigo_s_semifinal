@@ -1,0 +1,3 @@
+from virtual_bank.tests.tests_account.test_account_create import TestAccountCreate
+from virtual_bank.tests.tests_account.test_account_get import TestAccountGet
+from virtual_bank.tests.tests_account.test_account_post import TestAccountPost
