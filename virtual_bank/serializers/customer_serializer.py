@@ -4,7 +4,8 @@ from virtual_bank.models.address_model import Address
 from virtual_bank.serializers.address_serializer import AddressSerializer
 from virtual_bank.validators import *
 
-class CustomerSerializer(serializers.HyperlinkedModelSerializer):
+
+class CustomerSerializer(serializers.ModelSerializer):
 
     city = serializers.SerializerMethodField()
 
@@ -41,11 +42,11 @@ class CustomerSerializer(serializers.HyperlinkedModelSerializer):
         depth = 1
 
     def validate(self, data):
-        """Valida se os dados preenchidos em cada campo estão de acordo com os formatos adequados"""
+        """Validates the request data by format and other specifications"""
 
         if not document_number_numbers_only_validate(data['document_number']):
             raise serializers.ValidationError(
-                {'document_number': 'O parâmetro "document_number" deve ser um integer ou uma string com somente números'})
+                {'document_number': 'O campo "document_number" deve ter somente números'})
 
         if data['client_type'] == 'PF':
 
@@ -74,5 +75,13 @@ class CustomerSerializer(serializers.HyperlinkedModelSerializer):
             if not not_birthdate_if_pj_validate(data['birthdate']):
                 raise serializers.ValidationError(
                     {'birthdate': 'Pessoa Jurídica não deve ter Data de Nascimento'})
+
+        if not zip_code_format_valid(data['zip_code']):
+            raise serializers.ValidationError(
+                {'zip_code': 'Formato de CEP inválido'})
+
+        if not zip_code_not_found(data['zip_code']):
+            raise serializers.ValidationError(
+                {'zip_code': 'CEP não encontrado'})
 
         return data

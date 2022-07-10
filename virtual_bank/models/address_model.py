@@ -2,7 +2,7 @@ from django.db import IntegrityError, models
 from django.core.validators import RegexValidator
 from django.dispatch import receiver
 from virtual_bank.models.customer_model import Customer
-from pycep_correios import get_address_from_cep, WebService
+from pycep_correios import get_address_from_cep, WebService, exceptions
 
 
 class Address(models.Model):
@@ -32,5 +32,7 @@ class Address(models.Model):
             Address.objects.create(zip_code=instance.zip_code)
         except IntegrityError:
             pass
+        # except exceptions.CEPNotFound:
+
             # zip_data = get_address_from_cep(instance.zip_code, webservice=WebService.VIACEP)
             # Address.objects.filter(pk=instance.zip_code).update(city=zip_data['cidade'], district=zip_data['uf'], neighborhood=zip_data['bairro'], street=zip_data['logradouro'])

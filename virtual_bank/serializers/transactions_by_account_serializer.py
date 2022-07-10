@@ -6,4 +6,5 @@ class TransactionsByAccountSerializer(serializers.ModelSerializer):
     # Returns the description for the transaction type, instead of the initials
     class Meta:
         model = Transaction
-        fields = '__all__'
+        fields = ('url', 'id', 'transaction_type', 'date',
+                  'amount', 'debit_account', 'credit_account')

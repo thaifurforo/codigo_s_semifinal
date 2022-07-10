@@ -8,5 +8,5 @@ class AccountsByCustomerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Account
-        fields = ('account_number', 'active_account',
+        fields = ('url', 'account_number', 'active_account',
                   'opening_date', 'closure_date', 'balance')

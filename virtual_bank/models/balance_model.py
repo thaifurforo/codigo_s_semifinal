@@ -6,7 +6,7 @@ from virtual_bank.models.transaction_model import Transaction
 
 class Balance(models.Model):
 
-    account = models.OneToOneField(
+    account_number = models.OneToOneField(
         Account, on_delete=models.CASCADE, primary_key=True)
     balance = models.FloatField(default=0)
 
@@ -14,7 +14,7 @@ class Balance(models.Model):
     def add_account(sender, instance, created, **kwargs):
         if created:
             try:
-                Balance.objects.create(account=instance)
+                Balance.objects.create(account_number=instance)
             except IntegrityError:
                 pass
 
