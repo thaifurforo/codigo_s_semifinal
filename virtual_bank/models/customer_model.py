@@ -8,8 +8,8 @@ class Customer(models.Model):
 
     TIPO_CHOICES = [('PF', 'Pessoa Física'), ('PJ', 'Pessoa Jurídica')]
 
-    client_type = models.CharField(verbose_name='Tipo de cliente',
-                                   max_length=2, choices=TIPO_CHOICES, default='PF')
+    customer_type = models.CharField(verbose_name='Tipo de cliente',
+                                     max_length=2, choices=TIPO_CHOICES, default='PF')
     document_number = models.CharField(verbose_name='CPF/CNPJ', help_text='Somente números',
                                        default=0, unique=True, max_length=14, validators=[RegexValidator('[0-9]{11,14}')])
     name = models.CharField(

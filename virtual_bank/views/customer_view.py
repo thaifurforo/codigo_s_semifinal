@@ -14,10 +14,10 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
     filter_backends = [DjangoFilterBackend,
                        filters.OrderingFilter, filters.SearchFilter]
-                       
+
     ordering_fields = ['name']
     search_fields = ['name', 'document_number']
-    filterset_fields = {'client_type': ['exact'], 'birthdate': [
+    filterset_fields = {'customer_type': ['exact'], 'birthdate': [
         'gte', 'lte']}
 
     authentication_classes = [BasicAuthentication]

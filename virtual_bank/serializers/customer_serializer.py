@@ -37,7 +37,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 
     class Meta():
         model = Customer
-        fields = ('url', 'client_type', 'document_number', 'name', 'phone_number', 'email', 'birthdate',
+        fields = ('url', 'customer_type', 'document_number', 'name', 'phone_number', 'email', 'birthdate',
                   'zip_code', 'city', 'district', 'neighborhood', 'street', 'door_number', 'complement')
         depth = 1
 
@@ -48,7 +48,7 @@ class CustomerSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {'document_number': 'O campo "document_number" deve ter somente números'})
 
-        if data['client_type'] == 'PF':
+        if data['customer_type'] == 'PF':
 
             if not cpf_length_validate(data['document_number']):
                 raise serializers.ValidationError(
@@ -62,7 +62,7 @@ class CustomerSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     {'birthdate': 'Obrigatório preencher Data de Nascimento para Pessoas Físicas'})
 
-        if data['client_type'] == 'PJ':
+        if data['customer_type'] == 'PJ':
 
             if not cnpj_length_validate(data['document_number']):
                 raise serializers.ValidationError(
