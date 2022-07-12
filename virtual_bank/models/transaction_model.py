@@ -1,10 +1,26 @@
-from tabnanny import verbose
 from django.db import models
 from django.utils import timezone
 from virtual_bank.models.account_model import Account
 
 
 class Transaction(models.Model):
+    """This class sets up the 'transaction' dataset model, composed by:
+
+    transaction_type -> a CharField that refers to the type of transaction, between
+    six possible choices: 'TI' (transfer between accounts from the same bank), 
+    'TE' (transfer to an account on other bank), 'DE' (deposit), 'RE' (amount received
+    in the account), 'PG' (payment of bank slip), 'SQ' (withdraw)
+
+    date -> a DateField that refers to the date in which the transaction was made
+
+    debit_account -> a ForeignKey referring to a Account object that refers to the
+    account in which the transaction amount was debited (if so)
+
+    debit_account -> a ForeignKey referring to a Account object that refers to the
+    account in which the transaction amount was credited (if so)
+
+    amount -> a FloatField that refers to the amount of the transaction
+    """
 
     TRANSACTION_TYPES = [
         ('TI', 'Transferência entre contas do mesmo banco'),
