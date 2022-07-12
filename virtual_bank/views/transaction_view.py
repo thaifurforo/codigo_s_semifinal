@@ -24,5 +24,14 @@ class TransactionViewSet(viewsets.ModelViewSet):
         'gte', 'lte', 'exact'], 'amount': [
         'gte', 'lte', 'exact'], 'debit_account': ['exact'], 'credit_account': ['exact']}
 
+    def get_serializer(self, *args, **kwargs):
+        if 'data' in kwargs:
+            data = kwargs['data']
+
+            if isinstance(data, list):
+                kwargs['many'] = True
+
+        return super().get_serializer(*args, **kwargs)
+
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]

@@ -20,5 +20,14 @@ class CustomerViewSet(viewsets.ModelViewSet):
     filterset_fields = {'customer_type': ['exact'], 'birthdate': [
         'gte', 'lte']}
 
+    def get_serializer(self, *args, **kwargs):
+        if 'data' in kwargs:
+            data = kwargs['data']
+
+            if isinstance(data, list):
+                kwargs['many'] = True
+
+        return super().get_serializer(*args, **kwargs)
+
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
