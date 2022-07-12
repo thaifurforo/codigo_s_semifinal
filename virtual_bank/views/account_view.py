@@ -8,6 +8,8 @@ from virtual_bank.serializers import AccountSerializer
 
 class AccountViewSet(viewsets.ModelViewSet):
 
+    http_method_names = ['get', 'post', 'put', 'patch', 'head', 'options']
+
     queryset = Account.objects.all().order_by(
         '-active_account', 'opening_date', 'closure_date', 'account_number')
 
@@ -21,6 +23,15 @@ class AccountViewSet(viewsets.ModelViewSet):
     search_fields = ['account_number']
     filterset_fields = {'active_account': ['exact'], 'opening_date': [
         'gte', 'lte', 'exact'],  'closure_date': ['gte', 'lte', 'exact'], 'customer': ['exact']}
+
+    def get_serializer(self, *args, **kwargs):
+        if 'data' in kwargs:
+            data = kwargs['data']
+
+            if isinstance(data, list):
+                kwargs['many'] = True
+
+        return super().get_serializer(*args, **kwargs)
 
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
