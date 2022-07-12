@@ -6,11 +6,13 @@ from virtual_bank.validators import *
 
 
 class AccountSerializer(serializers.ModelSerializer):
-    #balance = BalanceSerializer(read_only=True, many=False).data
+
     balance = serializers.ReadOnlyField(source='balance.balance')
 
+    customer = serializers.CreateOnlyDefault(default='')
+
     customer_document = serializers.CharField(
-        source='customer.name', read_only=True)
+        source='customer.document_number', read_only=True)
 
     customer_name = serializers.CharField(
         source='customer.name', read_only=True)
@@ -19,6 +21,12 @@ class AccountSerializer(serializers.ModelSerializer):
         model = Account
         fields = ['url', 'id', 'account_number', 'customer', 'customer_document', 'customer_name',
                   'opening_date', 'active_account', 'closure_date', 'balance']
+
+    def validate_customer(self, value):
+        if self.instance and value != self.instance.customer:
+            raise serializers.ValidationError(
+                {'customer': 'Não é possível alterar o cliente vinculado à conta após a mesma ter sido criada'})
+        return value
 
     def validate(self, data):
         """Validates the request data by format and other specifications"""
