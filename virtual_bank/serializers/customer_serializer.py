@@ -6,6 +6,12 @@ from virtual_bank.validators import *
 
 
 class CustomerSerializer(serializers.ModelSerializer):
+    """This class creates a ModelSerializer for the Customer model.
+
+    Adds the following fields (read only) from the Address' objects, according to
+    the zip_code field of the Customer model, to be shown in the serialized result:
+    city, district, neighborhood and street.
+    """
 
     city = serializers.SerializerMethodField()
 
@@ -36,13 +42,15 @@ class CustomerSerializer(serializers.ModelSerializer):
         return address_serializer.data[0]['street']
 
     class Meta():
+        """Sets the Customer as the model used on this serializer and establishes
+        the fields that are shown in the serialized result."""
+
         model = Customer
-        fields = ('url', 'customer_type', 'document_number', 'name', 'phone_number', 'email', 'birthdate',
+        fields = ('url', 'id', 'customer_type', 'document_number', 'name', 'phone_number', 'email', 'birthdate',
                   'zip_code', 'city', 'district', 'neighborhood', 'street', 'door_number', 'complement')
-        depth = 1
 
     def validate(self, data):
-        """Validates the request data by format and other specifications"""
+        """Validates the request data according to validators logics"""
 
         if not document_number_numbers_only_validate(data['document_number']):
             raise serializers.ValidationError(

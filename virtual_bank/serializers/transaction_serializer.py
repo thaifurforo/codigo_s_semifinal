@@ -6,13 +6,18 @@ from virtual_bank.validators import *
 
 
 class TransactionSerializer(serializers.ModelSerializer):
+    """This class creates a ModelSerializer for the Transaction model."""
+
     class Meta():
+        """Sets the Transaction as the model used on this serializer and establishes
+        the fields that are shown in the serialized result."""
         model = Transaction
         fields = ('url', 'id', 'transaction_type', 'date',
                   'amount', 'debit_account', 'credit_account')
 
     def validate(self, data):
-        """Validates the request data by format and other specifications"""
+        """Validates the request data according to validators logics"""
+
         if not transaction_decimals_validate(data['amount']):
             raise serializers.ValidationError(
                 {'amount': 'O valor da transação deve ter até duas casas decimais'})
