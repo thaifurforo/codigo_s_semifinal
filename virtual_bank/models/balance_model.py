@@ -16,7 +16,7 @@ class Balance(models.Model):
     balance = a FloatField to register the value of the current balance for each 
     account - default is 0 since the balance is 0 when the account is first opened
     """
-    
+
     account = models.OneToOneField(
         Account, on_delete=models.CASCADE, primary_key=True)
     balance = models.FloatField(default=0, editable=False)
@@ -33,13 +33,14 @@ class Balance(models.Model):
             except IntegrityError:
                 pass
 
-    @receiver(models.signals.post_save, sender=Transaction)
+    @receiver([models.signals.post_save, models.signals.post_delete], sender=Transaction)
     def add_transaction(sender, instance, **kwargs):
-        """This function creates a post_save signal that updates the balance field
-        of the Balance object nested to the debit account and of the Balance object
-        nested to the credit account, everytime a transaction is created or updated,
-        for the sum of every credit transaction the account has ever received minus
-        the sum of every debit transaction the account has ever made.
+        """This function creates a post_save and a post_delete signal that updates
+        the balance field of the Balance object nested to the debit account and
+        of the Balance object nested to the credit account, everytime a transaction
+        is created or deleted, for the sum of every credit transaction the account
+        has ever received minus the sum of every debit transaction the account has
+        ever made.
         """
         if instance.debit_account:
             account_debits = sum([i[0] for i in Transaction.objects.filter(
