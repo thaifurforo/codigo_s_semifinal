@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from virtual_bank.models import Account
+from virtual_bank.models import Account, Transaction
 from virtual_bank.validators import *
 
 
@@ -31,28 +31,86 @@ class AccountSerializer(serializers.ModelSerializer):
         fields = ['url', 'id', 'account_number', 'customer', 'customer_document', 'customer_name',
                   'opening_date', 'active_account', 'closure_date', 'balance']
 
-    def validate_customer(self, value):
-        """Raises an error message in case the client tries to set a customer
-        field (update) for the account object after it's already created"""
+    def validate_opening_date(self, value):
+        """Validates the opening_date field creation and updates"""
+        if self.instance:
 
-        if self.instance and value != self.instance.customer:
-            raise serializers.ValidationError(
-                'Não é possível alterar o cliente vinculado à conta após a mesma ter sido criada')
+            if change_opening_date(value, self.instance.opening_date):
+                raise serializers.ValidationError(
+                    'Não é possível alterar a data de abertura da conta após a mesma ter sido criada')
+
+        return value
+
+    def validate_active_account(self, value):
+        """Validates the active_account field creation and updates"""
+        if self.instance:
+
+            if activate_account_after_inactivated(value, self.instance.active_account):
+                raise serializers.ValidationError(
+                    'Não é possível reativar a conta após a mesma ter sido encerrada')
+
+            if not inactive_account_if_balance_zero(value, self.instance.balance.balance):
+                raise serializers.ValidationError(
+                    f'Só é possível encerrar a conta se o saldo atual for igual a 0. Saldo atual: {self.instance.balance.balance}')
+
+        return value
+
+    def validate_closure_date(self, value):
+        """Validates the closure_data field creation and updates"""
+        if self.instance:
+
+            credit_transactions = Transaction.objects.filter(
+                credit_account=self.instance.id).order_by('-date').values_list('date')
+            if len(credit_transactions) == 0:
+                last_credit_transaction_date = None
+            else:
+                last_credit_transaction_date = credit_transactions[0][0]
+
+            debit_transactions = Transaction.objects.filter(
+                debit_account=self.instance.id).order_by('-date').values_list('date')
+            if len(debit_transactions) == 0:
+                last_debit_transaction_date = None
+            else:
+                last_debit_transaction_date = debit_transactions[0][0]
+
+            if not closure_date_most_recent_than_last_transaction_date(last_credit_transaction_date, last_debit_transaction_date, value):
+                raise serializers.ValidationError(
+                    'A data de encerramento da conta deve ser maior que a data da última transação')
+
+            if not closure_date_greater_than_opening_date_validate(value, self.instance.opening_date):
+                raise serializers.ValidationError(
+                    f'A data de encerramento da conta deve ser maior que a data de abertura: {self.instance.opening_date}')
+
+        return value
+
+    def validate_customer(self, value):
+        """Validates the customer field creation and updates"""
+        if self.instance:
+
+            if change_customer(value, self.instance.customer):
+                raise serializers.ValidationError(
+                    'Não é possível alterar o cliente vinculado à conta após a mesma ter sido criada')
+
         return value
 
     def validate(self, data):
-        """Validates the request data according to validators logics"""
+        """Validates multiple fields creation/update"""
 
-        if not inactive_account_if_closure_date_validate(data['closure_date'], data['active_account']):
+        if 'closure_date' in data and 'active_account' in data:
+            if not inactive_account_if_closure_date_validate(data['closure_date'], data['active_account']):
+                raise serializers.ValidationError({'active_account:'
+                                                   'Somente contas inativas podem ter data de encerramento'})
+
+            if not closure_date_if_inactive_account_validate(data['closure_date'], data['active_account']):
+                raise serializers.ValidationError(
+                    {'closure_date': 'Inserir a data de encerramento da conta inativa'})
+
+        elif 'closure_date' in data:
             raise serializers.ValidationError(
                 {'active_account': 'Somente contas inativas podem ter data de encerramento'})
 
-        if not closure_date_if_inactive_account_validate(data['closure_date'], data['active_account']):
+        elif 'active_account' in data:
             raise serializers.ValidationError(
                 {'closure_date': 'Inserir a data de encerramento da conta inativa'})
-
-        if not closure_date_greater_than_opening_date_validate(data['closure_date'], data['opening_date']):
-            raise serializers.ValidationError(
-                {'closure_date': 'A data de encerramento da conta deve ser maior que a data de abertura'})
 
         return data
