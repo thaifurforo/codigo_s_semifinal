@@ -1,5 +1,12 @@
-def birthdate_if_pf_validate(birthdate) -> bool:
-  return birthdate != None
+def birthdate_not_null(birthdate) -> bool:
+    """Checks if the birthdate is not a null value - which it shouldn't be if
+    the customer is a natural person (PF) and should be if the customer is a
+    juridical person (PJ)
 
-def not_birthdate_if_pj_validate(birthdate) -> bool:
-  return birthdate == None
+    Args:
+        birthdate (date): Birthdate informed by the client
+
+    Returns:
+        bool: Returns True if the client informed a birthdate
+    """
+    return birthdate != None

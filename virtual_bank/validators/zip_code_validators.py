@@ -11,7 +11,7 @@ def zip_code_format_valid(zip_code: str) -> bool:
         return True
 
 
-def zip_code_not_found(zip_code: str) -> bool:
+def zip_code_found(zip_code: str) -> bool:
     try:
         get_address_from_cep(zip_code, webservice=WebService.VIACEP)
         return True

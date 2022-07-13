@@ -1,29 +1,66 @@
 def inactive_account_if_closure_date_validate(closure_date, active_account: bool) -> bool:
-    '''There can only be an closure date if the account is set as inactive'''
+    """Checks if the client is trying to set a closure_date to an active account
+
+    Args:
+        closure_date (date): Account's closure date set by the client
+        active_account (bool): Account's active status set by the client
+
+    Returns:
+        bool: Returns False if the account is active and there is a closure_date
+        different than null set by the client
+    """
     if active_account and closure_date != None:
         return False
     else:
         return True
 
 
-def closure_date_if_inactive_account_validate(closure_date, conta_ativa: bool) -> bool:
-    '''The account can only be set as innactive if a closure date is informed'''
-    if not conta_ativa and closure_date == None:
+def closure_date_if_inactive_account_validate(closure_date, active_account: bool) -> bool:
+    """Checks if the client is trying to set a account status to inactive and haven't
+    informed a closure date
+
+    Args:
+        closure_date (date): Account's closure date set by the client
+        active_account (bool): Account's active status set by the client
+
+    Returns:
+        bool: Returns False if the account is inactive and there isn't a
+        closure_date different than null set by the client
+    """
+    if not active_account and closure_date == None:
         return False
     else:
         return True
 
 
 def inactive_account_if_balance_zero(active_account: bool, balance: float) -> bool:
-    '''It's only possible to inactivate an account if the current balance is equal to 0'''
+    """Checks if the client is trying to inactivate an account which balance
+    isn't equal to 0, which shouldn't be possible
+
+    Args:
+        active_account (bool): Account's active status set by the client
+        balance (float): Account's current balance
+
+    Returns:
+        bool: Returns False if the account is inactive and the balance is not
+        equal to 0
+    """
     if active_account == False and balance != 0.0:
         return False
     else:
         return True
 
 
-def activate_account_after_inactivated(update_active_account, current_active_account):
-    """Returns True if the client is trying to update the active_account field value
-    to True and it's already False (meaning they're trying to reactivate the account,
-    which shouldn't be possible"""
+def activate_account_after_inactivated(update_active_account: bool, current_active_account: bool) -> bool:
+    """Checks if the client is trying to reactivate an account that was already
+    innactivated (closed), which shouldn't be possible
+
+    Args:
+        update_active_account (bool): The active_account field set in the update request (PUT or PATCH)
+        current_active_account (bool): The active_account field saved in the object instance
+
+    Returns:
+        bool: Returns True if the updated_active_account is True and the
+        current_active_account is False
+    """
     return update_active_account == True and current_active_account == False
