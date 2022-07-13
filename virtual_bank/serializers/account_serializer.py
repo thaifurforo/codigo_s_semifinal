@@ -75,7 +75,7 @@ class AccountSerializer(serializers.ModelSerializer):
 
             if not closure_date_most_recent_than_last_transaction_date(last_credit_transaction_date, last_debit_transaction_date, value):
                 raise serializers.ValidationError(
-                    'A data de encerramento da conta deve ser maior que a data da última transação')
+                    'A data de encerramento da conta deve ser maior ou igual à data da última transação')
 
             if not closure_date_greater_than_opening_date_validate(value, self.instance.opening_date):
                 raise serializers.ValidationError(
@@ -95,6 +95,11 @@ class AccountSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         """Validates multiple fields creation/update"""
+
+        if self.context['request'].method == "POST":
+            if not closure_date_greater_than_opening_date_validate(data['closure_date'], data['opening_date']):
+                raise serializers.ValidationError({
+                    'closure_date': f'A data de encerramento da conta deve ser maior que a data de abertura: {data["opening_date"]}'})
 
         if 'closure_date' in data and 'active_account' in data:
             if not inactive_account_if_closure_date_validate(data['closure_date'], data['active_account']):

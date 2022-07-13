@@ -49,47 +49,68 @@ class CustomerSerializer(serializers.ModelSerializer):
         fields = ('url', 'id', 'customer_type', 'document_number', 'name', 'phone_number', 'email', 'birthdate',
                   'zip_code', 'city', 'district', 'neighborhood', 'street', 'door_number', 'complement')
 
+    def validate_document_number(self, value):
+        """Validates the document_number field creation and updates"""
+
+        if not document_number_numbers_only_validate(value):
+            raise serializers.ValidationError(
+                'Este campo deve ter somente números')
+
+        return value
+
+    def validate_zip_code(self, value):
+        """Validates the zip_code field creation and updates"""
+
+        if not zip_code_format_valid(value):
+            raise serializers.ValidationError('Formato de CEP inválido')
+
+        if not zip_code_found(value):
+            raise serializers.ValidationError('CEP não encontrado')
+
+        return value
+
     def validate(self, data):
-        """Validates the request data according to validators logics"""
+        """Validates multiple fields creation/update"""
 
-        if not document_number_numbers_only_validate(data['document_number']):
-            raise serializers.ValidationError(
-                {'document_number': 'O campo "document_number" deve ter somente números'})
+        if 'customer_type' in data:
+            customer_type = data['costumer_type']
+        else:
+            customer_type = self.instance.customer_type
 
-        if data['customer_type'] == 'PF':
+        if customer_type == 'PF':
 
-            if not cpf_length_validate(data['document_number']):
-                raise serializers.ValidationError(
-                    {'document_number': 'O CPF deve ter 11 dígitos'})
+            if 'document_number' in data:
 
-            if not cpf_check_digit_validate(data['document_number']):
-                raise serializers.ValidationError(
-                    {'document_number': 'CPF inválido'})
+                if not cpf_length_validate(data['document_number']):
+                    raise serializers.ValidationError(
+                        {'document_number': 'O CPF deve ter 11 dígitos'})
 
-            if not birthdate_if_pf_validate(data['birthdate']):
-                raise serializers.ValidationError(
-                    {'birthdate': 'Obrigatório preencher Data de Nascimento para Pessoas Físicas'})
+                if not cpf_check_digit_validate(data['document_number']):
+                    raise serializers.ValidationError(
+                        {'document_number': 'CPF inválido'})
 
-        if data['customer_type'] == 'PJ':
+            if 'birthdate' in data:
 
-            if not cnpj_length_validate(data['document_number']):
-                raise serializers.ValidationError(
-                    {'document_number': 'O CNPJ deve ter 14 dígitos'})
+                if not birthdate_not_null(data['birthdate']):
+                    raise serializers.ValidationError(
+                        {'birthdate': 'Obrigatório preencher Data de Nascimento para Pessoas Físicas'})
 
-            if not cnpj_check_digit_validate(data['document_number']):
-                raise serializers.ValidationError(
-                    {'document_number': 'CNPJ inválido'})
+        if customer_type == 'PJ':
 
-            if not not_birthdate_if_pj_validate(data['birthdate']):
-                raise serializers.ValidationError(
-                    {'birthdate': 'Pessoa Jurídica não deve ter Data de Nascimento'})
+            if 'document_number' in data:
 
-        if not zip_code_format_valid(data['zip_code']):
-            raise serializers.ValidationError(
-                {'zip_code': 'Formato de CEP inválido'})
+                if not cnpj_length_validate(data['document_number']):
+                    raise serializers.ValidationError(
+                        {'document_number': 'O CNPJ deve ter 14 dígitos'})
 
-        if not zip_code_not_found(data['zip_code']):
-            raise serializers.ValidationError(
-                {'zip_code': 'CEP não encontrado'})
+                if not cnpj_check_digit_validate(data['document_number']):
+                    raise serializers.ValidationError(
+                        {'document_number': 'CNPJ inválido'})
+
+            if 'birthdate' in data:
+
+                if birthdate_not_null(data['birthdate']):
+                    raise serializers.ValidationError(
+                        {'birthdate': 'Pessoa Jurídica não deve ter Data de Nascimento'})
 
         return data
