@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from virtual_bank.models.account_model import Account
+from virtual_bank.models import Account
 
 
 class Transaction(models.Model):
