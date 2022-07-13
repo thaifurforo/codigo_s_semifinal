@@ -5,3 +5,5 @@ from virtual_bank.validators.active_account_validators import *
 from virtual_bank.validators.transaction_amount_validators import *
 from virtual_bank.validators.transaction_type_validators import *
 from virtual_bank.validators.zip_code_validators import *
+from virtual_bank.validators.account_customer_validators import *
+from virtual_bank.validators.opening_date_validators import *

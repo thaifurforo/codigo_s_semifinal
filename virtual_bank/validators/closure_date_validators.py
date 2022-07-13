@@ -1,6 +1,3 @@
-# from rest_framework import serializers
-
-
 def closure_date_greater_than_opening_date_validate(closure_date, opening_date) -> bool:
     '''Só poderá haver data de encerramento se a conta estiver marcacda como inativa'''
     if closure_date:
@@ -9,11 +6,16 @@ def closure_date_greater_than_opening_date_validate(closure_date, opening_date) 
         return True
 
 
-# def closure_date_bigger_than_last_transaction_date(closure_date, account_number: str) -> bool:
+def closure_date_most_recent_than_last_transaction_date(last_credit_transaction_date, last_debit_transaction_date, closure_date) -> bool:
 
-#     transactions_credit = serializers.ReadOnlyField(
-#         source='transaction.credit_account').order_by('date')
-#     transactions_debit = serializers.ReadOnlyField(
-#         source='transaction.debit_account').order_by('date')
+    if last_debit_transaction_date:
+        closure_date_most_recent_than_last_debit = last_debit_transaction_date <= closure_date
+    else:
+        closure_date_most_recent_than_last_debit = True
 
-#     return transactions_credit[0]['date'] <= closure_date and transactions_debit[0]['date'] <= closure_date
+    if last_credit_transaction_date:
+        closure_date_most_recent_than_last_credit = last_credit_transaction_date <= closure_date
+    else:
+        closure_date_most_recent_than_last_credit = True
+
+    return closure_date_most_recent_than_last_debit and closure_date_most_recent_than_last_credit
