@@ -1,7 +1,5 @@
 import random
-from tabnanny import verbose
 from django.utils import timezone
-from django.core.validators import MaxValueValidator
 from django.db import models
 from virtual_bank.models.customer_model import Customer
 from virtual_bank.validators import create_check_digit_module_11
