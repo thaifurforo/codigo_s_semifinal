@@ -2,7 +2,7 @@ from django.db import IntegrityError, models
 from django.core.validators import RegexValidator
 from django.dispatch import receiver
 from virtual_bank.models.customer_model import Customer
-from pycep_correios import get_address_from_cep, WebService, exceptions
+from pycep_correios import get_address_from_cep, WebService
 
 
 class Address(models.Model):
