@@ -13,18 +13,26 @@ class TransactionViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'delete', 'head', 'options']
 
     queryset = Transaction.objects.all().order_by(
-        'date', 'debit_account', 'credit_account', 'transaction_type')
+        'date', 'debit_account', 'credit_account', 'transaction_type'
+    )
 
     serializer_class = TransactionSerializer
 
-    filter_backends = [DjangoFilterBackend,
-                       filters.OrderingFilter, filters.SearchFilter]
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.OrderingFilter,
+        filters.SearchFilter,
+    ]
 
     ordering_fields = ['date', 'amount']
     search_fields = ['debit_account', 'credit_account', 'transaction_type']
-    filterset_fields = {'transaction_type': ['exact'], 'date': [
-        'gte', 'lte', 'exact'], 'amount': [
-        'gte', 'lte', 'exact'], 'debit_account': ['exact'], 'credit_account': ['exact']}
+    filterset_fields = {
+        'transaction_type': ['exact'],
+        'date': ['gte', 'lte', 'exact'],
+        'amount': ['gte', 'lte', 'exact'],
+        'debit_account': ['exact'],
+        'credit_account': ['exact'],
+    }
 
     def get_serializer(self, *args, **kwargs):
         if 'data' in kwargs:

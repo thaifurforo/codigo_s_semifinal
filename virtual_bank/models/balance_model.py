@@ -13,12 +13,11 @@ class Balance(models.Model):
     Balance object will be deleted on CASCADE if the Account is deleted (though it's
     not possible to make DELETE requests for the accounts through the API)
 
-    balance = a FloatField to register the value of the current balance for each 
+    balance = a FloatField to register the value of the current balance for each
     account - default is 0 since the balance is 0 when the account is first opened
     """
 
-    account = models.OneToOneField(
-        Account, on_delete=models.CASCADE, primary_key=True)
+    account = models.OneToOneField(Account, on_delete=models.CASCADE, primary_key=True)
     balance = models.FloatField(default=0, editable=False)
 
     @receiver(models.signals.post_save, sender=Account)
@@ -33,7 +32,9 @@ class Balance(models.Model):
             except IntegrityError:
                 pass
 
-    @receiver([models.signals.post_save, models.signals.post_delete], sender=Transaction)
+    @receiver(
+        [models.signals.post_save, models.signals.post_delete], sender=Transaction
+    )
     def add_transaction(sender, instance, **kwargs):
         """This function creates a post_save and a post_delete signal that updates
         the balance field of the Balance object nested to the debit account and
@@ -43,16 +44,42 @@ class Balance(models.Model):
         ever made.
         """
         if instance.debit_account:
-            account_debits = sum([i[0] for i in Transaction.objects.filter(
-                debit_account=instance.debit_account).values_list('amount')])
-            account_credits = sum([i[0] for i in Transaction.objects.filter(
-                credit_account=instance.debit_account).values_list('amount')])
+            account_debits = sum(
+                [
+                    i[0]
+                    for i in Transaction.objects.filter(
+                        debit_account=instance.debit_account
+                    ).values_list('amount')
+                ]
+            )
+            account_credits = sum(
+                [
+                    i[0]
+                    for i in Transaction.objects.filter(
+                        credit_account=instance.debit_account
+                    ).values_list('amount')
+                ]
+            )
             Balance.objects.filter(pk=instance.debit_account).update(
-                balance=(round(account_credits-account_debits, 2)))
+                balance=(round(account_credits - account_debits, 2))
+            )
         if instance.credit_account:
-            account_debits = sum([i[0] for i in Transaction.objects.filter(
-                debit_account=instance.credit_account).values_list('amount')])
-            account_credits = sum([i[0] for i in Transaction.objects.filter(
-                credit_account=instance.credit_account).values_list('amount')])
+            account_debits = sum(
+                [
+                    i[0]
+                    for i in Transaction.objects.filter(
+                        debit_account=instance.credit_account
+                    ).values_list('amount')
+                ]
+            )
+            account_credits = sum(
+                [
+                    i[0]
+                    for i in Transaction.objects.filter(
+                        credit_account=instance.credit_account
+                    ).values_list('amount')
+                ]
+            )
             Balance.objects.filter(pk=instance.credit_account).update(
-                balance=(round(account_credits-account_debits, 2)))
+                balance=(round(account_credits - account_debits, 2))
+            )

@@ -17,5 +17,12 @@ class AccountsByCustomerSerializer(serializers.ModelSerializer):
         the fields that are shown in the serialized result"""
 
         model = Account
-        fields = ('url', 'id', 'account_number', 'active_account',
-                  'opening_date', 'closure_date', 'balance')
+        fields = (
+            'url',
+            'id',
+            'account_number',
+            'active_account',
+            'opening_date',
+            'closure_date',
+            'balance',
+        )

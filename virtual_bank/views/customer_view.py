@@ -12,13 +12,15 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
     serializer_class = CustomerSerializer
 
-    filter_backends = [DjangoFilterBackend,
-                       filters.OrderingFilter, filters.SearchFilter]
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.OrderingFilter,
+        filters.SearchFilter,
+    ]
 
     ordering_fields = ['name']
     search_fields = ['name', 'document_number']
-    filterset_fields = {'customer_type': ['exact'], 'birthdate': [
-        'gte', 'lte']}
+    filterset_fields = {'customer_type': ['exact'], 'birthdate': ['gte', 'lte']}
 
     def get_serializer(self, *args, **kwargs):
         if 'data' in kwargs:

@@ -18,31 +18,34 @@ class Address(models.Model):
     district -> a CharField containing the initials to the name of the district
     to which this zip code refers to
 
-    neightborhood -> a CharField containing the name of the neighborhood to which 
+    neightborhood -> a CharField containing the name of the neighborhood to which
     this zip code refers to
 
     street -> a CharField containing the name of the street to which this zip code
     refers to
     """
 
-    zip_code = models.CharField(verbose_name='CEP', unique=True, help_text='Formato: 00.000-000', validators=[
-                                RegexValidator('[0-9]{5}-[0-9]{3}', message='Formato de CEP inválido')], max_length=9)
+    zip_code = models.CharField(
+        verbose_name='CEP',
+        unique=True,
+        help_text='Formato: 00.000-000',
+        validators=[
+            RegexValidator('[0-9]{5}-[0-9]{3}', message='Formato de CEP inválido')
+        ],
+        max_length=9,
+    )
     city = models.CharField(verbose_name='Cidade', default='', max_length=80)
-    district = models.CharField(
-        verbose_name='Estado', max_length=2, default='')
-    neighborhood = models.CharField(
-        verbose_name='Bairro', default='', max_length=80)
-    street = models.CharField(
-        verbose_name='Logradouro', default='', max_length=100)
+    district = models.CharField(verbose_name='Estado', max_length=2, default='')
+    neighborhood = models.CharField(verbose_name='Bairro', default='', max_length=80)
+    street = models.CharField(verbose_name='Logradouro', default='', max_length=100)
 
     def save(self, *args, **kwargs):
-        """ This function overwrites the save function to get the data for the address'
+        """This function overwrites the save function to get the data for the address'
         fields, based on the zip_code, using the library 'pycep-correios' to get
         the data from VIACEP API.
         """
 
-        zip_data = get_address_from_cep(
-            self.zip_code, webservice=WebService.VIACEP)
+        zip_data = get_address_from_cep(self.zip_code, webservice=WebService.VIACEP)
         self.city = zip_data['cidade']
         self.district = zip_data['uf']
         self.neighborhood = zip_data['bairro']

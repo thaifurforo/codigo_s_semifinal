@@ -23,7 +23,7 @@ class AccountViewSet(viewsets.ModelViewSet):
     There are set some filters for this ViewSet:
     The data can be ordered by opening_date, closure_date, custommer or customer_name.
     The data can be searched by account_number.
-    The data can be filtered by selecting if the active_account is True or False, 
+    The data can be filtered by selecting if the active_account is True or False,
     by selecting a opening_date (exact, greater than or equal, less than or equal),
     by selection a closure_date (exact, greater than or equal, less than or equal),
     and/or by selecting a specific customer.
@@ -37,18 +37,25 @@ class AccountViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'patch', 'head', 'options']
 
     queryset = Account.objects.all().order_by(
-        '-active_account', 'opening_date', 'closure_date', 'account_number')
+        '-active_account', 'opening_date', 'closure_date', 'account_number'
+    )
 
     serializer_class = AccountSerializer
 
-    filter_backends = [DjangoFilterBackend,
-                       filters.OrderingFilter, filters.SearchFilter]
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.OrderingFilter,
+        filters.SearchFilter,
+    ]
 
-    ordering_fields = ['opening_date',
-                       'closure_date', 'customer', 'customer_name']
+    ordering_fields = ['opening_date', 'closure_date', 'customer', 'customer_name']
     search_fields = ['account_number']
-    filterset_fields = {'active_account': ['exact'], 'opening_date': [
-        'gte', 'lte', 'exact'],  'closure_date': ['gte', 'lte', 'exact'], 'customer': ['exact']}
+    filterset_fields = {
+        'active_account': ['exact'],
+        'opening_date': ['gte', 'lte', 'exact'],
+        'closure_date': ['gte', 'lte', 'exact'],
+        'customer': ['exact'],
+    }
 
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]

@@ -7,7 +7,7 @@ class Transaction(models.Model):
     """This class sets up the 'transaction' dataset model, composed by:
 
     transaction_type -> a CharField that refers to the type of transaction, between
-    six possible choices: 'TI' (transfer between accounts from the same bank), 
+    six possible choices: 'TI' (transfer between accounts from the same bank),
     'TE' (transfer to an account on other bank), 'DE' (deposit), 'RE' (amount received
     in the account), 'PG' (payment of bank slip), 'SQ' (withdraw)
 
@@ -28,13 +28,29 @@ class Transaction(models.Model):
         ('DE', 'Depósito'),
         ('RE', 'Recebimento em conta'),
         ('PG', 'Pagamento de guia ou boleto'),
-        ('SQ', 'Saque')
+        ('SQ', 'Saque'),
     ]
-    transaction_type = models.CharField(verbose_name='Tipo de transação',
-                                        choices=TRANSACTION_TYPES, max_length=2, default='TI')
+    transaction_type = models.CharField(
+        verbose_name='Tipo de transação',
+        choices=TRANSACTION_TYPES,
+        max_length=2,
+        default='TI',
+    )
     date = models.DateField(verbose_name='Data', default=timezone.now())
     debit_account = models.ForeignKey(
-        Account, null=True, blank=True, on_delete=models.CASCADE, related_name='debit_account', verbose_name='Conta debitada')
+        Account,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name='debit_account',
+        verbose_name='Conta debitada',
+    )
     credit_account = models.ForeignKey(
-        Account, null=True, blank=True, on_delete=models.CASCADE, related_name='credit_account', verbose_name='Conta creditada')
+        Account,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name='credit_account',
+        verbose_name='Conta creditada',
+    )
     amount = models.FloatField(default=0, verbose_name='Valor da transação')

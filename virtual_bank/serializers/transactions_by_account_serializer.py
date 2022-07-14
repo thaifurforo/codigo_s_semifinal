@@ -10,6 +10,14 @@ class TransactionsByAccountSerializer(serializers.ModelSerializer):
     class Meta:
         """Sets the Transaction as the model used on this serializer, and establishes
         the fields that are shown in the serialized result"""
+
         model = Transaction
-        fields = ('url', 'id', 'transaction_type', 'date',
-                  'amount', 'debit_account', 'credit_account')
+        fields = (
+            'url',
+            'id',
+            'transaction_type',
+            'date',
+            'amount',
+            'debit_account',
+            'credit_account',
+        )

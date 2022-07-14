@@ -41,20 +41,34 @@ class CustomerSerializer(serializers.ModelSerializer):
         address_serializer = AddressSerializer(address_queryset, many=True)
         return address_serializer.data[0]['street']
 
-    class Meta():
+    class Meta:
         """Sets the Customer as the model used on this serializer and establishes
         the fields that are shown in the serialized result."""
 
         model = Customer
-        fields = ('url', 'id', 'customer_type', 'document_number', 'name', 'phone_number', 'email', 'birthdate',
-                  'zip_code', 'city', 'district', 'neighborhood', 'street', 'door_number', 'complement')
+        fields = (
+            'url',
+            'id',
+            'customer_type',
+            'document_number',
+            'name',
+            'phone_number',
+            'email',
+            'birthdate',
+            'zip_code',
+            'city',
+            'district',
+            'neighborhood',
+            'street',
+            'door_number',
+            'complement',
+        )
 
     def validate_document_number(self, value):
         """Validates the document_number field creation and updates"""
 
-        if not document_number_numbers_only_validate(value):
-            raise serializers.ValidationError(
-                'Este campo deve ter somente números')
+        if not document_number_numeric_validate(value):
+            raise serializers.ValidationError('Este campo deve ter somente números')
 
         return value
 
@@ -83,17 +97,22 @@ class CustomerSerializer(serializers.ModelSerializer):
 
                 if not cpf_length_validate(data['document_number']):
                     raise serializers.ValidationError(
-                        {'document_number': 'O CPF deve ter 11 dígitos'})
+                        {'document_number': 'O CPF deve ter 11 dígitos'}
+                    )
 
                 if not cpf_check_digit_validate(data['document_number']):
                     raise serializers.ValidationError(
-                        {'document_number': 'CPF inválido'})
+                        {'document_number': 'CPF inválido'}
+                    )
 
             if 'birthdate' in data:
 
                 if not birthdate_not_null(data['birthdate']):
                     raise serializers.ValidationError(
-                        {'birthdate': 'Obrigatório preencher Data de Nascimento para Pessoas Físicas'})
+                        {
+                            'birthdate': 'Obrigatório preencher Data de Nascimento para Pessoas Físicas'
+                        }
+                    )
 
         if customer_type == 'PJ':
 
@@ -101,16 +120,19 @@ class CustomerSerializer(serializers.ModelSerializer):
 
                 if not cnpj_length_validate(data['document_number']):
                     raise serializers.ValidationError(
-                        {'document_number': 'O CNPJ deve ter 14 dígitos'})
+                        {'document_number': 'O CNPJ deve ter 14 dígitos'}
+                    )
 
                 if not cnpj_check_digit_validate(data['document_number']):
                     raise serializers.ValidationError(
-                        {'document_number': 'CNPJ inválido'})
+                        {'document_number': 'CNPJ inválido'}
+                    )
 
             if 'birthdate' in data:
 
                 if birthdate_not_null(data['birthdate']):
                     raise serializers.ValidationError(
-                        {'birthdate': 'Pessoa Jurídica não deve ter Data de Nascimento'})
+                        {'birthdate': 'Pessoa Jurídica não deve ter Data de Nascimento'}
+                    )
 
         return data
