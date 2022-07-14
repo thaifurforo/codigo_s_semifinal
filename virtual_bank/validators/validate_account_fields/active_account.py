@@ -1,4 +1,10 @@
-def inactive_account_if_closure_date_validate(closure_date, active_account: bool) -> bool:
+"""Module with the validators for the active_account field from the Account serializer.
+"""
+
+
+def inactive_account_if_closure_date_validate(
+    closure_date, active_account: bool
+) -> bool:
     """Checks if the client is trying to set a closure_date to an active account
 
     Args:
@@ -15,7 +21,9 @@ def inactive_account_if_closure_date_validate(closure_date, active_account: bool
         return True
 
 
-def closure_date_if_inactive_account_validate(closure_date, active_account: bool) -> bool:
+def closure_date_if_inactive_account_validate(
+    closure_date, active_account: bool
+) -> bool:
     """Checks if the client is trying to set a account status to inactive and haven't
     informed a closure date
 
@@ -51,7 +59,9 @@ def inactive_account_if_balance_zero(active_account: bool, balance: float) -> bo
         return True
 
 
-def activate_account_after_inactivated(update_active_account: bool, current_active_account: bool) -> bool:
+def activate_account_after_inactivated(
+    update_active_account: bool, current_active_account: bool
+) -> bool:
     """Checks if the client is trying to reactivate an account that was already
     innactivated (closed), which shouldn't be possible
 
