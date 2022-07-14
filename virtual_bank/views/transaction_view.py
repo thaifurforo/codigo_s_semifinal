@@ -10,6 +10,8 @@ from virtual_bank.serializers import TransactionSerializer
 
 class TransactionViewSet(viewsets.ModelViewSet):
 
+    http_method_names = ['get', 'post', 'delete', 'head', 'options']
+
     queryset = Transaction.objects.all().order_by(
         'date', 'debit_account', 'credit_account', 'transaction_type')
 
