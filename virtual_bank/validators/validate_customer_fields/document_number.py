@@ -1,7 +1,8 @@
-"""Module with the validators for the active_account field from the Customer serializer.
+"""Module that contains the validators for the active_account field from the Customer serializer.
 """
 
-from utilities import create_check_digit_module_11
+
+from virtual_bank.utilities import create_check_digit_module_11
 
 
 def document_number_numeric_validate(document_number: str) -> bool:

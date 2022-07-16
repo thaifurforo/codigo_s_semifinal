@@ -1,10 +1,19 @@
+"""Module that contains the TestAccountGet Class.
+"""
+
 from django.contrib.auth.models import User
 from rest_framework.test import APITestCase
 from virtual_bank.models import Account, Customer
 
 
 class TestAccountGet(APITestCase):
+    """This Class sets tests for the GET request on Account objects
+    """
+
     def setUp(self) -> None:
+        """This method sets up the tests for this Class
+        """
+
         # Given
         customer = Customer.objects.create(
             customer_type="PF",
@@ -36,17 +45,22 @@ class TestAccountGet(APITestCase):
         self.client.force_authenticate(user)
 
     def test_account_get_request_successful(self):
+        """This method tests if the accounts GET requests return a success response
+        """
 
         # When
-        response = self.client.get('/account/')
+        response = self.client.get('/v1/account/')
 
         # Then
         self.assertEqual(response.status_code, 200)
 
     def test_account_get_results_count(self):
+        """This method tests if the accounts GET requests return the correct number
+        of itens
+        """
 
         # When
-        account_get = self.client.get('/account/', format='json').data.items()
+        account_get = self.client.get('/v1/account/', format='json').data.items()
         get_dict = {}
         for key, values in account_get:
             get_dict[key] = values
@@ -55,11 +69,16 @@ class TestAccountGet(APITestCase):
         self.assertEqual(get_dict['count'], 2)
 
     def test_account_get_active_account(self):
+        """This method tests if the accounts GET requests return the correct data
+        on active_account field
+        """
 
         # When
         account1_get = Account.objects.get(id=self.account1.id)
         account2_get = Account.objects.get(id=self.account2.id)
 
         # Then
-        self.assertEqual(account1_get.active_account, self.account1.active_account)
-        self.assertEqual(account2_get.active_account, self.account2.active_account)
+        self.assertEqual(account1_get.active_account,
+                         self.account1.active_account)
+        self.assertEqual(account2_get.active_account,
+                         self.account2.active_account)

@@ -1,3 +1,6 @@
+"""Module that contains the Transactions by Account Model Serializer.
+"""
+
 from rest_framework import serializers
 from virtual_bank.models.transaction_model import Transaction
 

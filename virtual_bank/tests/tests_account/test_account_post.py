@@ -1,10 +1,19 @@
+"""Module that contains the TestAccountPost Class.
+"""
+
 from django.contrib.auth.models import User
 from rest_framework.test import APITestCase
-from virtual_bank.models import Account, Customer
+from virtual_bank.models import Customer
 
 
 class TestAccountPost(APITestCase):
+    """This Class sets tests for the POST request on Account objects
+    """
+
     def setUp(self) -> None:
+        """This method sets up the tests for this Class
+        """
+
         # Given
         self.customer = Customer.objects.create(
             customer_type="PF",
@@ -22,6 +31,8 @@ class TestAccountPost(APITestCase):
         self.client.force_authenticate(user)
 
     def test_account_post_sucessfull(self):
+        """This method tests if the accounts POST requests return a success response
+        """
 
         # When
         account = {
@@ -31,7 +42,7 @@ class TestAccountPost(APITestCase):
             "closure_date": None,
         }
 
-        response = self.client.post('/account/', account, format='json')
+        response = self.client.post('/v1/account/', account, format='json')
 
         # Then
         self.assertEqual(response.status_code, 201)

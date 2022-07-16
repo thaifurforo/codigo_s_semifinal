@@ -1,4 +1,4 @@
-"""Module with the validators for the birthdate field from the Customer serializer.
+"""Module that contains the validators for the birthdate field from the Customer serializer.
 """
 
 

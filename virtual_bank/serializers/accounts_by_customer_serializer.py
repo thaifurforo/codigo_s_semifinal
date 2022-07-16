@@ -1,5 +1,8 @@
+"""Module that contains the Accounts by Customer Model Serializer.
+"""
+
 from rest_framework import serializers
-from virtual_bank.models.account_model import Account
+from virtual_bank.models import Account
 
 
 class AccountsByCustomerSerializer(serializers.ModelSerializer):

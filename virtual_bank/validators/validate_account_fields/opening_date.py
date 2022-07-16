@@ -1,4 +1,4 @@
-"""Module with the validators for the opening_date field from the Account serializer.
+"""Module that contains the validators for the opening_date field from the Account serializer.
 """
 
 

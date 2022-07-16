@@ -1,9 +1,17 @@
+"""Module that contains the TestTransactionCreate Class.
+"""
+
 from django.test import TestCase
 from virtual_bank.models import Account, Balance, Customer, Transaction
 
 
 class TestTransactionCreate(TestCase):
+    """This Class sets tests for the creation of Transaction objects
+    """
+
     def setUp(self) -> None:
+        """This method sets up the tests for this Class
+        """
 
         # Given
         customer = Customer.objects.create(
@@ -42,6 +50,8 @@ class TestTransactionCreate(TestCase):
         )
 
     def test_transactions_created(self):
+        """This method tests if the transactions on the set up was created
+        """
 
         # When
         transactions_count = Transaction.objects.count()
@@ -50,6 +60,9 @@ class TestTransactionCreate(TestCase):
         self.assertEqual(transactions_count, 2)
 
     def test_transaction_amount(self):
+        """This method tests if the amount field on the created transaction
+        is being accessed correctly
+        """
 
         # When
         transaction = Transaction.objects.get(id=1)
@@ -58,6 +71,9 @@ class TestTransactionCreate(TestCase):
         self.assertEqual(transaction.amount, 10)
 
     def test_transactions_resulting_balance(self):
+        """This method tests if the balance field is being correctly updated when
+        the transactions are created
+        """
 
         # When
         account = Account.objects.get()

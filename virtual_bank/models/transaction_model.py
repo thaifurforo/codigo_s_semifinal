@@ -1,3 +1,6 @@
+"""Module that contains the Account Transaction Class.
+"""
+
 from django.db import models
 from django.utils import timezone
 from virtual_bank.models import Account

@@ -1,3 +1,6 @@
+"""Module that contains the Customer Model Class.
+"""
+
 from django.core.validators import EmailValidator, RegexValidator
 from django.db import models
 
@@ -86,8 +89,8 @@ class Customer(models.Model):
     )
 
     def __str__(self):
-        """This function overwrites the __str__ function to determinate that the
-        representation of the customer model in the graphic interfaces of the
-        application will be the name field.
+        """This method overrides the __str__ method for this Class to determinate
+        that the representation of the customer model in the graphic interfaces
+        of the application will be the name field.
         """
         return self.name

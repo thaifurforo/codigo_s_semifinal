@@ -1,4 +1,4 @@
-"""Module with the validators for the zip_code field from the Customer serializer.
+"""Module that contains the validators for the zip_code field from the Customer serializer.
 """
 
 from pycep_correios import get_address_from_cep, WebService, exceptions

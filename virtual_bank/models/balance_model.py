@@ -1,3 +1,6 @@
+"""Module that contains the Balance Model Class.
+"""
+
 from django.db import models, IntegrityError
 from django.dispatch import receiver
 from virtual_bank.models.account_model import Account
@@ -17,7 +20,8 @@ class Balance(models.Model):
     account - default is 0 since the balance is 0 when the account is first opened
     """
 
-    account = models.OneToOneField(Account, on_delete=models.CASCADE, primary_key=True)
+    account = models.OneToOneField(
+        Account, on_delete=models.CASCADE, primary_key=True)
     balance = models.FloatField(default=0, editable=False)
 
     @receiver(models.signals.post_save, sender=Account)
@@ -45,40 +49,33 @@ class Balance(models.Model):
         """
         if instance.debit_account:
             account_debits = sum(
-                [
-                    i[0]
-                    for i in Transaction.objects.filter(
-                        debit_account=instance.debit_account
-                    ).values_list('amount')
-                ]
+                i[0]
+                for i in Transaction.objects.filter(
+                    debit_account=instance.debit_account
+                ).values_list('amount')
+
             )
             account_credits = sum(
-                [
-                    i[0]
-                    for i in Transaction.objects.filter(
-                        credit_account=instance.debit_account
-                    ).values_list('amount')
-                ]
+                i[0]
+                for i in Transaction.objects.filter(
+                    credit_account=instance.debit_account
+                ).values_list('amount')
             )
             Balance.objects.filter(pk=instance.debit_account).update(
                 balance=(round(account_credits - account_debits, 2))
             )
         if instance.credit_account:
             account_debits = sum(
-                [
-                    i[0]
-                    for i in Transaction.objects.filter(
-                        debit_account=instance.credit_account
-                    ).values_list('amount')
-                ]
+                i[0]
+                for i in Transaction.objects.filter(
+                    debit_account=instance.credit_account
+                ).values_list('amount')
             )
             account_credits = sum(
-                [
-                    i[0]
-                    for i in Transaction.objects.filter(
-                        credit_account=instance.credit_account
-                    ).values_list('amount')
-                ]
+                i[0]
+                for i in Transaction.objects.filter(
+                    credit_account=instance.credit_account
+                ).values_list('amount')
             )
             Balance.objects.filter(pk=instance.credit_account).update(
                 balance=(round(account_credits - account_debits, 2))

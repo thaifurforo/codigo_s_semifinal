@@ -1,6 +1,16 @@
+"""Module that contains the Account Model Serializer.
+"""
+
 from rest_framework import serializers
 from virtual_bank.models import Account, Transaction
-from virtual_bank.validators import *
+from virtual_bank.validators import (change_opening_date,
+                                     activate_account_after_inactivated,
+                                     closure_date_if_inactive_account_validate,
+                                     inactive_account_if_balance_zero,
+                                     inactive_account_if_closure_date_validate,
+                                     closure_date_more_recent_than_last_transaction_date,
+                                     closure_date_more_recent_than_opening_date_validate,
+                                     change_customer)
 
 
 class AccountSerializer(serializers.ModelSerializer):
@@ -22,7 +32,8 @@ class AccountSerializer(serializers.ModelSerializer):
         source='customer.document_number', read_only=True
     )
 
-    customer_name = serializers.CharField(source='customer.name', read_only=True)
+    customer_name = serializers.CharField(
+        source='customer.name', read_only=True)
 
     class Meta:
         """Sets the Account as the model used on this serializer, and establishes
@@ -48,7 +59,8 @@ class AccountSerializer(serializers.ModelSerializer):
 
             if change_opening_date(value, self.instance.opening_date):
                 raise serializers.ValidationError(
-                    'Não é possível alterar a data de abertura da conta após a mesma ter sido criada'
+                    'Não é possível alterar a data de abertura da conta \
+                        após a mesma ter sido criada'
                 )
 
         return value
@@ -66,7 +78,8 @@ class AccountSerializer(serializers.ModelSerializer):
                 value, self.instance.balance.balance
             ):
                 raise serializers.ValidationError(
-                    f'Só é possível encerrar a conta se o saldo atual for igual a 0. Saldo atual: {self.instance.balance.balance}'
+                    f'Só é possível encerrar a conta se o saldo atual for igual a 0. \
+                        Saldo atual: {self.instance.balance.balance}'
                 )
 
         return value
@@ -99,14 +112,16 @@ class AccountSerializer(serializers.ModelSerializer):
                 last_credit_transaction_date, last_debit_transaction_date, value
             ):
                 raise serializers.ValidationError(
-                    'A data de encerramento da conta deve ser maior ou igual à data da última transação'
+                    'A data de encerramento da conta deve ser maior ou igual à \
+                        data da última transação'
                 )
 
             if not closure_date_more_recent_than_opening_date_validate(
                 value, self.instance.opening_date
             ):
                 raise serializers.ValidationError(
-                    f'A data de encerramento da conta deve ser maior que a data de abertura: {self.instance.opening_date}'
+                    f'A data de encerramento da conta deve ser maior que a data \
+                        de abertura: {self.instance.opening_date}'
                 )
 
         return value
@@ -117,27 +132,29 @@ class AccountSerializer(serializers.ModelSerializer):
 
             if change_customer(value, self.instance.customer):
                 raise serializers.ValidationError(
-                    'Não é possível alterar o cliente vinculado à conta após a mesma ter sido criada'
+                    'Não é possível alterar o cliente vinculado à conta após \
+                        a mesma ter sido criada'
                 )
 
         return value
 
-    def validate(self, data):
+    def validate(self, attrs):
         """Validates multiple fields creation/update"""
 
         if self.context['request'].method == "POST":
             if not closure_date_more_recent_than_opening_date_validate(
-                data['closure_date'], data['opening_date']
+                attrs['closure_date'], attrs['opening_date']
             ):
                 raise serializers.ValidationError(
                     {
-                        'closure_date': f'A data de encerramento da conta deve ser maior que a data de abertura: {data["opening_date"]}'
+                        'closure_date': f'A data de encerramento da conta deve ser maior \
+                            que a data de abertura: {attrs["opening_date"]}'
                     }
                 )
 
-        if 'closure_date' in data and 'active_account' in data:
+        if 'closure_date' in attrs and 'active_account' in attrs:
             if not inactive_account_if_closure_date_validate(
-                data['closure_date'], data['active_account']
+                attrs['closure_date'], attrs['active_account']
             ):
                 raise serializers.ValidationError(
                     {
@@ -147,22 +164,22 @@ class AccountSerializer(serializers.ModelSerializer):
                 )
 
             if not closure_date_if_inactive_account_validate(
-                data['closure_date'], data['active_account']
+                attrs['closure_date'], attrs['active_account']
             ):
                 raise serializers.ValidationError(
                     {'closure_date': 'Inserir a data de encerramento da conta inativa'}
                 )
 
-        elif 'closure_date' in data:
+        elif 'closure_date' in attrs:
             raise serializers.ValidationError(
                 {
                     'active_account': 'Somente contas inativas podem ter data de encerramento'
                 }
             )
 
-        elif 'active_account' in data:
+        elif 'active_account' in attrs:
             raise serializers.ValidationError(
                 {'closure_date': 'Inserir a data de encerramento da conta inativa'}
             )
 
-        return data
+        return attrs

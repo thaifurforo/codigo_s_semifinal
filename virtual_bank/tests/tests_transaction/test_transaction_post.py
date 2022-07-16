@@ -1,9 +1,16 @@
+"""Module that contains the TestTransactionPost Class.
+"""
+
+
 from django.contrib.auth.models import User
 from rest_framework.test import APITestCase
 from virtual_bank.models import Account, Customer
 
 
 class TestTransactionPost(APITestCase):
+    """This Class sets tests for the POST request on Transaction objects
+    """
+
     def setUp(self) -> None:
         # Given
         customer = Customer.objects.create(
@@ -29,6 +36,8 @@ class TestTransactionPost(APITestCase):
         self.client.force_authenticate(user)
 
     def test_transaction_post_sucessfull(self):
+        """This method tests if the customer POST requests return a success response
+        """
 
         # When
         transaction = {
@@ -39,7 +48,8 @@ class TestTransactionPost(APITestCase):
             "credit_account": self.account.id,
         }
 
-        response = self.client.post('/transaction/', transaction, format='json')
+        response = self.client.post(
+            '/v1/transaction/', transaction, format='json')
 
         # Then
         self.assertEqual(response.status_code, 201)

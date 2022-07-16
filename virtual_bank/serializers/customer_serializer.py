@@ -1,8 +1,17 @@
+"""Module that contains the Customer Model Serializer.
+"""
+
 from rest_framework import serializers
-from virtual_bank.models import Customer
-from virtual_bank.models.address_model import Address
+from virtual_bank.models import Customer, Address
 from virtual_bank.serializers.address_serializer import AddressSerializer
-from virtual_bank.validators import *
+from virtual_bank.validators import (document_number_numeric_validate,
+                                     birthdate_not_null,
+                                     cnpj_check_digit_validate,
+                                     cnpj_length_validate,
+                                     cpf_check_digit_validate,
+                                     cpf_length_validate,
+                                     zip_code_format_valid,
+                                     zip_code_found)
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -16,30 +25,78 @@ class CustomerSerializer(serializers.ModelSerializer):
     city = serializers.SerializerMethodField()
 
     def get_city(self, obj):
+        """Method to get the city field from the Address object with the same 
+        zip_code from the Customer object
+
+        Args:
+            obj (Customer): Customer object
+
+        Returns:
+            city (str): Returns the string value of the city field on the Address
+            object with the same zip_code from the Customer object (obj)
+        """
+
         address_queryset = Address.objects.filter(zip_code=obj.zip_code)
         address_serializer = AddressSerializer(address_queryset, many=True)
-        return address_serializer.data[0]['city']
+        city = address_serializer.data[0]['city']
+        return city
 
     district = serializers.SerializerMethodField()
 
     def get_district(self, obj):
+        """Method to get the district field from the Address object with the same 
+        zip_code from the Customer object
+
+        Args:
+            obj (Customer): Customer object
+
+        Returns:
+            district (str): Returns the string value of the district field on the Address
+            object with the same zip_code from the Customer object (obj)
+        """
+
         address_queryset = Address.objects.filter(zip_code=obj.zip_code)
         address_serializer = AddressSerializer(address_queryset, many=True)
-        return address_serializer.data[0]['district']
+        district = address_serializer.data[0]['district']
+        return district
 
     neighborhood = serializers.SerializerMethodField()
 
     def get_neighborhood(self, obj):
+        """Method to get the neighborhood field from the Address object with the
+        same zip_code from the Customer object
+
+        Args:
+            obj (Customer): Customer object
+
+        Returns:
+            neighborhood (str): Returns the string value of the city field on the
+            Address object with the same zip_code from the Customer object (obj)
+        """
+
         address_queryset = Address.objects.filter(zip_code=obj.zip_code)
         address_serializer = AddressSerializer(address_queryset, many=True)
-        return address_serializer.data[0]['neighborhood']
+        neighborhood = address_serializer.data[0]['neighborhood']
+        return neighborhood
 
     street = serializers.SerializerMethodField()
 
     def get_street(self, obj):
+        """Method to get the street field from the Address object with the same 
+        zip_code from the Customer object
+
+        Args:
+            obj (Customer): Customer object
+
+        Returns:
+            street (str): Returns the string value of the street field on the Address
+            object with the same zip_code from the Customer object (obj)
+        """
+
         address_queryset = Address.objects.filter(zip_code=obj.zip_code)
         address_serializer = AddressSerializer(address_queryset, many=True)
-        return address_serializer.data[0]['street']
+        street = address_serializer.data[0]['street']
+        return street
 
     class Meta:
         """Sets the Customer as the model used on this serializer and establishes
@@ -68,7 +125,8 @@ class CustomerSerializer(serializers.ModelSerializer):
         """Validates the document_number field creation and updates"""
 
         if not document_number_numeric_validate(value):
-            raise serializers.ValidationError('Este campo deve ter somente números')
+            raise serializers.ValidationError(
+                'Este campo deve ter somente números')
 
         return value
 
@@ -83,56 +141,57 @@ class CustomerSerializer(serializers.ModelSerializer):
 
         return value
 
-    def validate(self, data):
+    def validate(self, attrs):
         """Validates multiple fields creation/update"""
 
-        if 'customer_type' in data:
-            customer_type = data['costumer_type']
+        if 'customer_type' in attrs:
+            customer_type = attrs['customer_type']
         else:
             customer_type = self.instance.customer_type
 
         if customer_type == 'PF':
 
-            if 'document_number' in data:
+            if 'document_number' in attrs:
 
-                if not cpf_length_validate(data['document_number']):
+                if not cpf_length_validate(attrs['document_number']):
                     raise serializers.ValidationError(
                         {'document_number': 'O CPF deve ter 11 dígitos'}
                     )
 
-                if not cpf_check_digit_validate(data['document_number']):
+                if not cpf_check_digit_validate(attrs['document_number']):
                     raise serializers.ValidationError(
                         {'document_number': 'CPF inválido'}
                     )
 
-            if 'birthdate' in data:
+            if 'birthdate' in attrs:
 
-                if not birthdate_not_null(data['birthdate']):
+                if not birthdate_not_null(attrs['birthdate']):
                     raise serializers.ValidationError(
                         {
-                            'birthdate': 'Obrigatório preencher Data de Nascimento para Pessoas Físicas'
+                            'birthdate': 'Obrigatório preencher Data de Nascimento \
+                                para Pessoas Físicas'
                         }
                     )
 
         if customer_type == 'PJ':
 
-            if 'document_number' in data:
+            if 'document_number' in attrs:
 
-                if not cnpj_length_validate(data['document_number']):
+                if not cnpj_length_validate(attrs['document_number']):
                     raise serializers.ValidationError(
                         {'document_number': 'O CNPJ deve ter 14 dígitos'}
                     )
 
-                if not cnpj_check_digit_validate(data['document_number']):
+                if not cnpj_check_digit_validate(attrs['document_number']):
                     raise serializers.ValidationError(
                         {'document_number': 'CNPJ inválido'}
                     )
 
-            if 'birthdate' in data:
+            if 'birthdate' in attrs:
 
-                if birthdate_not_null(data['birthdate']):
+                if birthdate_not_null(attrs['birthdate']):
                     raise serializers.ValidationError(
                         {'birthdate': 'Pessoa Jurídica não deve ter Data de Nascimento'}
                     )
 
-        return data
+        return attrs

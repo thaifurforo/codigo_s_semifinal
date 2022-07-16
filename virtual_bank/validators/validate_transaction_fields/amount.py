@@ -1,4 +1,4 @@
-"""Module with the validators for the amount field from the Transaction serializer.
+"""Module that contains the validators for the amount field from the Transaction serializer.
 """
 
 

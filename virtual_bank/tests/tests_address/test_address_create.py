@@ -1,13 +1,22 @@
+"""Module that contains the TestAddressCreate Class.
+"""
+
+
 from django.test import TransactionTestCase
-from virtual_bank.models import Customer, Address
 from pycep_correios import get_address_from_cep, WebService
+from virtual_bank.models import Customer, Address
 
 
 class TestAddressCreate(TransactionTestCase):
+    """This Class sets tests for the creation of Address objects
+    """
+
     def setUp(self) -> None:
+        """This method sets up the tests for this Class
+        """
 
         # Given
-        customer = Customer.objects.create(
+        self.customer1 = Customer.objects.create(
             customer_type="PF",
             document_number="12345678909",
             name="Ciclano de Tal",
@@ -19,7 +28,7 @@ class TestAddressCreate(TransactionTestCase):
             complement=None,
         )
 
-        customer = Customer.objects.create(
+        self.customer2 = Customer.objects.create(
             customer_type="PJ",
             document_number="12345678000954",
             name="XPTO Ltda",
@@ -31,7 +40,7 @@ class TestAddressCreate(TransactionTestCase):
             complement=None,
         )
 
-        self.customer = Customer.objects.create(
+        self.customer3 = Customer.objects.create(
             customer_type="PF",
             document_number="98765432100",
             name="Fulano de Tal",
@@ -44,17 +53,35 @@ class TestAddressCreate(TransactionTestCase):
         )
 
     def test_address_created(self):
+        """This method tests if the street field on the created addresses
+        are being accessed correctly
+        """
 
         # When
-        address = Address.objects.get(zip_code=self.customer.zip_code)
-        zip_data = get_address_from_cep(
-            self.customer.zip_code, webservice=WebService.VIACEP
+        address1 = Address.objects.get(zip_code=self.customer1.zip_code)
+        zip_data1 = get_address_from_cep(
+            self.customer1.zip_code, webservice=WebService.VIACEP
+        )
+
+        address2 = Address.objects.get(zip_code=self.customer2.zip_code)
+        zip_data2 = get_address_from_cep(
+            self.customer2.zip_code, webservice=WebService.VIACEP
+        )
+
+        address3 = Address.objects.get(zip_code=self.customer3.zip_code)
+        zip_data3 = get_address_from_cep(
+            self.customer3.zip_code, webservice=WebService.VIACEP
         )
 
         # Then
-        self.assertEqual(address.street, zip_data['logradouro'])
+        self.assertEqual(address1.street, zip_data1['logradouro'])
+        self.assertEqual(address2.street, zip_data2['logradouro'])
+        self.assertEqual(address3.street, zip_data3['logradouro'])
 
     def test_multiple_addresses_created(self):
+        """This method tests if the addresses on the set up were created, noting
+        that the duplicate addresses should be instanced only once
+        """
 
         # When
         address_count = Address.objects.count()

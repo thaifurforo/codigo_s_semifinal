@@ -1,3 +1,6 @@
+"""This module sets the url paths for each app in the project
+"""
+
 from django.urls import include, path
 
 urlpatterns = [

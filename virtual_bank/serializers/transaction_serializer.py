@@ -1,6 +1,15 @@
+"""Module that contains the Transaction Model Serializer.
+"""
+
 from rest_framework import serializers
 from virtual_bank.models import Transaction
-from virtual_bank.validators import *
+from virtual_bank.validators import (transaction_decimals_validate,
+                                     transaction_date_more_recent_than_account_opening_date,
+                                     transaction_in_active_account,
+                                     credit_transactions_validation,
+                                     debit_transactions_validation,
+                                     not_credit_transactions_validation,
+                                     not_debit_transactions_validation)
 
 
 class TransactionSerializer(serializers.ModelSerializer):
@@ -31,85 +40,93 @@ class TransactionSerializer(serializers.ModelSerializer):
 
         return value
 
-    def validate(self, data):
+    def validate(self, attrs):
         """Validates multiple fields creation (transactions can't be updated)"""
 
         if self.context['request'].method == "POST":
 
             if not debit_transactions_validation(
-                data['transaction_type'], data['debit_account']
+                attrs['transaction_type'], attrs['debit_account']
             ):
                 raise serializers.ValidationError(
                     {
-                        'debit_account': 'É necessário informar uma conta para crédito do valor neste tipo de transação'
+                        'debit_account': 'É necessário informar uma conta para crédito \
+                            do valor neste tipo de transação'
                     }
                 )
 
             if not credit_transactions_validation(
-                data['transaction_type'], data['credit_account']
+                attrs['transaction_type'], attrs['credit_account']
             ):
                 raise serializers.ValidationError(
                     {
-                        'credit_account': 'É necessário informar uma conta para crédito do valor neste tipo de transação'
+                        'credit_account': 'É necessário informar uma conta para \
+                            crédito do valor neste tipo de transação'
                     }
                 )
 
             if not not_debit_transactions_validation(
-                data['transaction_type'], data['debit_account']
+                attrs['transaction_type'], attrs['debit_account']
             ):
                 raise serializers.ValidationError(
                     {
-                        'debit_account': 'Inválido informar uma conta de débito neste tipo de transação'
+                        'debit_account': 'Inválido informar uma conta de débito \
+                            neste tipo de transação'
                     }
                 )
 
             if not not_credit_transactions_validation(
-                data['transaction_type'], data['credit_account']
+                attrs['transaction_type'], attrs['credit_account']
             ):
                 raise serializers.ValidationError(
                     {
-                        'credit_account': 'Inválido informar uma conta de crédito neste tipo de transação'
+                        'credit_account': 'Inválido informar uma conta de crédito \
+                            neste tipo de transação'
                     }
                 )
 
-            if data['debit_account'] != None:
+            if attrs['debit_account'] is not None:
 
-                debit_account_opening_date = data['debit_account'].opening_date
+                debit_account_opening_date = attrs['debit_account'].opening_date
                 if not transaction_date_more_recent_than_account_opening_date(
-                    data['date'], debit_account_opening_date
+                    attrs['date'], debit_account_opening_date
                 ):
                     raise serializers.ValidationError(
                         {
-                            'date': f'Data da transação deve ser igual ou posterior à data de abertura da conta debitada: {debit_account_opening_date}'
+                            'date': f'Data da transação deve ser igual ou posterior \
+                                à data de abertura da conta debitada: {debit_account_opening_date}'
                         }
                     )
 
-                debit_account_active = data['debit_account'].active_account
+                debit_account_active = attrs['debit_account'].active_account
                 if not transaction_in_active_account(debit_account_active):
                     raise serializers.ValidationError(
                         {
-                            'credit_account': f'Não é possível realizar débito em conta já encerrada'
+                            'credit_account': 'Não é possível realizar débito \
+                                em conta já encerrada'
                         }
                     )
 
-            if data['credit_account'] != None:
+            if attrs['credit_account'] is not None:
 
-                credit_account_opening_date = data['credit_account'].opening_date
+                credit_account_opening_date = attrs['credit_account'].opening_date
                 if not transaction_date_more_recent_than_account_opening_date(
-                    data['date'], credit_account_opening_date
+                    attrs['date'], credit_account_opening_date
                 ):
                     raise serializers.ValidationError(
                         {
-                            'date': f'Data da transação deve ser igual ou posterior à data de abertura da conta creditada: {credit_account_opening_date}'
+                            'date': f'Data da transação deve ser igual ou posterior à data \
+                                de abertura da conta creditada: {credit_account_opening_date}'
                         }
                     )
 
-                credit_account_active = data['credit_account'].active_account
+                credit_account_active = attrs['credit_account'].active_account
                 if not transaction_in_active_account(credit_account_active):
                     raise serializers.ValidationError(
                         {
-                            'credit_account': f'Não é possível realizar crédito em conta já encerrada'
+                            'credit_account': 'Não é possível realizar crédito \
+                                em conta já encerrada'
                         }
                     )
 
-        return data
+        return attrs

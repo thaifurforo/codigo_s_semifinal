@@ -1,6 +1,8 @@
-from rest_framework import serializers
+"""Module that contains the Balance Model Serializer.
+"""
 
-from virtual_bank.models.balance_model import Balance
+from rest_framework import serializers
+from virtual_bank.models import Balance
 
 
 class BalanceSerializer(serializers.ModelSerializer):

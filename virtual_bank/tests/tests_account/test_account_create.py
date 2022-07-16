@@ -1,9 +1,17 @@
+"""Module that contains the TestAccountCreate Class.
+"""
+
 from django.test import TestCase
 from virtual_bank.models import Account, Customer
 
 
 class TestAccountCreate(TestCase):
+    """This Class sets tests for the creation of Account objects
+    """
+
     def setUp(self) -> None:
+        """This method sets up the tests for this Class
+        """
 
         # Given
         customer = Customer.objects.create(
@@ -18,14 +26,14 @@ class TestAccountCreate(TestCase):
             complement=None,
         )
 
-        account1 = Account.objects.create(
+        Account.objects.create(
             customer=customer,
             opening_date="2022-01-01",
             active_account=True,
             closure_date=None,
         )
 
-        account2 = Account.objects.create(
+        Account.objects.create(
             customer=customer,
             opening_date="2022-02-02",
             active_account=False,
@@ -33,6 +41,8 @@ class TestAccountCreate(TestCase):
         )
 
     def test_account_created(self):
+        """This method tests if the accounts on the set up were created
+        """
 
         # When
         accounts_count = Account.objects.count()
@@ -41,6 +51,9 @@ class TestAccountCreate(TestCase):
         self.assertEqual(accounts_count, 2)
 
     def test_account_active_account(self):
+        """This method tests if the active_account field on the created accounts
+        are being accessed correctly
+        """
 
         # When
         account1 = Account.objects.get(opening_date="2022-01-01")

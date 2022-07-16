@@ -1,4 +1,4 @@
-"""Module with the validators for the customer field from the Account serializer.
+"""Module that contains the validators for the customer field from the Account serializer.
 """
 
 

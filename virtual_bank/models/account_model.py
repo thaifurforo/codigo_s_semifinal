@@ -1,3 +1,6 @@
+"""Module that contains the Account Model Class.
+"""
+
 import random
 from django.utils import timezone
 from django.db import models
@@ -64,8 +67,9 @@ class Account(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        """This function overwrites the save function to make the necessaries calculations
-        to generate the account_number_no_cd, check_digit and account_number.
+        """This method overrides the save method from this Class to make the
+        necessaries calculations to generate the account_number_no_cd, check_digit
+        and account_number.
         """
 
         random.seed = self.id
@@ -79,9 +83,9 @@ class Account(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        """This function overwrites the __str__ function to determinate that the
-        representation of the account model in the graphic interfaces of the
-        application will be the account_number field.
+        """This method overrides the __str__ method for this Class to determinate
+        that the representation of the account model in the graphic interfaces
+        of the application will be the account_number field.
         """
 
         return self.account_number

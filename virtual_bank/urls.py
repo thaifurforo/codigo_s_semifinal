@@ -1,3 +1,7 @@
+"""This module sets the url paths for each ViewSet in the API, the admin site and
+the main path
+"""
+
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers

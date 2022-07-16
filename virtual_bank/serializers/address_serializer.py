@@ -1,5 +1,8 @@
+"""Module that contains the Address Model Serializer.
+"""
+
 from rest_framework import serializers
-from virtual_bank.models.address_model import Address
+from virtual_bank.models import Address
 
 
 class AddressSerializer(serializers.ModelSerializer):

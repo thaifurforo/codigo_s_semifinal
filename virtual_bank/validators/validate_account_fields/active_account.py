@@ -1,4 +1,4 @@
-"""Module with the validators for the active_account field from the Account serializer.
+"""Module that contains the validators for the active_account field from the Account serializer.
 """
 
 

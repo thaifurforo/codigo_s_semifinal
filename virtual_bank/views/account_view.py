@@ -1,3 +1,6 @@
+"""Module that contains the Account View Set.
+"""
+
 from rest_framework import viewsets, filters
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -7,10 +10,10 @@ from virtual_bank.serializers import AccountSerializer
 
 
 class AccountViewSet(viewsets.ModelViewSet):
-    """This class creates a ModelViewSet for the Account model.
+    """This class creates a ModelViewSet for the Account serializer.
 
     It allows the following http methods to be used on the requests for this view:
-    get, post put, patch, head, options.
+    get, post, put, patch, head, options.
     Therefore, it's not possible to delete an account. It can only be turn active
     or inactive (when closed).
 
@@ -18,14 +21,14 @@ class AccountViewSet(viewsets.ModelViewSet):
     active_accounts, then by opening_date, then by closure_date, and finally by
     account_number.
 
-    The serializer class used for this view is the AccountSerializer
+    The serializer class used for this view is the AccountSerializer.
 
     There are set some filters for this ViewSet:
     The data can be ordered by opening_date, closure_date, custommer or customer_name.
     The data can be searched by account_number.
     The data can be filtered by selecting if the active_account is True or False,
     by selecting a opening_date (exact, greater than or equal, less than or equal),
-    by selection a closure_date (exact, greater than or equal, less than or equal),
+    by selecting a closure_date (exact, greater than or equal, less than or equal),
     and/or by selecting a specific customer.
 
     The authentication for this ViewSet is BasicAuthentication, which means that the
@@ -61,7 +64,7 @@ class AccountViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_serializer(self, *args, **kwargs):
-        """Overwrites the get_serializer function for this ViewSet, whcih returns
+        """Overrides the get_serializer method for this ViewSet, which returns
         the serializer instance that should be used for validating and deserializing
         input, and for serializing output.
         Turns possible to make multiple POST requests at the same time, using an

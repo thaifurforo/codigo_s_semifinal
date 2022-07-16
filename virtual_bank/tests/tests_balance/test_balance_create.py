@@ -1,9 +1,18 @@
+"""Module that contains the TestBalanceCreate Class.
+"""
+
+
 from django.test import TestCase
 from virtual_bank.models import Account, Balance, Customer
 
 
 class TestBalanceCreate(TestCase):
+    """This Class sets tests for the creation of Balance objects
+    """
+
     def setUp(self) -> None:
+        """This method sets up the tests for this Class
+        """
 
         # Given
         customer = Customer.objects.create(
@@ -39,6 +48,9 @@ class TestBalanceCreate(TestCase):
         )
 
     def test_balance_created(self):
+        """This method tests if the balance field on the created balance
+        are being accessed correctly
+        """
 
         # When
         account = Account.objects.get(id=self.account1.id)
@@ -48,6 +60,8 @@ class TestBalanceCreate(TestCase):
         self.assertEqual(balance.balance, 0)
 
     def test_multiple_balances_created(self):
+        """This method tests if the Balance objects were all created successfully
+        """
 
         # When
         balance_count = Balance.objects.count()

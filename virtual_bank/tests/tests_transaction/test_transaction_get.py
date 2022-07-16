@@ -1,10 +1,19 @@
+"""Module that contains the TestTransactionGet Class.
+"""
+
 from django.contrib.auth.models import User
 from rest_framework.test import APITestCase
 from virtual_bank.models import Account, Customer, Transaction
 
 
 class TestTransactionGet(APITestCase):
+    """This Class sets tests for the GET request on Transaction objects
+    """
+
     def setUp(self) -> None:
+        """This method sets up the tests for this Class
+        """
+
         # Given
         customer = Customer.objects.create(
             customer_type="PF",
@@ -45,17 +54,23 @@ class TestTransactionGet(APITestCase):
         self.client.force_authenticate(user)
 
     def test_transaction_get_request_successful(self):
+        """This method tests if the transaction GET requests return a success response
+        """
 
         # When
-        response = self.client.get('/transaction/')
+        response = self.client.get('/v1/transaction/')
 
         # Then
         self.assertEqual(response.status_code, 200)
 
     def test_transaction_get_results_count(self):
+        """This method tests if the transaction GET requests return the correct
+        number of itens
+        """
 
         # When
-        transaction_get = self.client.get('/transaction/', format='json').data.items()
+        transaction_get = self.client.get(
+            '/v1/transaction/', format='json').data.items()
         get_dict = {}
         for key, values in transaction_get:
             get_dict[key] = values
@@ -64,6 +79,9 @@ class TestTransactionGet(APITestCase):
         self.assertEqual(get_dict['count'], 2)
 
     def test_transaction_get_amount(self):
+        """This method tests if the transaction GET requests return the correct
+        data on amount field
+        """
 
         # When
         transaction1_get = Transaction.objects.get(id=self.transaction1.id)
