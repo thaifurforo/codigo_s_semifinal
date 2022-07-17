@@ -383,9 +383,30 @@ Para utilização de múltiplos filtros, ordenações e/ou pesquisas, acrescenta
 
 #### Lista de ordenações de dados
 
+Para utilização de uma sequência de ordenações, separá-las com vírgula (ex.: ordering=customer,-closure_date)
 
+- Ordenação pela propriedade (**opening_date**) - Data de abertura da conta
+  - Ascendente
+    -  `ordering=opening_date`
+  - Descendente
+    -  `ordering=-opening_date`
+
+- Ordenação pela propriedade (**closure_date**) - data de enceramento da conta
+  - Ascendente
+    -  `ordering=closure_date`
+  - Descendente
+    -  `ordering=-closure_date`
+
+- Ordenação pela propriedade (**customer**) - ID do cliente
+  - Ascendente
+    -  `ordering=customer`
+  - Descendente
+    -  `ordering=-customer`
 
 #### Lista de pesquisas de dados
+
+- Route: `search=`
+  - Pesquisa pela propriedade (**account_number**)
 
 ### Filtros Transação
 
