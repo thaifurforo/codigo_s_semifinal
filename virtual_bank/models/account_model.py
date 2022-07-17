@@ -12,13 +12,9 @@ class Account(models.Model):
     """This class sets up the 'account' dataset model, composed by:
 
     account_number -> a unique and not editable CharField created by the junction
-    of the account_number_no_cd and the check_digit, connected with a '-'
-
-    account_number_no_cd -> a unique and not editable CharField generated randomly
-    using the account id (AutoField) as the seed
-
-    check_digit -> a not editable CharField generated using the create_check_digit_module_11
-    function, based on the account_number_no_cd
+    of the a generated randomly 6 digit number using the account id (AutoField) as the seed,
+    followed by a dash and a check digit, generated using the create_check_digit_module_11
+    function, based on the 6 previous digits
 
     customer -> a ForeignKey for the model class Customer, which refers to the account
     owner and is set to null if the customer's data is removed from the database (based
@@ -42,23 +38,11 @@ class Account(models.Model):
         editable=False,
         unique=True,
     )
-    account_number_no_cd = models.CharField(
-        unique=True,
-        verbose_name='Número da conta sem dígito verificador',
-        max_length=8,
-        default='',
-        editable=False,
-    )
-    check_digit = models.CharField(
-        verbose_name='Dígito verificador do número conta',
-        default='',
-        editable=False,
-        max_length=1,
-    )
     customer = models.ForeignKey(
         Customer, verbose_name='Cliente', on_delete=models.SET('Deleted Customer')
     )
-    active_account = models.BooleanField(verbose_name='Conta ativa', default=True)
+    active_account = models.BooleanField(
+        verbose_name='Conta ativa', default=True)
     opening_date = models.DateField(
         verbose_name='Data de abertura', default=timezone.now()
     )
@@ -68,18 +52,17 @@ class Account(models.Model):
 
     def save(self, *args, **kwargs):
         """This method overrides the save method from this Class to make the
-        necessaries calculations to generate the account_number_no_cd, check_digit
-        and account_number.
+        necessaries calculations to generate the account_number.
         """
 
         random.seed = self.id
-        self.account_number_no_cd = str(random.randint(1, 999999)).zfill(6)
-        self.check_digit = str(
+        account_number_no_cd = str(random.randint(1, 999999)).zfill(6)
+        check_digit = str(
             create_check_digit_module_11(
-                self.account_number_no_cd, [2, 3, 4, 5, 6, 7, 8, 9], reverse=True
+                account_number_no_cd, [9, 8, 7, 6, 5, 4]
             )
         )
-        self.account_number = f'{self.account_number_no_cd}-{self.check_digit}'
+        self.account_number = f'{account_number_no_cd}-{check_digit}'
         super().save(*args, **kwargs)
 
     def __str__(self):
