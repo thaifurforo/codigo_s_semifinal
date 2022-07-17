@@ -8,7 +8,7 @@ def inactive_account_if_closure_date_validate(
     """Checks if the client is trying to set a closure_date to an active account
 
     Args:
-        closure_date (date): Account's closure date set by the client
+        closure_date (datetime.date): Account's closure date set by the client
         active_account (bool): Account's active status set by the client
 
     Returns:
@@ -28,7 +28,7 @@ def closure_date_if_inactive_account_validate(
     informed a closure date
 
     Args:
-        closure_date (date): Account's closure date set by the client
+        closure_date (datetime.date): Account's closure date set by the client
         active_account (bool): Account's active status set by the client
 
     Returns:

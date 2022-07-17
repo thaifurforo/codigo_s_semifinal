@@ -9,8 +9,8 @@ def closure_date_more_recent_than_opening_date_validate(
     opening date
 
     Args:
-        closure_date (date): Account's closure date set by the client
-        opening_date (date): Account's opening date set by the client
+        closure_date (datetime.date): Account's closure date set by the client
+        opening_date (datetime.date): Account's opening date set by the client
 
     Returns:
         bool: Returns False if there is a closure_date set and it's less recent
@@ -28,9 +28,9 @@ def closure_date_more_recent_than_last_transaction_date(
     """_summary_
 
     Args:
-        last_credit_transaction_date (date): Account's last credit transaction date
-        last_debit_transaction_date (date): Account's last debit transaction date
-        closure_date (date): Account's closure date set by the client
+        last_credit_transaction_date (datetime.date): Account's last credit transaction date
+        last_debit_transaction_date (datetime.date): Account's last debit transaction date
+        closure_date (datetime.date): Account's closure date set by the client
 
     Returns:
         bool: Returns True if the closure date is more recent than the last debit

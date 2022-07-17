@@ -10,8 +10,8 @@ def transaction_date_more_recent_than_account_opening_date(
     dates before the account have been opened
 
     Args:
-        transaction_date (date): Transaction date set by the client
-        account_opening_date (date): Opening date of the Account object related
+        transaction_date (datetime.date): Transaction date set by the client
+        account_opening_date (datetime.date): Opening date of the Account object related
         to the transaction
 
     Returns:

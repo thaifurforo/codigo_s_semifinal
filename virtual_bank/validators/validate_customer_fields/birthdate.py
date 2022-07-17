@@ -8,7 +8,7 @@ def birthdate_not_null(birthdate) -> bool:
     juridical person (PJ)
 
     Args:
-        birthdate (date): Birthdate set by the client
+        birthdate (datetime.date): Birthdate set by the client
 
     Returns:
         bool: Returns True if the client informed a birthdate
