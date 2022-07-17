@@ -19,7 +19,7 @@ def transaction_date_more_recent_than_account_opening_date(
         than the Account's opening_date field
     """
 
-    return transaction_date > account_opening_date
+    return transaction_date >= account_opening_date
 
 
 def transaction_in_active_account(account_active: bool) -> bool:
