@@ -21,26 +21,6 @@ def inactive_account_if_closure_date_validate(
         return True
 
 
-def closure_date_if_inactive_account_validate(
-    closure_date, active_account: bool
-) -> bool:
-    """Checks if the client is trying to set a account status to inactive and haven't
-    informed a closure date
-
-    Args:
-        closure_date (datetime.date): Account's closure date set by the client
-        active_account (bool): Account's active status set by the client
-
-    Returns:
-        bool: Returns False if the account is inactive and there isn't a
-        closure_date different than null set by the client
-    """
-    if not active_account and closure_date == None:
-        return False
-    else:
-        return True
-
-
 def inactive_account_if_balance_zero(active_account: bool, balance: float) -> bool:
     """Checks if the client is trying to inactivate an account which balance
     isn't equal to 0, which shouldn't be possible

@@ -22,17 +22,3 @@ def transaction_date_more_recent_than_account_opening_date(
     return transaction_date >= account_opening_date
 
 
-def transaction_in_active_account(account_active: bool) -> bool:
-    """Checks if the client is trying to create a transaction for an Account which
-    has already been closed (innactive)
-
-    Args:
-        account_active (bool): Active status of the Account object related to the
-        transaction
-
-    Returns:
-        bool: Returns True if the Account object related to the transaction is
-        active
-    """
-
-    return account_active
