@@ -60,10 +60,15 @@ Para realizar a instalação das mesmas, em seu ambiente virtual, digite o coman
 
 ## Lista de Models
 - [Model com as propriedades do cliente](#cliente)
-- [Model com as propriedades dos endereços registrados](#endereço)
+- [Model com as propriedades do endereços](#endereço)
 - [Model com as propriedades da conta bancária](#conta)
 - [Model com as propriedades do saldo atual da conta bancária](#saldo)
 - [Model com as propriedades da transação bancária](#transação)
+
+## Lista de Validações
+- [Validações das propriedades do cliente](#validações-cliente) 
+- [Validações das propriedades da conta bancária](#validações-conta) 
+- [Validações das propriedades da transação](#validações-transação) 
 
 ## Models
 
@@ -164,3 +169,59 @@ o valor é atualizado sempre que uma nova transação é inserida, ou que uma tr
 [Transação](#transação), sendo somado valor do campo `amount` de todas as transações cujo campo `credit_account` seja igual à account referida neste model,
 subtraindo-se o valor do campo `amount` de todas as transações cujo campo `debit_account` seja igual à account referida neste model.
 
+## Validações
+
+### Validações Cliente
+
+#### Lista de validações
+- Validações da propriedade **customer_type**:
+  - Valor não pode ser nulo ou em branco
+  - Deverá ser uma das seguintes opções: "PF" ou "PJ"
+  - Limite máximo de caracteres: 2
+  
+- Validações da propriedade **document_number**:
+  - Valor não pode ser nulo ou em branco
+  - Deverá ser uma string composta somente de números
+  - Deverá ser único (não podem haver dois clientes com o mesmo document_number)
+  - Deverá ter um número exato de caracteres: 11 se o valor da propriedade `customer_type` for "PF", 14 se for "PJ"
+  - Os dois últimos dígitos deverão ser compatíveis com a equação dos dígitos verificadores estabelecida pela Receita Federal
+  
+- Validações da propriedade **name**:
+  - Valor não pode ser nulo ou em branco
+  - Deverá ter no mínimo 5 caracteres e no máximo 80 caracteres
+  
+- Validações da propriedade **phone_number**:
+  - Valor não poderá ser nulo ou em branco
+  - Para telefones fixos, deverá atender ao formato: "+00 00 0000-0000", sendo que o primeiro caractere da série de 4 dígitos antes do traço deverá estar entre 2 e 8
+  - Para telefones celulares, deverá atender ao formato: "+00 00000-0000", sendo que o primeiro caractere da série de 5 dígitos antes do traço deverá ser 9
+  - Limite máximo de caracteres: 17
+   
+- Validações da propriedade **email**:
+  - Valor não poderá ser nulo ou em branco
+  - Deverá ser um e-mail válido, contendo arroba e pelo menos um ponto após a arroba
+  - Limite máximo de caracteres: 50
+  
+- Validações da propriedade **birthdate**:
+  - Deverá ser uma data no formato: "AAAA-MM-DD"
+  - Valor não poderá ser nulo ou branco se o valor da propriedade `customer_type` for "PF"
+  - Valor deverá ser nulo se o valor da propriedade `customer_type` for "PJ"
+  
+- Validações da propriedade **zip_code**:
+  - Deverá atender ao formato: "00000-000"
+  - Deverá ser um CEP existente, com base em consulta no API VIACEP
+  - Limite máximo de caracteres: 9
+
+- Validações da propriedade **door_number**:
+  - Valor não poderá ser nulo ou branco
+  - Deverá ter entre 1 e 10 caracteres
+
+- Validações da propriedade **complement**:
+  - Limite máximo de caracteres: 30
+
+### Validações Conta
+
+#### Lista de validações
+
+### Validações Transação
+
+#### Lista de validações
