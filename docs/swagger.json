@@ -1,0 +1,1127 @@
+swagger: '2.0'
+info:
+  title: Virtual Bank API
+  description: "Virtual Bank REST API that makes possible to insert, update, consult\
+    \ and exclude the customers data (natural or juridical person) in the database;\
+    \ to create, update and consult the bank accounts data (including the current\
+    \ balance); and to insert, exclude and consult, including for specific periods,\
+    \ the transactions made by the accounts. It's also possible to consult all the\
+    \ accounts from one same customer, and all the transactions from one same account. "
+  contact:
+    email: thainaralf@gmail.com
+  version: v1
+host: 127.0.0.1:8000
+schemes:
+  - http
+basePath: /v1
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  Basic:
+    type: basic
+security:
+  - Basic: []
+paths:
+  /account/:
+    get:
+      operationId: account_list
+      summary: This class creates a ModelViewSet for the Account serializer.
+      description: |-
+        It allows the following http methods to be used on the requests for this view:
+        get, post, put, patch, head, options.
+        Therefore, it's not possible to delete an account. It can only be turn active
+        or inactive (when closed).
+
+        The queryset determinates that the Account objects will be shown first by
+        active_accounts, then by opening_date, then by closure_date, and finally by
+        account_number.
+
+        The serializer class used for this view is the AccountSerializer.
+
+        There are set some filters for this ViewSet:
+        The data can be ordered by opening_date, closure_date, custommer or customer_name.
+        The data can be searched by account_number.
+        The data can be filtered by selecting if the active_account is True or False,
+        by selecting a opening_date (exact, greater than or equal, less than or equal),
+        by selecting a closure_date (exact, greater than or equal, less than or equal),
+        and/or by selecting a specific customer or multiple customers in a list or range.
+
+        The authentication for this ViewSet is BasicAuthentication, which means that the
+        authentication is made through an user an password combination.
+        The permission class is IsAuthenticated, which means that it alows access to
+        any authenticated user, and denies access to any unauthenticated user.
+      parameters:
+        - name: active_account
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: opening_date__gte
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: opening_date__lte
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: opening_date
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: closure_date__gte
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: closure_date__lte
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: closure_date
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: customer
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: customer__in
+          in: query
+          description: Valores múltiplos podem ser separados por vírgulas.
+          required: false
+          type: string
+        - name: ordering
+          in: query
+          description: Which field to use when ordering the results.
+          required: false
+          type: string
+        - name: search
+          in: query
+          description: A search term.
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: A page number within the paginated result set.
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            required:
+              - count
+              - results
+            type: object
+            properties:
+              count:
+                type: integer
+              next:
+                type: string
+                format: uri
+                x-nullable: true
+              previous:
+                type: string
+                format: uri
+                x-nullable: true
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/Account'
+      tags:
+        - account
+    post:
+      operationId: account_create
+      summary: This class creates a ModelViewSet for the Account serializer.
+      description: |-
+        It allows the following http methods to be used on the requests for this view:
+        get, post, put, patch, head, options.
+        Therefore, it's not possible to delete an account. It can only be turn active
+        or inactive (when closed).
+
+        The queryset determinates that the Account objects will be shown first by
+        active_accounts, then by opening_date, then by closure_date, and finally by
+        account_number.
+
+        The serializer class used for this view is the AccountSerializer.
+
+        There are set some filters for this ViewSet:
+        The data can be ordered by opening_date, closure_date, custommer or customer_name.
+        The data can be searched by account_number.
+        The data can be filtered by selecting if the active_account is True or False,
+        by selecting a opening_date (exact, greater than or equal, less than or equal),
+        by selecting a closure_date (exact, greater than or equal, less than or equal),
+        and/or by selecting a specific customer or multiple customers in a list or range.
+
+        The authentication for this ViewSet is BasicAuthentication, which means that the
+        authentication is made through an user an password combination.
+        The permission class is IsAuthenticated, which means that it alows access to
+        any authenticated user, and denies access to any unauthenticated user.
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Account'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Account'
+      tags:
+        - account
+    parameters: []
+  /account/{id}/:
+    get:
+      operationId: account_read
+      summary: This class creates a ModelViewSet for the Account serializer.
+      description: |-
+        It allows the following http methods to be used on the requests for this view:
+        get, post, put, patch, head, options.
+        Therefore, it's not possible to delete an account. It can only be turn active
+        or inactive (when closed).
+
+        The queryset determinates that the Account objects will be shown first by
+        active_accounts, then by opening_date, then by closure_date, and finally by
+        account_number.
+
+        The serializer class used for this view is the AccountSerializer.
+
+        There are set some filters for this ViewSet:
+        The data can be ordered by opening_date, closure_date, custommer or customer_name.
+        The data can be searched by account_number.
+        The data can be filtered by selecting if the active_account is True or False,
+        by selecting a opening_date (exact, greater than or equal, less than or equal),
+        by selecting a closure_date (exact, greater than or equal, less than or equal),
+        and/or by selecting a specific customer or multiple customers in a list or range.
+
+        The authentication for this ViewSet is BasicAuthentication, which means that the
+        authentication is made through an user an password combination.
+        The permission class is IsAuthenticated, which means that it alows access to
+        any authenticated user, and denies access to any unauthenticated user.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Account'
+      tags:
+        - account
+    put:
+      operationId: account_update
+      summary: This class creates a ModelViewSet for the Account serializer.
+      description: |-
+        It allows the following http methods to be used on the requests for this view:
+        get, post, put, patch, head, options.
+        Therefore, it's not possible to delete an account. It can only be turn active
+        or inactive (when closed).
+
+        The queryset determinates that the Account objects will be shown first by
+        active_accounts, then by opening_date, then by closure_date, and finally by
+        account_number.
+
+        The serializer class used for this view is the AccountSerializer.
+
+        There are set some filters for this ViewSet:
+        The data can be ordered by opening_date, closure_date, custommer or customer_name.
+        The data can be searched by account_number.
+        The data can be filtered by selecting if the active_account is True or False,
+        by selecting a opening_date (exact, greater than or equal, less than or equal),
+        by selecting a closure_date (exact, greater than or equal, less than or equal),
+        and/or by selecting a specific customer or multiple customers in a list or range.
+
+        The authentication for this ViewSet is BasicAuthentication, which means that the
+        authentication is made through an user an password combination.
+        The permission class is IsAuthenticated, which means that it alows access to
+        any authenticated user, and denies access to any unauthenticated user.
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Account'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Account'
+      tags:
+        - account
+    patch:
+      operationId: account_partial_update
+      summary: This class creates a ModelViewSet for the Account serializer.
+      description: |-
+        It allows the following http methods to be used on the requests for this view:
+        get, post, put, patch, head, options.
+        Therefore, it's not possible to delete an account. It can only be turn active
+        or inactive (when closed).
+
+        The queryset determinates that the Account objects will be shown first by
+        active_accounts, then by opening_date, then by closure_date, and finally by
+        account_number.
+
+        The serializer class used for this view is the AccountSerializer.
+
+        There are set some filters for this ViewSet:
+        The data can be ordered by opening_date, closure_date, custommer or customer_name.
+        The data can be searched by account_number.
+        The data can be filtered by selecting if the active_account is True or False,
+        by selecting a opening_date (exact, greater than or equal, less than or equal),
+        by selecting a closure_date (exact, greater than or equal, less than or equal),
+        and/or by selecting a specific customer or multiple customers in a list or range.
+
+        The authentication for this ViewSet is BasicAuthentication, which means that the
+        authentication is made through an user an password combination.
+        The permission class is IsAuthenticated, which means that it alows access to
+        any authenticated user, and denies access to any unauthenticated user.
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Account'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Account'
+      tags:
+        - account
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this account.
+        required: true
+        type: integer
+  /account/{id}/transactions/:
+    get:
+      operationId: account_transactions_list
+      description: |-
+        This class creates a ListAPIView for the Transaction by Account serializer,
+        which filters all the Transaction objects for each Account.
+
+        It allows only the GET http methods to be used on the requests for this view.
+
+        The serializer class used for this view is the TransactionsByAccountSerializer.
+
+        The authentication for this ViewSet is BasicAuthentication, which means that the
+        authentication is made through an user an password combination.
+        The permission class is IsAuthenticated, which means that it alows access to
+        any authenticated user, and denies access to any unauthenticated user.
+      parameters:
+        - name: page
+          in: query
+          description: A page number within the paginated result set.
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            required:
+              - count
+              - results
+            type: object
+            properties:
+              count:
+                type: integer
+              next:
+                type: string
+                format: uri
+                x-nullable: true
+              previous:
+                type: string
+                format: uri
+                x-nullable: true
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/TransactionsByAccount'
+      tags:
+        - account
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+  /customer/:
+    get:
+      operationId: customer_list
+      summary: This class creates a ModelViewSet for the Customer serializer.
+      description: |-
+        It allows all of the http methods to be used on the requests for this view.
+
+        The queryset determinates that the Customer objects will be shown first by id.
+
+        The serializer class used for this view is the CustomerSerializer.
+
+        There are set some filters for this ViewSet:
+        The data can be ordered by name.
+        The data can be searched by name and document_number.
+        The data can be filtered by selecting the customer_type ('PF' or 'PJ'), by
+        setting characters contained on the name field, and/or by selecting a birthdate
+        (exact, greater than or equal, less than or equal).
+
+        The authentication for this ViewSet is BasicAuthentication, which means that the
+        authentication is made through an user an password combination.
+        The permission class is IsAuthenticated, which means that it alows access to
+        any authenticated user, and denies access to any unauthenticated user.
+      parameters:
+        - name: name__icontains
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: customer_type
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: birthdate
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: birthdate__gte
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: birthdate__lte
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: ordering
+          in: query
+          description: Which field to use when ordering the results.
+          required: false
+          type: string
+        - name: search
+          in: query
+          description: A search term.
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: A page number within the paginated result set.
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            required:
+              - count
+              - results
+            type: object
+            properties:
+              count:
+                type: integer
+              next:
+                type: string
+                format: uri
+                x-nullable: true
+              previous:
+                type: string
+                format: uri
+                x-nullable: true
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/Customer'
+      tags:
+        - customer
+    post:
+      operationId: customer_create
+      summary: This class creates a ModelViewSet for the Customer serializer.
+      description: |-
+        It allows all of the http methods to be used on the requests for this view.
+
+        The queryset determinates that the Customer objects will be shown first by id.
+
+        The serializer class used for this view is the CustomerSerializer.
+
+        There are set some filters for this ViewSet:
+        The data can be ordered by name.
+        The data can be searched by name and document_number.
+        The data can be filtered by selecting the customer_type ('PF' or 'PJ'), by
+        setting characters contained on the name field, and/or by selecting a birthdate
+        (exact, greater than or equal, less than or equal).
+
+        The authentication for this ViewSet is BasicAuthentication, which means that the
+        authentication is made through an user an password combination.
+        The permission class is IsAuthenticated, which means that it alows access to
+        any authenticated user, and denies access to any unauthenticated user.
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Customer'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Customer'
+      tags:
+        - customer
+    parameters: []
+  /customer/{id}/:
+    get:
+      operationId: customer_read
+      summary: This class creates a ModelViewSet for the Customer serializer.
+      description: |-
+        It allows all of the http methods to be used on the requests for this view.
+
+        The queryset determinates that the Customer objects will be shown first by id.
+
+        The serializer class used for this view is the CustomerSerializer.
+
+        There are set some filters for this ViewSet:
+        The data can be ordered by name.
+        The data can be searched by name and document_number.
+        The data can be filtered by selecting the customer_type ('PF' or 'PJ'), by
+        setting characters contained on the name field, and/or by selecting a birthdate
+        (exact, greater than or equal, less than or equal).
+
+        The authentication for this ViewSet is BasicAuthentication, which means that the
+        authentication is made through an user an password combination.
+        The permission class is IsAuthenticated, which means that it alows access to
+        any authenticated user, and denies access to any unauthenticated user.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Customer'
+      tags:
+        - customer
+    put:
+      operationId: customer_update
+      summary: This class creates a ModelViewSet for the Customer serializer.
+      description: |-
+        It allows all of the http methods to be used on the requests for this view.
+
+        The queryset determinates that the Customer objects will be shown first by id.
+
+        The serializer class used for this view is the CustomerSerializer.
+
+        There are set some filters for this ViewSet:
+        The data can be ordered by name.
+        The data can be searched by name and document_number.
+        The data can be filtered by selecting the customer_type ('PF' or 'PJ'), by
+        setting characters contained on the name field, and/or by selecting a birthdate
+        (exact, greater than or equal, less than or equal).
+
+        The authentication for this ViewSet is BasicAuthentication, which means that the
+        authentication is made through an user an password combination.
+        The permission class is IsAuthenticated, which means that it alows access to
+        any authenticated user, and denies access to any unauthenticated user.
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Customer'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Customer'
+      tags:
+        - customer
+    patch:
+      operationId: customer_partial_update
+      summary: This class creates a ModelViewSet for the Customer serializer.
+      description: |-
+        It allows all of the http methods to be used on the requests for this view.
+
+        The queryset determinates that the Customer objects will be shown first by id.
+
+        The serializer class used for this view is the CustomerSerializer.
+
+        There are set some filters for this ViewSet:
+        The data can be ordered by name.
+        The data can be searched by name and document_number.
+        The data can be filtered by selecting the customer_type ('PF' or 'PJ'), by
+        setting characters contained on the name field, and/or by selecting a birthdate
+        (exact, greater than or equal, less than or equal).
+
+        The authentication for this ViewSet is BasicAuthentication, which means that the
+        authentication is made through an user an password combination.
+        The permission class is IsAuthenticated, which means that it alows access to
+        any authenticated user, and denies access to any unauthenticated user.
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Customer'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Customer'
+      tags:
+        - customer
+    delete:
+      operationId: customer_delete
+      summary: This class creates a ModelViewSet for the Customer serializer.
+      description: |-
+        It allows all of the http methods to be used on the requests for this view.
+
+        The queryset determinates that the Customer objects will be shown first by id.
+
+        The serializer class used for this view is the CustomerSerializer.
+
+        There are set some filters for this ViewSet:
+        The data can be ordered by name.
+        The data can be searched by name and document_number.
+        The data can be filtered by selecting the customer_type ('PF' or 'PJ'), by
+        setting characters contained on the name field, and/or by selecting a birthdate
+        (exact, greater than or equal, less than or equal).
+
+        The authentication for this ViewSet is BasicAuthentication, which means that the
+        authentication is made through an user an password combination.
+        The permission class is IsAuthenticated, which means that it alows access to
+        any authenticated user, and denies access to any unauthenticated user.
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+        - customer
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this customer.
+        required: true
+        type: integer
+  /customer/{id}/accounts/:
+    get:
+      operationId: customer_accounts_list
+      description: |-
+        This class creates a ListAPIView for the Account by Customer serializer,
+        which filters all the Accounts objects for each Customer.
+
+        It allows only the GET http methods to be used on the requests for this view.
+
+        The serializer class used for this view is the AccountsByCustomerSerializer.
+
+        The authentication for this ViewSet is BasicAuthentication, which means that the
+        authentication is made through an user an password combination.
+        The permission class is IsAuthenticated, which means that it alows access to
+        any authenticated user, and denies access to any unauthenticated user.
+      parameters:
+        - name: page
+          in: query
+          description: A page number within the paginated result set.
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            required:
+              - count
+              - results
+            type: object
+            properties:
+              count:
+                type: integer
+              next:
+                type: string
+                format: uri
+                x-nullable: true
+              previous:
+                type: string
+                format: uri
+                x-nullable: true
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/AccountsByCustomer'
+      tags:
+        - customer
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+  /transaction/:
+    get:
+      operationId: transaction_list
+      summary: This class creates a ModelViewSet for the Transaction serializer.
+      description: |-
+        It allows the following http methods to be used on the requests for this view:
+        get, post, delete, head, options.
+        Therefore, it's not possible to update an transaction after it was already created.
+        It's only possible to delete it and create another, if needed.
+
+        The queryset determinates that the Transaction objects will be shown first by
+        date, then by debit_account, then by credit_account, and finally by
+        transaction_type.
+
+        The serializer class used for this view is the TransactionSerializer.
+
+        There are set some filters for this ViewSet:
+        The data can be ordered by date or amount.
+        The data can be searched by debit_account, credit_account or transaction_type.
+        The data can be filtered by selecting the transaction_type, by selecting the
+        date (exact, greater than or equal, less than or equal), by selecting the amount
+        (exact, greater than or equal, less than or equal), by selecting a specific
+        debit_account and/or by selecting a specific credit_account.
+
+        The authentication for this ViewSet is BasicAuthentication, which means that the
+        authentication is made through an user an password combination.
+        The permission class is IsAuthenticated, which means that it alows access to
+        any authenticated user, and denies access to any unauthenticated user.
+      parameters:
+        - name: transaction_type
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: date__gte
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: date__lte
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: date
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: amount__gte
+          in: query
+          description: ''
+          required: false
+          type: number
+        - name: amount__lte
+          in: query
+          description: ''
+          required: false
+          type: number
+        - name: amount
+          in: query
+          description: ''
+          required: false
+          type: number
+        - name: debit_account
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: credit_account
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: ordering
+          in: query
+          description: Which field to use when ordering the results.
+          required: false
+          type: string
+        - name: search
+          in: query
+          description: A search term.
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: A page number within the paginated result set.
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            required:
+              - count
+              - results
+            type: object
+            properties:
+              count:
+                type: integer
+              next:
+                type: string
+                format: uri
+                x-nullable: true
+              previous:
+                type: string
+                format: uri
+                x-nullable: true
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/Transaction'
+      tags:
+        - transaction
+    post:
+      operationId: transaction_create
+      summary: This class creates a ModelViewSet for the Transaction serializer.
+      description: |-
+        It allows the following http methods to be used on the requests for this view:
+        get, post, delete, head, options.
+        Therefore, it's not possible to update an transaction after it was already created.
+        It's only possible to delete it and create another, if needed.
+
+        The queryset determinates that the Transaction objects will be shown first by
+        date, then by debit_account, then by credit_account, and finally by
+        transaction_type.
+
+        The serializer class used for this view is the TransactionSerializer.
+
+        There are set some filters for this ViewSet:
+        The data can be ordered by date or amount.
+        The data can be searched by debit_account, credit_account or transaction_type.
+        The data can be filtered by selecting the transaction_type, by selecting the
+        date (exact, greater than or equal, less than or equal), by selecting the amount
+        (exact, greater than or equal, less than or equal), by selecting a specific
+        debit_account and/or by selecting a specific credit_account.
+
+        The authentication for this ViewSet is BasicAuthentication, which means that the
+        authentication is made through an user an password combination.
+        The permission class is IsAuthenticated, which means that it alows access to
+        any authenticated user, and denies access to any unauthenticated user.
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Transaction'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Transaction'
+      tags:
+        - transaction
+    parameters: []
+  /transaction/{id}/:
+    get:
+      operationId: transaction_read
+      summary: This class creates a ModelViewSet for the Transaction serializer.
+      description: |-
+        It allows the following http methods to be used on the requests for this view:
+        get, post, delete, head, options.
+        Therefore, it's not possible to update an transaction after it was already created.
+        It's only possible to delete it and create another, if needed.
+
+        The queryset determinates that the Transaction objects will be shown first by
+        date, then by debit_account, then by credit_account, and finally by
+        transaction_type.
+
+        The serializer class used for this view is the TransactionSerializer.
+
+        There are set some filters for this ViewSet:
+        The data can be ordered by date or amount.
+        The data can be searched by debit_account, credit_account or transaction_type.
+        The data can be filtered by selecting the transaction_type, by selecting the
+        date (exact, greater than or equal, less than or equal), by selecting the amount
+        (exact, greater than or equal, less than or equal), by selecting a specific
+        debit_account and/or by selecting a specific credit_account.
+
+        The authentication for this ViewSet is BasicAuthentication, which means that the
+        authentication is made through an user an password combination.
+        The permission class is IsAuthenticated, which means that it alows access to
+        any authenticated user, and denies access to any unauthenticated user.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Transaction'
+      tags:
+        - transaction
+    delete:
+      operationId: transaction_delete
+      summary: This class creates a ModelViewSet for the Transaction serializer.
+      description: |-
+        It allows the following http methods to be used on the requests for this view:
+        get, post, delete, head, options.
+        Therefore, it's not possible to update an transaction after it was already created.
+        It's only possible to delete it and create another, if needed.
+
+        The queryset determinates that the Transaction objects will be shown first by
+        date, then by debit_account, then by credit_account, and finally by
+        transaction_type.
+
+        The serializer class used for this view is the TransactionSerializer.
+
+        There are set some filters for this ViewSet:
+        The data can be ordered by date or amount.
+        The data can be searched by debit_account, credit_account or transaction_type.
+        The data can be filtered by selecting the transaction_type, by selecting the
+        date (exact, greater than or equal, less than or equal), by selecting the amount
+        (exact, greater than or equal, less than or equal), by selecting a specific
+        debit_account and/or by selecting a specific credit_account.
+
+        The authentication for this ViewSet is BasicAuthentication, which means that the
+        authentication is made through an user an password combination.
+        The permission class is IsAuthenticated, which means that it alows access to
+        any authenticated user, and denies access to any unauthenticated user.
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+        - transaction
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this transaction.
+        required: true
+        type: integer
+definitions:
+  Account:
+    required:
+      - customer
+    type: object
+    properties:
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      account_number:
+        title: Número da conta
+        type: string
+        readOnly: true
+        minLength: 1
+      customer:
+        title: Cliente
+        type: integer
+      customer_document:
+        title: Customer document
+        type: string
+        readOnly: true
+        minLength: 1
+      customer_name:
+        title: Customer name
+        type: string
+        readOnly: true
+        minLength: 1
+      opening_date:
+        title: Data de abertura
+        type: string
+        format: date
+      active_account:
+        title: Conta ativa
+        type: boolean
+      closure_date:
+        title: Data de encerramento
+        type: string
+        format: date
+        x-nullable: true
+      balance:
+        title: Balance
+        type: string
+        readOnly: true
+  TransactionsByAccount:
+    type: object
+    properties:
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      transaction_type:
+        title: Tipo de transação
+        type: string
+        enum:
+          - TI
+          - TE
+          - DE
+          - RE
+          - PG
+          - SQ
+      date:
+        title: Data
+        type: string
+        format: date
+      amount:
+        title: Valor da transação
+        type: number
+      debit_account:
+        title: Conta debitada
+        type: integer
+        x-nullable: true
+      credit_account:
+        title: Conta creditada
+        type: integer
+        x-nullable: true
+  Customer:
+    required:
+      - zip_code
+    type: object
+    properties:
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      customer_type:
+        title: Tipo de cliente
+        type: string
+        enum:
+          - PF
+          - PJ
+      document_number:
+        title: CPF/CNPJ
+        description: Somente números
+        type: string
+        pattern: '[0-9]{11,14}'
+        maxLength: 14
+        minLength: 1
+      name:
+        title: Nome completo ou Razão social
+        type: string
+        maxLength: 80
+        minLength: 1
+      phone_number:
+        title: Telefone
+        description: 'Formato: +DI DD 00000-0000'
+        type: string
+        pattern: \+[0-9]{2} [0-9]{2} (?:[2-8]|9[1-9])[0-9]{3}-[0-9]{4}
+        maxLength: 20
+        minLength: 1
+      email:
+        title: E-mail
+        type: string
+        maxLength: 50
+        minLength: 1
+      birthdate:
+        title: Data de nascimento
+        type: string
+        format: date
+        x-nullable: true
+      zip_code:
+        title: CEP
+        description: 'Formato: 00000-000'
+        type: string
+        pattern: '[0-9]{5}-[0-9]{3}'
+        maxLength: 9
+        minLength: 1
+      city:
+        title: City
+        type: string
+        readOnly: true
+      district:
+        title: District
+        type: string
+        readOnly: true
+      neighborhood:
+        title: Neighborhood
+        type: string
+        readOnly: true
+      street:
+        title: Street
+        type: string
+        readOnly: true
+      door_number:
+        title: Número (endereço)
+        type: string
+        maxLength: 10
+        minLength: 1
+      complement:
+        title: Complemento (endereço)
+        type: string
+        maxLength: 30
+        x-nullable: true
+  AccountsByCustomer:
+    type: object
+    properties:
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      account_number:
+        title: Número da conta
+        type: string
+        readOnly: true
+        minLength: 1
+      active_account:
+        title: Conta ativa
+        type: boolean
+      opening_date:
+        title: Data de abertura
+        type: string
+        format: date
+      closure_date:
+        title: Data de encerramento
+        type: string
+        format: date
+        x-nullable: true
+      balance:
+        title: Balance
+        type: string
+        readOnly: true
+  Transaction:
+    type: object
+    properties:
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      transaction_type:
+        title: Tipo de transação
+        type: string
+        enum:
+          - TI
+          - TE
+          - DE
+          - RE
+          - PG
+          - SQ
+      date:
+        title: Data
+        type: string
+        format: date
+      amount:
+        title: Valor da transação
+        type: number
+      debit_account:
+        title: Conta debitada
+        type: integer
+        x-nullable: true
+      credit_account:
+        title: Conta creditada
+        type: integer
+        x-nullable: true
