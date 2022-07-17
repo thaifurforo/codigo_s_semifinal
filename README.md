@@ -118,8 +118,7 @@ Porém, elas podem ser "encerradas", através da atualização do valor do campo
 #### Lista de propriedades
 
 - id **(integer)**: ID gerado automaticamente para cada conta bancária.
-- account_number **(string)**: Número da conta gerado automaticamente de forma aleatória, utilizando o valor do campo ID como seed. É acrescentado ao número,
-ainda, um dígito verificador calculado com base na equação do Módulo 11, com pesos: 9, 8, 7, 6, 5, 4.
+- account_number **(string)**: Número da conta gerado automaticamente de forma aleatória, com 6 dígitos, utilizando o valor do campo ID como seed. É acrescentado ao número, ainda, após um traço, um dígito verificador calculado com base na equação do Módulo 11, com pesos: 9, 8, 7, 6, 5, 4.
 - customer **(integer)**: Obrigatório. Foreign Key que se refere ao cliente vinculado à conta bancária, através do ID do model [Cliente](#cliente).
 - active_account **(boolean)**: Obrigatório. Status da conta, sendo verdadeiro (True) se a conta estiver ativa e falso (False) se a conta tiver sido encerrada.
 - opening_date **(datetime.date)**: Obrigatório. Data de abertura da conta bancária. Após a criação da conta, não é possível alterar este dado.
