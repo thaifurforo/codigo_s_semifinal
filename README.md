@@ -88,6 +88,8 @@ O model `Customer` disponibiliza, em suas propriedades, informações de um clie
 Ao ser serializado, é possível inserir novos clientes, realizar atualizações nos dados dos clientes já existentes,
 consultar os clientes e excluí-los, considerando as normas da LGPD.
 
+Pode ser acessado pela rota: `/v1/customer/`.
+
 #### Lista de propriedades
 
 - id **(integer)**: ID gerado automaticamente para cada cliente. Chave primária do model.
@@ -110,7 +112,7 @@ Toda vez que um novo CEP é inserido, é realizado uma consulta. Caso o mesmo j�
 Caso contrário, é realizada automaticamente uma consulta pelo API VIACEP dos demais campos do endereço ao qual o CEP se refere,
 e os mesmos são registrados no banco de dados do modelo.
 
-Não há View para este model, pois os dados serializados são visualizados juntamente aos do model [Cliente](#cliente) nas requisições GET.
+Não há visualização para este model, pois os dados serializados são visualizados juntamente aos do model [Cliente](#cliente) nas requisições GET.
 
 #### Lista de propriedades
 
@@ -129,6 +131,9 @@ Ao ser serializado, é possível criar novas contas bancárias, realizar atualiz
 Não é possível excluí-las, pois isto acarretaria em um problema nos registros das transações, que devem ser arquivados por motivos de segurança e regulamentação.
 Porém, elas podem ser "encerradas", através da atualização do valor do campo `active_account` para `False`.
 
+Pode ser acessado pela rota: `/v1/account/`.
+Também podem ser verificadas todas as contas de um mesmo cliente, pela rota: `/v1/customer/<id>/accounts/`.
+
 #### Lista de propriedades
 
 - id **(integer)**: ID gerado automaticamente para cada conta bancária. Chave primária do model.
@@ -145,6 +150,9 @@ O model `Transaction` disponibiliza, em suas propriedades, informações das tra
 Ao ser serializado, é possível criar e excluir transações, e consultar as já existentes. No entanto, não é possível realizar modificações em uma transação
 já existente, tendo em vista que não deve haver a possibilidade de um cliente editar uma transação após a mesma ter sido agendada ou efetivada. No entanto,
 há a possibilidade de exclusão, em casos de agendamento, ou em casos de estorno por exemplo.
+
+Pode ser acessado pela rota: `/v1/transaction/`.
+Também podem ser verificadas todas as contas de um mesmo cliente, pela rota: `/v1/account/<id>/transactions/`.
 
 #### Lista de propriedades
 
@@ -167,7 +175,7 @@ O model `Balance` disponibiliza, em suas propriedades, informações sobre o sal
 
 Este model é instanciado automaticamente toda vez que uma instância do model [Conta](#conta) é criada.
 
-Não há View para este model, pois os dados serializados são visualizados juntamente aos do model [Conta](#conta) nas requisições GET.
+Não há visualizações para este model, pois os dados serializados são visualizados juntamente aos do model [Conta](#conta) nas requisições GET.
 
 #### Lista de propriedades
 
@@ -301,7 +309,33 @@ Validações do model [Transação](#transação) e suas serializações.
 
 Filtros, ordenação e pesquisa de dados que podem ser realizados na visualização do model [Cliente](#cliente).
 
+Para utilização dos filtros, ordenações e pesquisas, acrescentar `?` seguida da route do filtro desejado, após a route `/v1/account/`.
+
+Para utilização de múltiplos filtros, ordenações e/ou pesquisas, acrescentar `&` entre as routes dos filtros desejados.
+
 #### Lista de filtros
+
+- Conta ativa (**active_account**) (`true` ou `false`)
+  - Route: `active_account=`
+ 
+- Data de abertura (**opening_date**) é maior ou igual a
+  - Route: `opening_date__gte=`
+- Data de abertura (**opening_date**) é menor ou igual a
+  - Route: `opening_date__lte=`
+- Data de abertura (**opening_date**) é igual a
+  - Route: `opening_date=`
+  
+- Data de encerramento (**closure_date**) é maior ou igual a
+  - Route: `opening_date__gte=`
+- Data de encerramento (**closure_date**) é menor ou igual a
+  - Route: `opening_date__lte=`
+- Data de encerramento (**closure_date**) é igual a
+  - Route: `opening_date=`
+ 
+- ID do cliente (**customer**)
+  - Route `customer=`
+- Lista de IDs dos clientes (**customer**) separados por vírgula
+  - Route `customer__in=`
 
 #### Lista de ordenações de dados
 
