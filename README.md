@@ -309,45 +309,81 @@ Validações do model [Transação](#transação) e suas serializações.
 
 Filtros, ordenação e pesquisa de dados que podem ser realizados na visualização do model [Cliente](#cliente).
 
-Para utilização dos filtros, ordenações e pesquisas, acrescentar `?` seguida da route do filtro desejado, após a route `/v1/account/`.
+Para utilização dos filtros, ordenações e pesquisas, acrescentar a route do filtro desejado, após `/v1/customer/?`.
 
 Para utilização de múltiplos filtros, ordenações e/ou pesquisas, acrescentar `&` entre as routes dos filtros desejados.
 
 #### Lista de filtros
 
-- Conta ativa (**active_account**) (`true` ou `false`)
-  - Route: `active_account=`
- 
-- Data de abertura (**opening_date**) é maior ou igual a
-  - Route: `opening_date__gte=`
-- Data de abertura (**opening_date**) é menor ou igual a
-  - Route: `opening_date__lte=`
-- Data de abertura (**opening_date**) é igual a
-  - Route: `opening_date=`
-  
-- Data de encerramento (**closure_date**) é maior ou igual a
-  - Route: `opening_date__gte=`
-- Data de encerramento (**closure_date**) é menor ou igual a
-  - Route: `opening_date__lte=`
-- Data de encerramento (**closure_date**) é igual a
-  - Route: `opening_date=`
- 
-- ID do cliente (**customer**)
-  - Route `customer=`
-- Lista de IDs dos clientes (**customer**) separados por vírgula
-  - Route `customer__in=`
+- Filtros da propriedade (**name**):
+  - Nome completo ou razão social contém
+    - Route: `name__icontains=`
+
+- Filtros da propriedade (**customer_type**)
+  - Tipo de cliente (_PF_ ou _PJ_)
+    - Route: `customer_type=`
+
+- Filtros da propriedade (**birthdate**)
+  - Data de nascimento é maior ou igual a
+    - Route: `birthdate__gte=`
+  - Data de nascimento é menor ou igual a
+    - Route: `birthdate_date__lte=`
+  - Data de nascimento é igual a
+    - Route: `birthdate=`
 
 #### Lista de ordenações de dados
 
+- Ordenação pela propriedade (**name**)
+  - Ascendente
+    -  `ordering=name`
+  - Descendente
+    -  `ordering=-name`
+
 #### Lista de pesquisas de dados
+
+- Route: `search=`
+  - Pesquisa pela propriedade (**name**)
+  - Pesquisa pela propriedade (**document_number**)
 
 ### Filtros Conta
 
 Filtros, ordenação e pesquisa de dados que podem ser realizados na visualização do model [Conta](#conta).
 
+Para utilização dos filtros, ordenações e pesquisas, acrescentar a route do filtro desejado, após `/v1/customer/?`.
+
+Para utilização de múltiplos filtros, ordenações e/ou pesquisas, acrescentar `&` entre as routes dos filtros desejados.
+
 #### Lista de filtros
 
+- Filtros da propriedade (**active_account**):
+  - Conta ativa (_true_ ou _false_)
+    - Route: `active_account=`
+
+- Filtros da propriedade (**opening_date**)
+  - Data de abertura é maior ou igual a
+    - Route: `opening_date__gte=`
+  - Data de abertura é menor ou igual a
+    - Route: `opening_date__lte=`
+  - Data de abertura é igual a
+    - Route: `opening_date=`
+
+- Filtros da propriedade (**closure_date**)
+  - Data de encerramento é maior ou igual a
+    - Route: `opening_date__gte=`
+  - Data de encerramento é menor ou igual a
+    - Route: `opening_date__lte=`
+  - Data de encerramento é igual a
+    - Route: `opening_date=`
+
+- Filtros da propriedade (**customer**)
+  - ID do cliente 
+    - Route `customer=`
+  - Lista de IDs dos clientes separados por vírgula
+    - Route `customer__in=`
+
 #### Lista de ordenações de dados
+
+
 
 #### Lista de pesquisas de dados
 
