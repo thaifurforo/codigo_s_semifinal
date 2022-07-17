@@ -173,6 +173,8 @@ subtraindo-se o valor do campo `amount` de todas as transações cujo campo `deb
 
 ### Validações Cliente
 
+Validações do model [Cliente](#cliente) e suas serializações.
+
 #### Lista de validações
 - Validações da propriedade **customer_type**:
   - Valor não pode ser nulo ou em branco
@@ -182,7 +184,7 @@ subtraindo-se o valor do campo `amount` de todas as transações cujo campo `deb
 - Validações da propriedade **document_number**:
   - Valor não pode ser nulo ou em branco
   - Deverá ser uma string composta somente de números
-  - Deverá ser único (não podem haver dois clientes com o mesmo document_number)
+  - Deverá ser único (não pode haver dois clientes com o mesmo `document_number`)
   - Deverá ter um número exato de caracteres: 11 se o valor da propriedade `customer_type` for "PF", 14 se for "PJ"
   - Os dois últimos dígitos deverão ser compatíveis com a equação dos dígitos verificadores estabelecida pela Receita Federal
   
@@ -198,13 +200,13 @@ subtraindo-se o valor do campo `amount` de todas as transações cujo campo `deb
    
 - Validações da propriedade **email**:
   - Valor não poderá ser nulo ou em branco
-  - Deverá ser um e-mail válido, contendo arroba e pelo menos um ponto após a arroba
+  - Deverá ser um endereço de e-mail válido, contendo arroba e pelo menos um ponto após a arroba
   - Limite máximo de caracteres: 50
   
 - Validações da propriedade **birthdate**:
   - Deverá ser uma data no formato: "AAAA-MM-DD"
-  - Valor não poderá ser nulo ou branco se o valor da propriedade `customer_type` for "PF"
-  - Valor deverá ser nulo se o valor da propriedade `customer_type` for "PJ"
+  - Valor não poderá ser nulo ou branco se o valor da propriedade `customer_type` for "PF", ou seja, todos os clientes "pessoa física" devem ter uma data de nascimento informada
+  - Valor deverá ser nulo se o valor da propriedade `customer_type` for "PJ", ou seja, os clientes "pessoa jurídica" não devem ter uma data de nascimento informada
   
 - Validações da propriedade **zip_code**:
   - Deverá atender ao formato: "00000-000"
@@ -220,7 +222,39 @@ subtraindo-se o valor do campo `amount` de todas as transações cujo campo `deb
 
 ### Validações Conta
 
+Validações do model [Conta](#conta) e suas serializações.
+
 #### Lista de validações
+- Validações da propriedade **account_number*:
+  - Valor não poderá ser nulo ou em branco
+  - Deverá ser único (não pode haver duas contas com o mesmo `account_number`)
+  - Limite de caracteres: 8
+  
+- Validações da propriedade **customer**:
+  - Valor não poderá ser nulo ou em branco (exceto nos casos em que o objeto `Customer` vinculado for excluído após a criação da conta)
+  - Deverá ser um valor inteiro referente
+  - Deverá se referir a um ID de um cliente existente entre os objetos da classe `Customer`
+  - Não poderá ser alterado após a criação da conta
+  
+- Validações da propriedade **active_acount**:
+  - Valor não poderá ser nulo ou em branco
+  - Não poderá ser `true` se houver valor diferente de `null` na propriedade `closure_date`, ou seja, a conta não poderá estar ativa se houver uma data de encerramento
+  - Não poderá ser `false` se a propriedade `closure_date` tiver o valor `null`, ou seja, a conta não poderá ser encerrada sem uma data de encerramento
+  - Não poderá ser `false` se a propriedade `balance` do objeto `Balance` vinculado à mesma conta não tiver o valor igual a `0.0`
+  - Não poderá ser alterada para `true` após já ter sido registrada como `false`, ou seja, não é possível reabrir uma conta já encerrada
+
+- Validações da propriedade **opening_date**:
+  - Valor não poderá ser nulo ou branco
+  - Deverá ser uma data no formato: "AAAA-MM-DD"
+  - Não poderá ser alterado após a criação da conta
+  
+- Validações da propriedade **closure_date**:
+  - Deverá ser uma data no formato: "AAAA-MM-DD"
+  - Deverá ser uma data mais recente do que a constante na propriedade `opening_date`, ou seja, a data de encerramento da conta deverá ser posterior à data de abertura
+  - Deverá ser uma data mais recente do que a constante na propriedade `date` do objeto `Transaction` mais recente cuja propriedade `debit_account` ou `credit_account` esteja vinculada a esta conta, ou seja, não poderá ser realizado o encerramento da conta em uma data anterior à data da última transação realizada nesta conta
+  - Não poderá ser diferente de `null` se a propriedade `active_account` tiver o valor `true`, ou seja, a conta não poderá estar ativa se houver uma data de encerramento
+  - Não poderá ser `null` se a propriedade `active_account` tiver o valor `false`, ou seja, a conta não poderá ser encerrada sem uma data de encerramento
+  - Não poderá ser alterada para nulo após já ter sido registrada uma data de encerramento para a conta, ou seja, não é possível reabrir uma conta já encerrada
 
 ### Validações Transação
 
