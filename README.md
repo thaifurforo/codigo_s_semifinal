@@ -39,7 +39,7 @@ Os critérios de avaliação serão:
 
 # Documentação da API
 
-[Acesse aqui as especificações OpenAPI Swagger](docs/swagger.json)
+[Acesse aqui as especificações OpenAPI Swagger](docs/swagger.json).
 
 ## Funcionalidades
 - Criação, atualização, consulta e exclusão de clientes
