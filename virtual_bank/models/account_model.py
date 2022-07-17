@@ -39,7 +39,7 @@ class Account(models.Model):
         unique=True,
     )
     customer = models.ForeignKey(
-        Customer, verbose_name='Cliente', on_delete=models.SET('Deleted Customer')
+        Customer, verbose_name='Cliente', on_delete=models.SET_NULL, null=True
     )
     active_account = models.BooleanField(
         verbose_name='Conta ativa', default=True)
