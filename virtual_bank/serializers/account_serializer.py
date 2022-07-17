@@ -136,6 +136,12 @@ class AccountSerializer(serializers.ModelSerializer):
                     'a mesma ter sido criada'
                 )
 
+        if self.context['request'].method == "POST":
+            if not value:
+                raise serializers.ValidationError(
+                    'Obrigatório informar um cliente vinculado à conta'
+                )
+
         return value
 
     def validate(self, attrs):

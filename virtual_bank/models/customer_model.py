@@ -1,7 +1,7 @@
 """Module that contains the Customer Model Class.
 """
 
-from django.core.validators import EmailValidator, RegexValidator
+from django.core.validators import EmailValidator, RegexValidator, MinLengthValidator
 from django.db import models
 
 
@@ -52,13 +52,13 @@ class Customer(models.Model):
         validators=[RegexValidator('[0-9]{11,14}')],
     )
     name = models.CharField(
-        verbose_name='Nome completo ou Razão social', max_length=80, default=''
+        verbose_name='Nome completo ou Razão social', max_length=80, validators=[MinLengthValidator(5)], default=''
     )
 
     phone_number = models.CharField(
         verbose_name='Telefone',
         help_text='Formato: +DI DD 00000-0000',
-        max_length=20,
+        max_length=17,
         default='',
         validators=[
             RegexValidator(
@@ -82,7 +82,7 @@ class Customer(models.Model):
         max_length=9,
     )
     door_number = models.CharField(
-        verbose_name='Número (endereço)', default='', max_length=10
+        verbose_name='Número (endereço)', default='', max_length=10, validators=[MinLengthValidator(1)]
     )
     complement = models.CharField(
         verbose_name='Complemento (endereço)', max_length=30, null=True, blank=True
