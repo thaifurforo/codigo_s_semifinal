@@ -8,7 +8,8 @@ info:
     \ the transactions made by the accounts. It's also possible to consult all the\
     \ accounts from one same customer, and all the transactions from one same account. "
   contact:
-    email: thainaralf@gmail.com
+    name: In case of problems, please create an issue on Github
+    url: https://github.com/thaifurforo/codigo_s_semifinal/issues
   version: v1
 host: 127.0.0.1:8000
 schemes:

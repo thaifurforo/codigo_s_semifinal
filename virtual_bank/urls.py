@@ -25,7 +25,8 @@ schema_view = get_schema_view(
         "and to insert, exclude and consult, including for specific periods, the transactions "
         "made by the accounts. It's also possible to consult all the accounts from one same "
         "customer, and all the transactions from one same account. ",
-        contact=openapi.Contact(email="thainaralf@gmail.com"),
+        contact=openapi.Contact(name="In case of problems, please create an issue on Github",
+                                url="https://github.com/thaifurforo/codigo_s_semifinal/issues"),
     ),
     public=True,
     permission_classes=[permissions.AllowAny],
