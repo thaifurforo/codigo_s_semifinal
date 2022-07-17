@@ -127,11 +127,26 @@ ainda, um dígito verificador calculado com base na equação do Módulo 11, com
 
 ### Transação
 
-O model `Transaction`
+O model `Transaction` disponibiliza, em suas propriedades, informações das transações bancárias.
+
+Ao ser serializado, é possível criar e excluir transações, e consultar as já existentes. No entanto, não é possível realizar modificações em uma transação
+já existente, tendo em vista que não deve haver a possibilidade de um cliente editar uma transação após a mesma ter sido agendada ou efetivada. No entanto,
+há a possibilidade de exclusão, em casos de agendamento, ou em casos de estorno por exemplo.
 
 #### Lista de propriedades
 
--
+- id **(integer)**: ID gerado automaticamente para cada conta bancária.
+- transaction_type **(string)**: Obrigatório. Tipo de transação, podendo ser uma das seguintes: 
+  - "TI": Transferência entre contas do mesmo banco
+  - "TE": Transferência para outro banco
+  - "DE": Depósito
+  - "RE": Recebimento em conta
+  - "PG": Pagamento de guia ou boleto
+  - "SQ": Saque
+- date **(datetime.date)**: Obrigatório. Data de realização da transação.
+- debit_account **(integer)**: Conta debitada na transação (referente ao ID da conta). Foreign Key vinculada ao model [Conta](#conta). É obrigatório caso o tipo de transação seja um dos seguintes: "TI", "TE", "PG", "SQ".
+- credit_account **(integer)**: Conta debitada na transação (referente ao ID da conta). Foreign Key vinculada ao model [Conta](#conta). É obrigatório caso o tipo de transação seja um dos seguintes: "TI", "DE", "RE".
+- amount **(float)**: Obrigatório. Valor da transação.
 
 ### Saldo
 
