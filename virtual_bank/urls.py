@@ -43,7 +43,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('customer/<int:pk>/accounts/', AccountsByCustomerView.as_view()),
     path('account/<int:pk>/transactions/', TransactionsByAccountView.as_view()),
-    path('swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(
+    path('swagger.json/', schema_view.without_ui(
         cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger',
          cache_timeout=0), name='schema-swagger-ui'),
