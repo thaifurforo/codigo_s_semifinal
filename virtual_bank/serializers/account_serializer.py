@@ -59,8 +59,8 @@ class AccountSerializer(serializers.ModelSerializer):
 
             if change_opening_date(value, self.instance.opening_date):
                 raise serializers.ValidationError(
-                    'Não é possível alterar a data de abertura da conta \
-                        após a mesma ter sido criada'
+                    'Não é possível alterar a data de abertura da conta '
+                    'após a mesma ter sido criada'
                 )
 
         return value
@@ -78,8 +78,8 @@ class AccountSerializer(serializers.ModelSerializer):
                 value, self.instance.balance.balance
             ):
                 raise serializers.ValidationError(
-                    f'Só é possível encerrar a conta se o saldo atual for igual a 0. \
-                        Saldo atual: {self.instance.balance.balance}'
+                    'Só é possível encerrar a conta se o saldo atual for igual a 0. '
+                    f' Saldo atual: {self.instance.balance.balance}'
                 )
 
         return value
@@ -112,16 +112,16 @@ class AccountSerializer(serializers.ModelSerializer):
                 last_credit_transaction_date, last_debit_transaction_date, value
             ):
                 raise serializers.ValidationError(
-                    'A data de encerramento da conta deve ser maior ou igual à \
-                        data da última transação'
+                    'A data de encerramento da conta deve ser maior ou igual à '
+                    'data da última transação'
                 )
 
             if not closure_date_more_recent_than_opening_date_validate(
                 value, self.instance.opening_date
             ):
                 raise serializers.ValidationError(
-                    f'A data de encerramento da conta deve ser maior que a data \
-                        de abertura: {self.instance.opening_date}'
+                    'A data de encerramento da conta deve ser maior que a data '
+                    f'de abertura: {self.instance.opening_date}'
                 )
 
         return value
@@ -132,8 +132,8 @@ class AccountSerializer(serializers.ModelSerializer):
 
             if change_customer(value, self.instance.customer):
                 raise serializers.ValidationError(
-                    'Não é possível alterar o cliente vinculado à conta após \
-                        a mesma ter sido criada'
+                    'Não é possível alterar o cliente vinculado à conta após '
+                    'a mesma ter sido criada'
                 )
 
         return value
@@ -147,8 +147,8 @@ class AccountSerializer(serializers.ModelSerializer):
             ):
                 raise serializers.ValidationError(
                     {
-                        'closure_date': f'A data de encerramento da conta deve ser maior \
-                            que a data de abertura: {attrs["opening_date"]}'
+                        'closure_date': 'A data de encerramento da conta deve ser maior '
+                        f'que a data de abertura: {attrs["opening_date"]}'
                     }
                 )
 

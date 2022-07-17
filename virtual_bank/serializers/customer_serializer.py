@@ -168,8 +168,8 @@ class CustomerSerializer(serializers.ModelSerializer):
                 if not birthdate_not_null(attrs['birthdate']):
                     raise serializers.ValidationError(
                         {
-                            'birthdate': 'Obrigatório preencher Data de Nascimento \
-                                para Pessoas Físicas'
+                            'birthdate': 'Obrigatório preencher Data de Nascimento '
+                            'para Pessoas Físicas'
                         }
                     )
 

@@ -50,8 +50,8 @@ class TransactionSerializer(serializers.ModelSerializer):
             ):
                 raise serializers.ValidationError(
                     {
-                        'debit_account': 'É necessário informar uma conta para crédito \
-                            do valor neste tipo de transação'
+                        'debit_account': 'É necessário informar uma conta para crédito '
+                        'do valor neste tipo de transação'
                     }
                 )
 
@@ -60,8 +60,8 @@ class TransactionSerializer(serializers.ModelSerializer):
             ):
                 raise serializers.ValidationError(
                     {
-                        'credit_account': 'É necessário informar uma conta para \
-                            crédito do valor neste tipo de transação'
+                        'credit_account': 'É necessário informar uma conta para '
+                        'crédito do valor neste tipo de transação'
                     }
                 )
 
@@ -70,8 +70,8 @@ class TransactionSerializer(serializers.ModelSerializer):
             ):
                 raise serializers.ValidationError(
                     {
-                        'debit_account': 'Inválido informar uma conta de débito \
-                            neste tipo de transação'
+                        'debit_account': 'Inválido informar uma conta de débito '
+                        'neste tipo de transação'
                     }
                 )
 
@@ -80,8 +80,8 @@ class TransactionSerializer(serializers.ModelSerializer):
             ):
                 raise serializers.ValidationError(
                     {
-                        'credit_account': 'Inválido informar uma conta de crédito \
-                            neste tipo de transação'
+                        'credit_account': 'Inválido informar uma conta de crédito '
+                        'neste tipo de transação'
                     }
                 )
 
@@ -93,8 +93,8 @@ class TransactionSerializer(serializers.ModelSerializer):
                 ):
                     raise serializers.ValidationError(
                         {
-                            'date': f'Data da transação deve ser igual ou posterior \
-                                à data de abertura da conta debitada: {debit_account_opening_date}'
+                            'date': 'Data da transação deve ser igual ou posterior à '
+                            f'data de abertura da conta debitada: {debit_account_opening_date}'
                         }
                     )
 
@@ -102,8 +102,8 @@ class TransactionSerializer(serializers.ModelSerializer):
                 if not transaction_in_active_account(debit_account_active):
                     raise serializers.ValidationError(
                         {
-                            'credit_account': 'Não é possível realizar débito \
-                                em conta já encerrada'
+                            'credit_account': 'Não é possível realizar débito '
+                            'em conta já encerrada'
                         }
                     )
 
@@ -115,8 +115,8 @@ class TransactionSerializer(serializers.ModelSerializer):
                 ):
                     raise serializers.ValidationError(
                         {
-                            'date': f'Data da transação deve ser igual ou posterior à data \
-                                de abertura da conta creditada: {credit_account_opening_date}'
+                            'date': 'Data da transação deve ser igual ou posterior à data de '
+                            f'abertura da conta creditada: {credit_account_opening_date}'
                         }
                     )
 
@@ -124,8 +124,8 @@ class TransactionSerializer(serializers.ModelSerializer):
                 if not transaction_in_active_account(credit_account_active):
                     raise serializers.ValidationError(
                         {
-                            'credit_account': 'Não é possível realizar crédito \
-                                em conta já encerrada'
+                            'credit_account': 'Não é possível realizar crédito '
+                            'em conta já encerrada'
                         }
                     )
 
