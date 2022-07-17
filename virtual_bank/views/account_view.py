@@ -29,7 +29,7 @@ class AccountViewSet(viewsets.ModelViewSet):
     The data can be filtered by selecting if the active_account is True or False,
     by selecting a opening_date (exact, greater than or equal, less than or equal),
     by selecting a closure_date (exact, greater than or equal, less than or equal),
-    and/or by selecting a specific customer.
+    and/or by selecting a specific customer or multiple customers in a list or range.
 
     The authentication for this ViewSet is BasicAuthentication, which means that the
     authentication is made through an user an password combination.
@@ -51,13 +51,14 @@ class AccountViewSet(viewsets.ModelViewSet):
         filters.SearchFilter,
     ]
 
-    ordering_fields = ['opening_date', 'closure_date', 'customer', 'customer_name']
+    ordering_fields = ['opening_date',
+                       'closure_date', 'customer', 'customer_name']
     search_fields = ['account_number']
     filterset_fields = {
         'active_account': ['exact'],
         'opening_date': ['gte', 'lte', 'exact'],
         'closure_date': ['gte', 'lte', 'exact'],
-        'customer': ['exact'],
+        'customer': ['exact', 'in'],
     }
 
     authentication_classes = [BasicAuthentication]

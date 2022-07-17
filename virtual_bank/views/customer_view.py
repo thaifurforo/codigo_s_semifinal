@@ -21,8 +21,9 @@ class CustomerViewSet(viewsets.ModelViewSet):
     There are set some filters for this ViewSet:
     The data can be ordered by name.
     The data can be searched by name and document_number.
-    The data can be filtered by selecting the customer_type ('PF' or 'PJ'), and
-    by selecting a birthdate (exact, greater than or equal, less than or equal).
+    The data can be filtered by selecting the customer_type ('PF' or 'PJ'), by
+    setting characters contained on the name field, and/or by selecting a birthdate
+    (exact, greater than or equal, less than or equal).
 
     The authentication for this ViewSet is BasicAuthentication, which means that the
     authentication is made through an user an password combination.
@@ -43,6 +44,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
     ordering_fields = ['name']
     search_fields = ['name', 'document_number']
     filterset_fields = {
+        'name': ['icontains'],
         'customer_type': ['exact'],
         'birthdate': ['exact', 'gte', 'lte'],
     }
