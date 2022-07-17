@@ -59,6 +59,9 @@ As bibliotecas utilizadas para o desenvolvimento desta API constam em [requireme
 
 Para realizar a instalação das mesmas, em seu ambiente virtual, digite o comando: `pip install -r requirements.txt`
 
+## Autenticação
+A autenticação utilizada para acesso à API é uma do tipo Autenticação Básica HTTP, através de usuário e senha.
+
 ## Lista de Models
 - [Model com as propriedades do cliente](#cliente)
 - [Model com as propriedades do endereços](#endereço)
