@@ -47,6 +47,7 @@ Os critérios de avaliação serão:
 - Criação, consulta e exclusão de transações bancárias
 - Consulta de contas bancárias por cliente
 - Consulta de transações bancárias por conta
+- Filtros, ordenação e pesquisa de dados
 
 ## Contato
 Em caso de problemas, favor abrir uma [issue](https://github.com/thaifurforo/codigo_s_semifinal/issues).
@@ -70,6 +71,11 @@ Para realizar a instalação das mesmas, em seu ambiente virtual, digite o coman
 - [Validações das propriedades da conta bancária](#validações-conta) 
 - [Validações das propriedades da transação](#validações-transação) 
 
+## Lista de Filtros, Ordenação e Pesquisa de Dados
+- [Filtros, ordenação e pesquisa de dados da visualização de clientes](#filtros-clientes) 
+- [Filtros, ordenação e pesquisa de dados da visualização de contas bancárias](#filtros-conta) 
+- [Filtros, ordenação e pesquisa de dados da visualização de transações](#filtros-transação) 
+
 ## Models
 
 ### Cliente
@@ -81,7 +87,7 @@ consultar os clientes e excluí-los, considerando as normas da LGPD.
 
 #### Lista de propriedades
 
-- id **(integer)**: ID gerado automaticamente para cada cliente.
+- id **(integer)**: ID gerado automaticamente para cada cliente. Chave primária do model.
 - customer_type **(string)**: Obrigatório. Tipo de cliente: "PF" se pessoa física ou "PJ" se pessoa jurídica.
 - document_number **(string)**: Obrigatório e único. Número do CPF (se pessoa física) ou CNPJ (se pessoa jurídica). Deve ser uma string para que armazene adequadamente os possíveis zeros à esquerda. 
 - name **(string)**: Obrigatório. Nome completo (se pessoa física) u Razão social (se pessoa jurídica) do cliente.
@@ -105,7 +111,7 @@ Não há View para este model, pois os dados serializados são visualizados junt
 
 #### Lista de propriedades
 
-- id **(integer)**: ID gerado automaticamente para cada endereço.
+- id **(integer)**: ID gerado automaticamente para cada endereço. Chave primária do model.
 - zip_code **(string)**: Único. CEP do endereço.
 - city **(string)**: Cidade a que se refere o CEP.
 - district **(string)**: UF (Unidade Federativa) a que se refere o CEP.
@@ -122,9 +128,9 @@ Porém, elas podem ser "encerradas", através da atualização do valor do campo
 
 #### Lista de propriedades
 
-- id **(integer)**: ID gerado automaticamente para cada conta bancária.
+- id **(integer)**: ID gerado automaticamente para cada conta bancária. Chave primária do model.
 - account_number **(string)**: Número da conta gerado automaticamente de forma aleatória, com 6 dígitos, utilizando o valor do campo ID como seed. É acrescentado ao número, ainda, após um traço, um dígito verificador calculado com base na equação do Módulo 11, com pesos: 9, 8, 7, 6, 5, 4.
-- customer **(integer)**: Obrigatório. Foreign Key que se refere ao cliente vinculado à conta bancária, através do ID do model [Cliente](#cliente).
+- customer **(integer)**: Obrigatório. Chave estrangeira que se refere ao cliente vinculado à conta bancária, através do ID do model [Cliente](#cliente).
 - active_account **(boolean)**: Obrigatório. Status da conta, sendo verdadeiro (True) se a conta estiver ativa e falso (False) se a conta tiver sido encerrada.
 - opening_date **(datetime.date)**: Obrigatório. Data de abertura da conta bancária. Após a criação da conta, não é possível alterar este dado.
 - closure_date **(datetime.date)**: Data de encerramento da conta bancária. Só pode ser inserido se o valor do campo `active_account` for `False`, e vice-versa.
@@ -139,7 +145,7 @@ há a possibilidade de exclusão, em casos de agendamento, ou em casos de estorn
 
 #### Lista de propriedades
 
-- id **(integer)**: ID gerado automaticamente para cada conta bancária.
+- id **(integer)**: ID gerado automaticamente para cada conta bancária. Chave primária do model.
 - transaction_type **(string)**: Obrigatório. Tipo de transação, podendo ser uma das seguintes: 
   - "TI": Transferência entre contas do mesmo banco
   - "TE": Transferência para outro banco
@@ -148,8 +154,8 @@ há a possibilidade de exclusão, em casos de agendamento, ou em casos de estorn
   - "PG": Pagamento de guia ou boleto
   - "SQ": Saque
 - date **(datetime.date)**: Obrigatório. Data de realização da transação.
-- debit_account **(integer)**: Conta debitada na transação (referente ao ID da conta). Foreign Key vinculada ao model [Conta](#conta). É obrigatório caso o tipo de transação seja um dos seguintes: "TI", "TE", "PG", "SQ".
-- credit_account **(integer)**: Conta debitada na transação (referente ao ID da conta). Foreign Key vinculada ao model [Conta](#conta). É obrigatório caso o tipo de transação seja um dos seguintes: "TI", "DE", "RE".
+- debit_account **(integer)**: Conta debitada na transação (referente ao ID da conta). Chave estrangeira vinculada ao model [Conta](#conta). É obrigatório caso o tipo de transação seja um dos seguintes: "TI", "TE", "PG", "SQ".
+- credit_account **(integer)**: Conta debitada na transação (referente ao ID da conta). Chave estrangeira vinculada ao model [Conta](#conta). É obrigatório caso o tipo de transação seja um dos seguintes: "TI", "DE", "RE".
 - amount **(float)**: Obrigatório. Valor da transação.
 
 ### Saldo
@@ -162,7 +168,7 @@ Não há View para este model, pois os dados serializados são visualizados junt
 
 #### Lista de propriedades
 
-- account **(integer)**: ID da conta bancária a que se refere o saldo. Primary key do model, sendo um campo `OneToOneField` vinculado ao model
+- account **(integer)**: ID da conta bancária a que se refere o saldo. Chave primária do model, sendo um campo `OneToOneField` vinculado ao model
 [Conta](#conta). Ou seja, poderá haver uma instância do model `Balance` para cada instância do model `Account`, e vice-versa.
 - balance **(float)**: Valor do saldo atual da conta bancária vinculada. O valor inicial, ao ser instanciado o objeto, será sempre 0.
 o valor é atualizado sempre que uma nova transação é inserida, ou que uma transação já existente é excluída, através da consulta dos objetos do model
@@ -258,4 +264,63 @@ Validações do model [Conta](#conta) e suas serializações.
 
 ### Validações Transação
 
+Validações do model [Transação](#transação) e suas serializações.
+
 #### Lista de validações
+
+- Validações da propriedade **transaction_type**:
+  - Valor não pode ser nulo ou em branco
+  - Deverá ser uma das seguintes opções: "TI", "TE", "DE", "RE", "PG", "SQ"
+  - Limite máximo de caracteres: 2
+
+- Validações da propriedade **date**:
+  - Valor não poderá ser nulo ou em branco
+  - Deverá ser uma data no formato: "AAAA-MM-DD"
+  - Deverá ser mais recente do que a data de abertura das contas de débito (propriedade `debit_account`) e/ou crédito (propriedade `credit_account`) vinculadas à transação
+
+- Validações da propriedade **debit_account**:
+  - Chave estrangeira referente à propriedade `account_number` da classe `Account`
+  - Deverá obrigatoriamente ser preenchida se o valor da propriedade `transaction_type` for um dos seguintes: "TI", "TE", "PG", "SQ", e não deverá ser preenchida caso contrário
+  - Não é possível realizar débito em uma conta cujo campo `active_account` seja `false`, ou seja, não é possível realizar uma transação em uma conta que já tenha sido encerrada
+
+- Validações da propriedade **credit_account**:
+  - Chave estrangeira referente à propriedade `account_number` da classe `Account`
+  - Deverá obrigatoriamente ser preenchida se o valor da propriedade `transaction_type` for um dos seguintes: "TI", "DE", "RE" e não deverá ser preenchida caso contrário
+  - Não é possível realizar crédito em uma conta cujo campo `active_account` seja `false`, ou seja, não é possível realizar uma transação em uma conta que já tenha sido encerrada
+
+- Validações da propriedade **amount**:
+  - Valor não poderá ser nulo ou em branco
+  - Deverá ter no máximo duas casas decimais
+
+## Filtros, Ordenação e Pesquisa de Dados
+
+### Filtros Cliente
+
+Filtros, ordenação e pesquisa de dados que podem ser realizados na visualização do model [Cliente](#cliente).
+
+#### Lista de filtros
+
+#### Lista de ordenações de dados
+
+#### Lista de pesquisas de dados
+
+### Filtros Conta
+
+Filtros, ordenação e pesquisa de dados que podem ser realizados na visualização do model [Conta](#conta).
+
+#### Lista de filtros
+
+#### Lista de ordenações de dados
+
+#### Lista de pesquisas de dados
+
+### Filtros Transação
+
+Filtros, ordenação e pesquisa de dados que podem ser realizados na visualização do model [Transação](#transação).
+
+#### Lista de filtros
+
+#### Lista de ordenações de dados
+
+#### Lista de pesquisas de dados
+
