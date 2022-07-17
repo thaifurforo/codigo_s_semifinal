@@ -383,7 +383,8 @@ Para utilização de múltiplos filtros, ordenações e/ou pesquisas, acrescenta
 
 #### Lista de ordenações de dados
 
-Para utilização de uma sequência de ordenações, separá-las com vírgula (ex.: ordering=customer,-closure_date)
+Para utilização de uma sequência de ordenações, separá-las com vírgula.
+Por exemplo: `/v1/account/&ordering=customer,-closure_date`.
 
 - Ordenação pela propriedade (**opening_date**) - Data de abertura da conta
   - Ascendente
@@ -412,9 +413,57 @@ Para utilização de uma sequência de ordenações, separá-las com vírgula (e
 
 Filtros, ordenação e pesquisa de dados que podem ser realizados na visualização do model [Transação](#transação).
 
+Para utilização dos filtros, ordenações e pesquisas, acrescentar a route do filtro desejado, após `/v1/transaction/?`.
+
+Para utilização de múltiplos filtros, ordenações e/ou pesquisas, acrescentar `&` entre as routes dos filtros desejados.
+
 #### Lista de filtros
+
+- Filtros da propriedade (**transaction_type**)
+  - Tipo de transação (_TI_, _TE_, _DE_, _RE_, _PG_ ou _SQ_)
+    - Route: `transaction_type=`
+
+- Filtros da propriedade (**date**)
+  - Data da transação é maior ou igual a
+    - Route: `date__gte=`
+  - Data da transação é menor ou igual a
+    - Route: `date__lte=`
+  - Data da transação é igual a
+    - Route: `date=`
+
+- Filtros da propriedade (**amount**)
+  - Valor da transação é maior ou igual a
+    - Route: `amount__gte=`
+  - Valor da transação é menor ou igual a
+    - Route: `amount__lte=`
+  - Valor da transação é igual a
+    - Route: `amount=`
+
+- Filtros da propriedade (**debit_account**)
+  - ID da conta debitada é igual a
+    - Route: `debit_account=`
+
+- Filtros da propriedade (**credit_account**)
+  - ID da conta creditada é igual a
+    - Route: `credit_account=`
 
 #### Lista de ordenações de dados
 
+- Ordenação pela propriedade (**date**) - Data da transação
+  - Ascendente
+    -  `ordering=date`
+  - Descendente
+    -  `ordering=-date`
+
+- Ordenação pela propriedade (**amount**) - Valor da transação
+  - Ascendente
+    -  `ordering=amount`
+  - Descendente
+    -  `ordering=-amount`
+
 #### Lista de pesquisas de dados
 
+- Route: `search=`
+  - Pesquisa pela propriedade (**debit_account**)
+  - Pesquisa pela propriedade (**credit_account**)
+  - Pesquisa pela propriedade (**transaction_type**)
