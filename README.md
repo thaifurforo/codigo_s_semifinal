@@ -59,6 +59,8 @@ As bibliotecas utilizadas para o desenvolvimento desta API constam em [requireme
 
 Para realizar a instalação das mesmas, em seu ambiente virtual, digite o comando: `pip install -r requirements.txt`
 
+É necessário, ainda, criar um arquivo com o nome ".env" no diretório base, seguindo o modelo do arquivo [model.env](model.env). Substitua os valores das variáveis com os dados do seu banco de dados para o projeto, bem como o valor da SECRET_KEY por uma chave secreta aleatória do Django, utilizando a função `get_random_secret_key()` (do módulo `django.core.management.utils`) para gerar uma.
+
 ## Autenticação
 A autenticação utilizada para acesso à API é uma do tipo Autenticação Básica HTTP, através de usuário e senha.
 
