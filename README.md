@@ -384,7 +384,7 @@ Para utilização de múltiplos filtros, ordenações e/ou pesquisas, acrescenta
 #### Lista de ordenações de dados
 
 Para utilização de uma sequência de ordenações, separá-las com vírgula.
-Por exemplo: `/v1/account/&ordering=customer,-closure_date`.
+Por exemplo: `/v1/account/?ordering=customer,-closure_date`.
 
 - Ordenação pela propriedade (**opening_date**) - Data de abertura da conta
   - Ascendente
@@ -450,7 +450,7 @@ Para utilização de múltiplos filtros, ordenações e/ou pesquisas, acrescenta
 #### Lista de ordenações de dados
 
 Para utilização de uma sequência de ordenações, separá-las com vírgula.
-Por exemplo: `/v1/transaction/&ordering=date,-amount`.
+Por exemplo: `/v1/transaction/?ordering=date,-amount`.
 
 
 - Ordenação pela propriedade (**date**) - Data da transação
