@@ -75,7 +75,7 @@ A autenticação utilizada para acesso à API é uma do tipo Autenticação Bás
 - [Validações das propriedades da transação](#validações-transação) 
 
 ## Lista de Filtros, Ordenação e Pesquisa de Dados
-- [Filtros, ordenação e pesquisa de dados da visualização de clientes](#filtros-clientes) 
+- [Filtros, ordenação e pesquisa de dados da visualização de clientes](#filtros-cliente) 
 - [Filtros, ordenação e pesquisa de dados da visualização de contas bancárias](#filtros-conta) 
 - [Filtros, ordenação e pesquisa de dados da visualização de transações](#filtros-transação) 
 
