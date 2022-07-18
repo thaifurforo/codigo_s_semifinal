@@ -57,7 +57,7 @@ def create_check_digit_module_11(
 
     check_digit = check_calculation % 11
 
-    if check_digit >= 10 or check_digit <= 1:
+    if check_digit >= 10:
         check_digit = 0
 
     return check_digit

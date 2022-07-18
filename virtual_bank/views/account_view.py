@@ -24,7 +24,7 @@ class AccountViewSet(viewsets.ModelViewSet):
     The serializer class used for this view is the AccountSerializer.
 
     There are set some filters for this ViewSet:
-    The data can be ordered by opening_date, closure_date, custommer or customer_name.
+    The data can be ordered by opening_date, closure_date or customer.
     The data can be searched by account_number.
     The data can be filtered by selecting if the active_account is True or False,
     by selecting a opening_date (exact, greater than or equal, less than or equal),
@@ -52,7 +52,7 @@ class AccountViewSet(viewsets.ModelViewSet):
     ]
 
     ordering_fields = ['opening_date',
-                       'closure_date', 'customer', 'customer_name']
+                       'closure_date', 'customer']
     search_fields = ['account_number']
     filterset_fields = {
         'active_account': ['exact'],
