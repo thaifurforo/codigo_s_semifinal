@@ -3,3 +3,4 @@ the objects it defines are bound to names in the package’s namespace.
 """
 
 from virtual_bank.utilities.check_digit_module_11 import *
+from virtual_bank.utilities.account_numbers import *

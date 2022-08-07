@@ -1,0 +1,257 @@
+virtual_bank\tests\tests_balance\test_balance_create.py:62:4: C0116: Missing function or method docstring (missing-function-docstring)
+virtual_bank\tests\tests_balance\test_balance_create.py:65:24: E1101: Class 'Balance' has no 'objects' member (no-member)
+************* Module virtual_bank.tests.tests_customer.test_customer_create
+virtual_bank\tests\tests_customer\test_customer_create.py:17:8: E1101: Class 'Customer' has no 'objects' member (no-member)
+virtual_bank\tests\tests_customer\test_customer_create.py:34:25: E1101: Class 'Customer' has no 'objects' member (no-member)
+virtual_bank\tests\tests_customer\test_customer_create.py:45:19: E1101: Class 'Customer' has no 'objects' member (no-member)
+************* Module virtual_bank.tests.tests_customer.test_customer_get
+virtual_bank\tests\tests_customer\test_customer_get.py:32:8: W0612: Unused variable 'post' (unused-variable)
+virtual_bank\tests\tests_customer\test_customer_get.py:66:23: E1101: Class 'Customer' has no 'objects' member (no-member)
+************* Module virtual_bank.tests.tests_transaction.test_transaction_create
+virtual_bank\tests\tests_transaction\test_transaction_create.py:17:19: E1101: Class 'Customer' has no 'objects' member (no-member)
+virtual_bank\tests\tests_transaction\test_transaction_create.py:29:18: E1101: Class 'Account' has no 'objects' member (no-member)
+virtual_bank\tests\tests_transaction\test_transaction_create.py:36:8: E1101: Class 'Transaction' has no 'objects' member (no-member)
+virtual_bank\tests\tests_transaction\test_transaction_create.py:44:8: E1101: Class 'Transaction' has no 'objects' member (no-member)
+virtual_bank\tests\tests_transaction\test_transaction_create.py:57:29: E1101: Class 'Transaction' has no 'objects' member (no-member)
+virtual_bank\tests\tests_transaction\test_transaction_create.py:68:22: E1101: Class 'Transaction' has no 'objects' member (no-member)
+virtual_bank\tests\tests_transaction\test_transaction_create.py:79:18: E1101: Class 'Account' has no 'objects' member (no-member)
+virtual_bank\tests\tests_transaction\test_transaction_create.py:80:18: E1101: Class 'Balance' has no 'objects' member (no-member)
+************* Module virtual_bank.tests.tests_transaction.test_transaction_get
+virtual_bank\tests\tests_transaction\test_transaction_get.py:18:19: E1101: Class 'Customer' has no 'objects' member (no-member)
+virtual_bank\tests\tests_transaction\test_transaction_get.py:30:23: E1101: Class 'Account' has no 'objects' member (no-member)
+virtual_bank\tests\tests_transaction\test_transaction_get.py:37:28: E1101: Class 'Transaction' has no 'objects' member (no-member)
+virtual_bank\tests\tests_transaction\test_transaction_get.py:45:28: E1101: Class 'Transaction' has no 'objects' member (no-member)
+virtual_bank\tests\tests_transaction\test_transaction_get.py:87:27: E1101: Class 'Transaction' has no 'objects' member (no-member)
+virtual_bank\tests\tests_transaction\test_transaction_get.py:88:27: E1101: Class 'Transaction' has no 'objects' member (no-member)
+************* Module virtual_bank.tests.tests_transaction.test_transaction_post
+virtual_bank\tests\tests_transaction\test_transaction_post.py:16:19: E1101: Class 'Customer' has no 'objects' member (no-member)
+virtual_bank\tests\tests_transaction\test_transaction_post.py:28:23: E1101: Class 'Account' has no 'objects' member (no-member)
+************* Module virtual_bank.validators.validate_account_fields.active_account
+virtual_bank\validators\validate_account_fields\active_account.py:69:0: C0301: Line too long (103/100) (line-too-long)
+virtual_bank\validators\validate_account_fields\active_account.py:18:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+virtual_bank\validators\validate_account_fields\active_account.py:18:26: C0121: Comparison 'closure_date != None' should be 'closure_date is not None' (singleton-comparison)    
+virtual_bank\validators\validate_account_fields\active_account.py:38:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+virtual_bank\validators\validate_account_fields\active_account.py:38:30: C0121: Comparison 'closure_date == None' should be 'closure_date is None' (singleton-comparison)        
+virtual_bank\validators\validate_account_fields\active_account.py:56:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+virtual_bank\validators\validate_account_fields\active_account.py:56:7: C0121: Comparison 'active_account == False' should be 'active_account is False' if checking for the singleton value False, or 'not active_account' if testing for falsiness (singleton-comparison)
+virtual_bank\validators\validate_account_fields\active_account.py:76:11: C0121: Comparison 'update_active_account == True' should be 'update_active_account is True' if checking for the singleton value True, or 'bool(update_active_account)' if testing for truthiness (singleton-comparison)
+virtual_bank\validators\validate_account_fields\active_account.py:76:45: C0121: Comparison 'current_active_account == False' should be 'current_active_account is False' if checking for the singleton value False, or 'not current_active_account' if testing for falsiness (singleton-comparison)
+************* Module virtual_bank.validators.validate_account_fields.closure_date
+virtual_bank\validators\validate_account_fields\closure_date.py:19:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+************* Module virtual_bank.validators.validate_customer_fields.birthdate
+virtual_bank\validators\validate_customer_fields\birthdate.py:16:11: C0121: Comparison 'birthdate != None' should be 'birthdate is not None' (singleton-comparison)
+************* Module virtual_bank.validators.validate_transaction_fields.transaction_type
+virtual_bank\validators\validate_transaction_fields\transaction_type.py:1:0: C0301: Line too long (102/100) (line-too-long)
+virtual_bank\validators\validate_transaction_fields\transaction_type.py:47:0: C0325: Unnecessary parens after 'not' keyword (superfluous-parens)
+virtual_bank\validators\validate_transaction_fields\transaction_type.py:97:0: C0325: Unnecessary parens after 'not' keyword (superfluous-parens)
+virtual_bank\validators\validate_transaction_fields\transaction_type.py:22:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+virtual_bank\validators\validate_transaction_fields\transaction_type.py:47:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+virtual_bank\validators\validate_transaction_fields\transaction_type.py:71:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+virtual_bank\validators\validate_transaction_fields\transaction_type.py:97:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+************* Module virtual_bank.views.accounts_by_customer_view
+virtual_bank\views\accounts_by_customer_view.py:39:19: E1101: Class 'Account' has no 'objects' member (no-member)
+************* Module virtual_bank.views.account_view
+virtual_bank\views\account_view.py:12:0: R0901: Too many ancestors (11/7) (too-many-ancestors)
+virtual_bank\views\account_view.py:42:15: E1101: Class 'Account' has no 'objects' member (no-member)
+************* Module virtual_bank.views.customer_view
+virtual_bank\views\customer_view.py:12:0: R0901: Too many ancestors (11/7) (too-many-ancestors)
+virtual_bank\views\customer_view.py:33:15: E1101: Class 'Customer' has no 'objects' member (no-member)
+************* Module virtual_bank.views.transactions_by_account_view
+virtual_bank\views\transactions_by_account_view.py:40:19: E1101: Class 'Transaction' has no 'objects' member (no-member)
+************* Module virtual_bank.views.transaction_view
+virtual_bank\views\transaction_view.py:14:0: R0901: Too many ancestors (11/7) (too-many-ancestors)
+virtual_bank\views\transaction_view.py:44:15: E1101: Class 'Transaction' has no 'objects' member (no-member)
+************* Module virtual_bank.views.__init__
+virtual_bank\views\__init__.py:1:0: R0801: Similar lines in 2 files
+==virtual_bank.tests.tests_account.test_account_get:[17:38]
+==virtual_bank.tests.tests_balance.test_balance_create:[17:38]
+        customer = Customer.objects.create(
+            customer_type="PF",
+            document_number="12345678909",
+            name="Ciclano de Tal",
+            phone_number="+55 11 99999-9999",
+            email="ciclano@email.com.br",
+            birthdate="2000-01-01",
+            zip_code="02039-000",
+            door_number="100",
+            complement=None,
+        )
+
+        self.account1 = Account.objects.create(
+            customer=customer,
+            opening_date="2022-01-01",
+            active_account=True,
+            closure_date=None,
+        )
+
+        self.account2 = Account.objects.create(
+            customer=customer, (duplicate-code)
+virtual_bank\views\__init__.py:1:0: R0801: Similar lines in 2 files
+==virtual_bank.tests.tests_transaction.test_transaction_get:[17:36]
+==virtual_bank.tests.tests_transaction.test_transaction_post:[15:34]
+        customer = Customer.objects.create(
+            customer_type="PF",
+            document_number="12345678909",
+            name="Ciclano de Tal",
+            phone_number="+55 11 99999-9999",
+            email="ciclano@email.com.br",
+            birthdate="2000-01-01",
+            zip_code="02039-000",
+            door_number="100",
+            complement=None,
+        )
+
+        self.account = Account.objects.create(
+            customer=customer,
+            opening_date="2022-01-01",
+            active_account=True,
+            closure_date=None,
+        )
+ (duplicate-code)
+virtual_bank\views\__init__.py:1:0: R0801: Similar lines in 2 files
+==virtual_bank.tests.tests_customer.test_customer_get:[17:31]
+==virtual_bank.tests.tests_customer.test_customer_post:[15:36]
+        self.customer = {
+            "customer_type": "PF",
+            "document_number": "12345678909",
+            "name": "Fulano de Tal",
+            "phone_number": "+55 11 99999-9999",
+            "email": "fulano@email.com.br",
+            "birthdate": "2000-01-01",
+            "zip_code": "02039-000",
+            "door_number": "100",
+            "complement": None,
+        }
+
+        user = User.objects.create_user('username', 'Pas$w0rd')
+        self.client.force_authenticate(user) (duplicate-code)
+virtual_bank\views\__init__.py:1:0: R0801: Similar lines in 2 files
+==virtual_bank.tests.tests_balance.test_balance_create:[17:29]
+==virtual_bank.tests.tests_transaction.test_transaction_create:[16:28]
+        customer = Customer.objects.create(
+            customer_type="PF",
+            document_number="12345678909",
+            name="Ciclano de Tal",
+            phone_number="+55 11 99999-9999",
+            email="ciclano@email.com.br",
+            birthdate="2000-01-01",
+            zip_code="02039-000",
+            door_number="100",
+            complement=None,
+        )
+ (duplicate-code)
+virtual_bank\views\__init__.py:1:0: R0801: Similar lines in 2 files
+==virtual_bank.tests.tests_account.test_account_create:[16:28]
+==virtual_bank.tests.tests_account.test_account_get:[17:29]
+        customer = Customer.objects.create(
+            customer_type="PF",
+            document_number="12345678909",
+            name="Ciclano de Tal",
+            phone_number="+55 11 99999-9999",
+            email="ciclano@email.com.br",
+            birthdate="2000-01-01",
+            zip_code="02039-000",
+            door_number="100",
+            complement=None,
+        )
+ (duplicate-code)
+virtual_bank\views\__init__.py:1:0: R0801: Similar lines in 2 files
+==virtual_bank.serializers.transaction_serializer:[17:35]
+==virtual_bank.serializers.transactions_by_account_serializer:[12:26]
+    class Meta:
+        """Sets the Transaction as the model used on this serializer, and establishes
+        the fields that are shown in the serialized result"""
+
+        model = Transaction
+        fields = (
+            'url',
+            'id',
+            'transaction_type',
+            'date',
+            'amount',
+            'debit_account',
+            'credit_account',
+        ) (duplicate-code)
+virtual_bank\views\__init__.py:1:0: R0801: Similar lines in 2 files
+==virtual_bank.tests.tests_balance.test_balance_create:[18:29]
+==virtual_bank.tests.tests_customer.test_customer_create:[17:33]
+            customer_type="PF",
+            document_number="12345678909",
+            name="Ciclano de Tal",
+            phone_number="+55 11 99999-9999",
+            email="ciclano@email.com.br",
+            birthdate="2000-01-01",
+            zip_code="02039-000",
+            door_number="100",
+            complement=None,
+        )
+
+    def test_customer_create_count(self):
+        """This method tests if the customer on the set up was created
+        """
+
+        # When (duplicate-code)
+virtual_bank\views\__init__.py:1:0: R0801: Similar lines in 2 files
+==virtual_bank.tests.tests_account.test_account_get:[18:29]
+==virtual_bank.tests.tests_address.test_address_create:[19:30]
+            customer_type="PF",
+            document_number="12345678909",
+            name="Ciclano de Tal",
+            phone_number="+55 11 99999-9999",
+            email="ciclano@email.com.br",
+            birthdate="2000-01-01",
+            zip_code="02039-000",
+            door_number="100",
+            complement=None,
+        )
+ (duplicate-code)
+virtual_bank\views\__init__.py:1:0: R0801: Similar lines in 2 files
+==virtual_bank.tests.tests_account.test_account_create:[17:28]
+==virtual_bank.tests.tests_account.test_account_post:[18:29]
+            customer_type="PF",
+            document_number="12345678909",
+            name="Ciclano de Tal",
+            phone_number="+55 11 99999-9999",
+            email="ciclano@email.com.br",
+            birthdate="2000-01-01",
+            zip_code="02039-000",
+            door_number="100",
+            complement=None,
+        )
+ (duplicate-code)
+virtual_bank\views\__init__.py:1:0: R0801: Similar lines in 2 files
+==virtual_bank.views.account_view:[60:79]
+==virtual_bank.views.customer_view:[47:66]
+    }
+
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer(self, *args, **kwargs):
+        """Overrides the get_serializer method for this ViewSet, which returns
+        the serializer instance that should be used for validating and deserializing
+        input, and for serializing output.
+        Turns possible to make multiple POST requests at the same time, using an
+        array of objects in the JSON file.
+        """
+        if 'data' in kwargs:
+            data = kwargs['data']
+
+            if isinstance(data, list):
+                kwargs['many'] = True
+
+        return super().get_serializer(*args, **kwargs) (duplicate-code)
+virtual_bank\views\__init__.py:1:0: R0801: Similar lines in 2 files
+==virtual_bank.migrations.0001_initial:[255:261]
+==virtual_bank.models.transaction_model:[28:34]
+                            ('TI', 'Transferência entre contas do mesmo banco'),
+                            ('TE', 'Transferência para outro banco'),
+                            ('DE', 'Depósito'),
+                            ('RE', 'Recebimento em conta'),
+                            ('PG', 'Pagamento de guia ou boleto'),
+                            ('SQ', 'Saque'), (duplicate-code)
+virtual_bank\views\__init__.py:1:0: R0401: Cyclic import (virtual_bank.models -> virtual_bank.models.transaction_model) (cyclic-import)
+virtual_bank\views\__init__.py:1:0: R0401: Cyclic import (virtual_bank.models -> virtual_bank.models.balance_model -> virtual_bank.models.transaction_model) (cyclic-import)     
+
+------------------------------------------------------------------
+Your code has been rated at 4.53/10 (previous run: 4.48/10, +0.04)
